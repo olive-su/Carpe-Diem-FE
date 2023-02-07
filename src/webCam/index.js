@@ -30,15 +30,15 @@ function WebCamPage() {
 
         return Promise.all(
             labels.map(async (label) => {
-            const images = await faceapi.fetchImage(require(`./imgs/${label}.jpg`));
-            const descriptions = [];
-            const detections = await faceapi
-                .detectSingleFace(images)
-                .withFaceLandmarks()
-                .withFaceDescriptor();
-            descriptions.push(detections.descriptor);
+                const images = await faceapi.fetchImage(require(`./imgs/${label}.jpg`));
+                const descriptions = [];
+                const detections = await faceapi
+                    .detectSingleFace(images)
+                    .withFaceLandmarks()
+                    .withFaceDescriptor();
+                descriptions.push(detections.descriptor);
 
-            return new faceapi.LabeledFaceDescriptors(label, descriptions);
+                return new faceapi.LabeledFaceDescriptors(label, descriptions);
             })
         );
     };
@@ -50,7 +50,7 @@ function WebCamPage() {
         wrapRef.current.append(canvas);
 
         // 다운로드할 영상 변수 생성
-        const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
 
         // 새로운 영상 객체 생성
         const mediaRecorder = new MediaRecorder(mediaStream);
@@ -88,7 +88,7 @@ function WebCamPage() {
                 const matched = resizedDetections[i];
                 const box = matched.detection.box;
                 const label = faceMatcher.findBestMatch(matched.descriptor).toString();
-                const drawBox = new faceapi.draw.DrawBox(box, {label: label});
+                const drawBox = new faceapi.draw.DrawBox(box, { label: label });
                 drawBox.draw(canvas);
                 // 기본 안면 인식 테두리, 겹치므로 제외
                 // faceapi.draw.drawDetections(canvas, resizedDetections);
@@ -102,14 +102,14 @@ function WebCamPage() {
                 );
 
                 // 조건에 따라 영상 녹화 시작
-                if (count > 0.98 && flag == false && label == "test") {
+                if (count > 0.98 && flag == false) {
                     alert('녹화 시작!');
                     flag = true;
                     mediaRecorder.start();
                     setTimeout(() => {
                         console.log('stopping');
                         mediaRecorder.stop();
-                        alert('녹화 시작!');
+                        alert('녹화 종료!');
                         flag = false
                     }, 9000);
                 }
@@ -139,7 +139,7 @@ function WebCamPage() {
                 faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
             ]).then(() => {
                 setModelsLoaded(true);
-                if(camStart == false) {
+                if (camStart == false) {
                     camStart = true;
                     startVideo();
                 }
@@ -158,7 +158,7 @@ function WebCamPage() {
             .then((stream) => (videoRef.current.srcObject = stream))
             .catch((err) => console.error(err));
 
-            console.log("영상 시작");
+        console.log("영상 시작");
     };
 
     // 모델에 따른 얼굴 감지 중지
