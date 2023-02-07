@@ -1,10 +1,39 @@
 import './index.css';
 import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import * as faceapi from 'face-api.js';
 
-const MODEL_URL = '/models';
-var flag = false;
-var camStart = false;
+// 녹화 확인 flag
+let recordFlag = false;
+// 웹캠이 시작 중인지 확인
+let camStart = false;
+
+// 녹화를 시작한 시간들을 모두 초로 변경
+let startAllTime;
+// 현재 시간들을 모두 초로 변경
+let nowAllTime;
+
+// 시스템 시간 계산 변수값
+let calSysTime;
+
+// 녹화할 시간
+let recordTime = 10000;
+// 녹화 시작을 위한 최소 감정 값
+let recordExpressionValue = 0.96;
+
+// 녹화 시작시 감정
+let startExpression = 'natural';
+// 녹화 시작시 감정 수치
+let startExpressionValue;
+// 현재 감정
+let nowExpression = 'natural';
+// 현재 감정 수치
+let nowExpressionValue;
+
+// 반복 감정 횟수
+let expressionCnt = 0;
+// 반복 녹화 횟수
+let recordCnt = 0;
 
 // 비디오 사이즈 설정
 const constraints = {
@@ -15,8 +44,7 @@ const constraints = {
     audio: false,
 };
 
-
-function WebCamPage() {
+function webCamPage() {
     const wrapRef = useRef(null);
     const videoRef = useRef(null);
 
@@ -26,20 +54,17 @@ function WebCamPage() {
     // 라벨링 할 인물 이미지 로컬에서 가져오기
     const loadImage = async () => {
         // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
-        const labels = ["test"];
+        const labels = ['test'];
 
         return Promise.all(
             labels.map(async (label) => {
-            const images = await faceapi.fetchImage(require(`./imgs/${label}.jpg`));
-            const descriptions = [];
-            const detections = await faceapi
-                .detectSingleFace(images)
-                .withFaceLandmarks()
-                .withFaceDescriptor();
-            descriptions.push(detections.descriptor);
+                const images = await faceapi.fetchImage(require(`./imgs/${label}.jpg`));
+                const descriptions = [];
+                const detections = await faceapi.detectSingleFace(images).withFaceLandmarks().withFaceDescriptor();
+                descriptions.push(detections.descriptor);
 
-            return new faceapi.LabeledFaceDescriptors(label, descriptions);
-            })
+                return new faceapi.LabeledFaceDescriptors(label, descriptions);
+            }),
         );
     };
 
@@ -50,7 +75,7 @@ function WebCamPage() {
         wrapRef.current.append(canvas);
 
         // 다운로드할 영상 변수 생성
-        const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
 
         // 새로운 영상 객체 생성
         const mediaRecorder = new MediaRecorder(mediaStream);
@@ -88,39 +113,78 @@ function WebCamPage() {
                 const matched = resizedDetections[i];
                 const box = matched.detection.box;
                 const label = faceMatcher.findBestMatch(matched.descriptor).toString();
-                const drawBox = new faceapi.draw.DrawBox(box, {label: label});
+                const drawBox = new faceapi.draw.DrawBox(box, { label: label });
                 drawBox.draw(canvas);
                 // 기본 안면 인식 테두리, 겹치므로 제외
                 // faceapi.draw.drawDetections(canvas, resizedDetections);
                 // 감정 읽기
                 faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-                var count = Math.max(
+
+                // 감정 최대 수치 가져오기
+                nowExpressionValue = Math.max(
                     detection.expressions.angry,
+                    detection.expressions.disgusted,
+                    detection.expressions.fearful,
                     detection.expressions.happy,
                     detection.expressions.sad,
                     detection.expressions.surprised,
                 );
 
-                // 조건에 따라 영상 녹화 시작
-                if (count > 0.98 && flag == false && label == "test") {
-                    alert('녹화 시작!');
-                    flag = true;
-                    mediaRecorder.start();
+                // 현재 최대 수치 감정 종류 가져오기
+                nowExpression = Object.keys(detection.expressions).find((key) => detection.expressions[key] === nowExpressionValue);
+
+                nowAllTime = Date.now();
+                // console.log(nowAllTime);
+
+                calSysTime = nowAllTime - startAllTime;
+
+                // console.log('!!!!!!!!!!!!!!!!!!!!!!', calSysTime, recordTime, recordCnt, expressionCnt);
+                if (nowExpression == startExpression && nowExpressionValue > recordExpressionValue && recordFlag == true) {
+                    expressionCnt++;
+
+                    if (expressionCnt > 3 && calSysTime < recordTime && recordCnt < 3) {
+                        // console.log('+++++++++++++++++++');
+                        console.log('녹화 시간 추가');
+                        expressionCnt = 0;
+                        recordTime += 8000;
+                        recordCnt++;
+                    }
+                }
+
+                // console.log('@@@@@@@@@@@@@@@@@@@@@', calSysTime, recordTime, recordCnt, expressionCnt);
+                if (calSysTime >= recordTime && recordFlag == true) {
                     setTimeout(() => {
-                        console.log('stopping');
                         mediaRecorder.stop();
-                        alert('녹화 시작!');
-                        flag = false
-                    }, 9000);
+                        console.log('녹화 종료!');
+
+                        recordFlag = false;
+                        expressionCnt = 0;
+                        recordCnt = 0;
+                        recordTime = 10000;
+                    }, recordTime - 9000);
+                }
+
+                // 조건에 따라 영상 녹화 시작
+                if (nowExpressionValue > recordExpressionValue && recordFlag == false) {
+                    console.log('녹화 시작!');
+                    recordFlag = true;
+
+                    startExpressionValue = nowExpressionValue;
+                    startExpression = Object.keys(detection.expressions).find((key) => detection.expressions[key] === startExpressionValue);
+
+                    mediaRecorder.start();
+
+                    startAllTime = Date.now();
+                    // console.log(startAllTime);
                 }
             });
         };
 
         const loop = () => {
             faceDetecting();
-            setTimeout(loop, 0.03);
+            setTimeout(loop, 1000.0);
         };
-        setTimeout(loop, 0.03);
+        setTimeout(loop, 1000.0);
     };
 
     // 모델에 따른 얼굴 감지 시작
@@ -139,7 +203,7 @@ function WebCamPage() {
                 faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
             ]).then(() => {
                 setModelsLoaded(true);
-                if(camStart == false) {
+                if (camStart == false) {
                     camStart = true;
                     startVideo();
                 }
@@ -158,7 +222,7 @@ function WebCamPage() {
             .then((stream) => (videoRef.current.srcObject = stream))
             .catch((err) => console.error(err));
 
-            console.log("영상 시작");
+        console.log('영상 시작');
     };
 
     // 모델에 따른 얼굴 감지 중지
@@ -173,24 +237,44 @@ function WebCamPage() {
             .then((stream) => (videoRef.current.srcObject = null))
             .catch((err) => console.error(err));
 
-        console.log("영상 중지");
+        console.log('영상 중지');
     };
 
     // 다운로드 된 영상을 배열로 저장
     const recordedChunks = [];
 
     function handleDataAvailable(event) {
-        console.log('data-available');
         if (event.data.size > 0) {
             // 새로운 영상을 저장하면 배열에 push
             recordedChunks.push(event.data);
             // 다운로드 실행
-            download();
+            // download();
+            uploadToS3Bucket();
             // 다운로드가 끝나면 다음 영상 다운으로 위해 배열에서 pop
             recordedChunks.pop();
         }
     }
 
+    function uploadToS3Bucket() {
+        const file = new File(recordedChunks, 'test.webm');
+
+        // console.log(file);
+        // console.log('Uploading');
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // console.log(formData);
+        axios
+            .post(`http://localhost:4000/camera/video`, formData)
+            .then(function (result) {
+                // console.log(result.data[0]);
+                console.log('파일 전송 성공');
+            })
+            .catch(function (error) {
+                console.log(error);
+                console.log('파일 전송 실패');
+            });
+    }
     // 다운로드를 위한 함수
     function download() {
         const blob = new Blob(recordedChunks, {
@@ -224,4 +308,4 @@ function WebCamPage() {
     );
 }
 
-export default WebCamPage;
+export default webCamPage;
