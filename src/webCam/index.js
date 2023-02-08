@@ -1,10 +1,15 @@
+/* eslint-disable */
 import './index.css';
 import React, { useEffect, useRef, useState } from 'react';
+import styled from '@emotion/styled';
 import * as faceapi from 'face-api.js';
+import sstyled, { keyframes } from 'styled-components';
+import { TbLoader } from 'react-icons/tb';
 
 const MODEL_URL = '/models';
 var flag = false;
 var camStart = false;
+
 
 // 비디오 사이즈 설정
 const constraints = {
@@ -14,6 +19,54 @@ const constraints = {
     },
     audio: false,
 };
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Rotate = sstyled.div`
+  display: inline-block;
+  animation: ${rotate} 2s linear infinite;
+  padding: 2rem 1rem;
+  font-size: 1.2rem;
+`;
+
+const OnButton = styled.button`
+    color: #8A1441;
+    font-size: 1em;
+    width:80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #8A1441;
+    border-radius: 3px;
+    font-family:GangwonEduPowerExtraBoldA;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`
+const OffButton = styled.button`
+    color: #2679CC;
+    font-size: 1em;
+    width:80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #2679CC;
+    font-family:GangwonEduPowerExtraBoldA;
+    border-radius: 3px;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`
 
 
 function WebCamPage() {
@@ -208,18 +261,29 @@ function WebCamPage() {
 
     return (
         <div>
-            <h2>Face-Api Video Test</h2>
+            <h2>Recording My DAY</h2>
             <ul>
-                <li>model loaded: {modelsLoaded.toString()}</li>
-            </ul>
 
-            <div ref={wrapRef} id="wrap">
+            </ul>
+            <div ref={wrapRef} id="wrap" style={{ border: 0, borderStyle: 'none' }}>
+                <div style={{ position: 'absolute', margin: '180px', marginLeft: '280px' }}>
+                    {camStart
+                        ?
+                        ''
+                        :
+                        <Rotate><TbLoader size='50' padding='0' /></Rotate>
+                    }
+                </div>
                 <video ref={videoRef} autoPlay muted onPlay={onPlay} width={640} height={480} />
             </div>
-
-            <button onClick={startDetecting}>영상 시작</button>
-
-            <button onClick={stopDetecting}>영상 중지</button>
+            <div style={{ marginLeft: '50px' }}>
+                <OnButton onClick={startDetecting}>
+                    ON
+                </OnButton>
+                <OffButton onClick={stopDetecting}>
+                    OFF
+                </OffButton>
+            </div>
         </div>
     );
 }
