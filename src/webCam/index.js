@@ -1,5 +1,5 @@
 import './index.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
 
@@ -35,6 +35,25 @@ let expressionCnt = 0;
 // 반복 녹화 횟수
 let recordCnt = 0;
 
+// 현재 날짜와 시간을 받아오기
+let now = new Date();
+// 시, 분, 초
+let hour = 0;
+let minute = 0;
+let second = 0;
+
+// 현재 시간
+let currentTime = 0;
+// 녹화 영상 저장 이름
+let recordSave = '';
+
+// 서버로 넘어가는 유저 아이디
+let userId = 'HSH';
+// 녹화중 가장 높았던 감정 수치
+let recordExpressionMaxValue = 0;
+// 녹화중 가장 높았던 감정 수치의 시간
+let recordExpressionMaxtime = 0;
+
 // 비디오 사이즈 설정
 const constraints = {
     video: {
@@ -44,7 +63,7 @@ const constraints = {
     audio: false,
 };
 
-function webCamPage() {
+function WebCamPage() {
     const wrapRef = useRef(null);
     const videoRef = useRef(null);
 
@@ -129,7 +148,7 @@ function webCamPage() {
                     detection.expressions.sad,
                     detection.expressions.surprised,
                 );
-
+                
                 // 현재 최대 수치 감정 종류 가져오기
                 nowExpression = Object.keys(detection.expressions).find((key) => detection.expressions[key] === nowExpressionValue);
 
@@ -138,12 +157,22 @@ function webCamPage() {
 
                 calSysTime = nowAllTime - startAllTime;
 
-                // console.log('!!!!!!!!!!!!!!!!!!!!!!', calSysTime, recordTime, recordCnt, expressionCnt);
-                if (nowExpression == startExpression && nowExpressionValue > recordExpressionValue && recordFlag == true) {
+                // 녹화 중일때만 감정 수치를 수집
+                if(recordFlag === true) {
+                    // 최대 감정 수치가 현재 감정 수치보다 작은 경우 최대 감정 수치와 시간 갱신
+                    if(recordExpressionMaxValue < nowExpressionValue){
+                        recordExpressionMaxValue = nowExpressionValue;
+                        recordExpressionMaxtime = calSysTime;
+                    }
+                }
+                // console.log(recordExpressionMaxValue, recordExpressionMaxtime);
+
+                // 녹화 시간 늘리기
+                // 녹화중 조건 같은 감정으로 3번 이상 들어온 경우 최대 3번까지 녹화 길이를 늘림
+                if (nowExpression === startExpression && nowExpressionValue > recordExpressionValue && recordFlag === true) {
                     expressionCnt++;
 
                     if (expressionCnt > 3 && calSysTime < recordTime && recordCnt < 3) {
-                        // console.log('+++++++++++++++++++');
                         console.log('녹화 시간 추가');
                         expressionCnt = 0;
                         recordTime += 8000;
@@ -151,10 +180,16 @@ function webCamPage() {
                     }
                 }
 
-                // console.log('@@@@@@@@@@@@@@@@@@@@@', calSysTime, recordTime, recordCnt, expressionCnt);
-                if (calSysTime >= recordTime && recordFlag == true) {
+                // 조건에 따라 영상 녹화 중지
+                if (calSysTime >= recordTime && recordFlag === true) {
                     setTimeout(() => {
-                        mediaRecorder.stop();
+                        try{
+                            mediaRecorder.stop();
+                        }
+                        catch(err){ 
+                            console.log(err);
+                        }
+                        
                         console.log('녹화 종료!');
 
                         recordFlag = false;
@@ -165,9 +200,19 @@ function webCamPage() {
                 }
 
                 // 조건에 따라 영상 녹화 시작
-                if (nowExpressionValue > recordExpressionValue && recordFlag == false) {
-                    console.log('녹화 시작!');
+                if (nowExpressionValue > recordExpressionValue && recordFlag === false) {
+                    // 녹화 시작시의 감정 수치도 들어가야 하므로 추가
+                    recordExpressionMaxValue = nowExpressionValue;
+                    recordExpressionMaxtime = nowAllTime;
+                    
+                    // console.log("recordExpressionMaxValue: ", recordExpressionMaxValue);
+
+                    // 녹화 시작전에 최대 감정 값과 시간 초기화
+                    recordExpressionMaxValue = 0;
+                    recordExpressionMaxtime = 0;
+
                     recordFlag = true;
+                    console.log('녹화 시작!');
 
                     startExpressionValue = nowExpressionValue;
                     startExpression = Object.keys(detection.expressions).find((key) => detection.expressions[key] === startExpressionValue);
@@ -175,8 +220,7 @@ function webCamPage() {
                     mediaRecorder.start();
 
                     startAllTime = Date.now();
-                    // console.log(startAllTime);
-                }
+                }                
             });
         };
 
@@ -203,7 +247,7 @@ function webCamPage() {
                 faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
             ]).then(() => {
                 setModelsLoaded(true);
-                if (camStart == false) {
+                if (camStart === false) {
                     camStart = true;
                     startVideo();
                 }
@@ -247,8 +291,7 @@ function webCamPage() {
         if (event.data.size > 0) {
             // 새로운 영상을 저장하면 배열에 push
             recordedChunks.push(event.data);
-            // 다운로드 실행
-            // download();
+
             uploadToS3Bucket();
             // 다운로드가 끝나면 다음 영상 다운으로 위해 배열에서 pop
             recordedChunks.pop();
@@ -256,16 +299,38 @@ function webCamPage() {
     }
 
     function uploadToS3Bucket() {
-        const file = new File(recordedChunks, 'test.webm');
+        // 시간 조합
+        hour = now.getHours();
+        if(hour < 10){
+            hour = '0' + hour;
+        }
+        minute = now.getMinutes();
+        if(minute < 10){
+            minute = '0' + minute;
+        }
+        second = now.getSeconds();
+        if(second < 10){
+            second = '0' + second;
+        }
+        currentTime = String(hour) + ":" + String(minute) + ":" + String(second);
 
-        // console.log(file);
-        // console.log('Uploading');
+        // 녹화 영상 저장 이름 조합
+        recordSave = `${currentTime}`;
+
+        const file = new File(recordedChunks, `${recordSave}.webm`);
+        // const file = new File(recordedChunks, `test.webm`);
+
+        // console.log("inininininin", recordExpressionMaxValue, recordExpressionMaxtime);
+
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('userId', userId);
+        formData.append('expression', startExpression);
+        formData.append('expressionValue', recordExpressionMaxValue);
+        formData.append('expressionTime', recordExpressionMaxtime);
 
-        // console.log(formData);
         axios
-            .post(`http://localhost:4000/camera/video`, formData)
+            .post(`http://localhost:4000/camera`, formData)
             .then(function (result) {
                 // console.log(result.data[0]);
                 console.log('파일 전송 성공');
@@ -274,20 +339,6 @@ function webCamPage() {
                 console.log(error);
                 console.log('파일 전송 실패');
             });
-    }
-    // 다운로드를 위한 함수
-    function download() {
-        const blob = new Blob(recordedChunks, {
-            type: 'video/webm',
-        });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.style = 'display: none';
-        a.href = url;
-        a.download = 'test.webm';
-        a.click();
-        window.URL.revokeObjectURL(url);
     }
 
     return (
@@ -308,4 +359,4 @@ function webCamPage() {
     );
 }
 
-export default webCamPage;
+export default WebCamPage;
