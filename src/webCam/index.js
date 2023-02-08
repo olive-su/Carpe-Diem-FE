@@ -1,8 +1,60 @@
 /* eslint-disable */
 import './index.css';
-import React, { useRef, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from '@emotion/styled';
 import * as faceapi from 'face-api.js';
+import sstyled, { keyframes } from 'styled-components';
+import { TbLoader } from 'react-icons/tb';
+
+// 녹화 확인 flag
+let recordFlag = false;
+// 웹캠이 시작 중인지 확인
+let camStart = false;
+
+// 녹화를 시작한 시간들을 모두 초로 변경
+let startAllTime;
+// 현재 시간들을 모두 초로 변경
+let nowAllTime;
+
+// 시스템 시간 계산 변수값
+let calSysTime;
+
+// 녹화할 시간
+let recordTime = 10000;
+// 녹화 시작을 위한 최소 감정 값
+let recordExpressionValue = 0.96;
+
+// 녹화 시작시 감정
+let startExpression = 'natural';
+// 녹화 시작시 감정 수치
+let startExpressionValue;
+// 현재 감정
+let nowExpression = 'natural';
+// 현재 감정 수치
+let nowExpressionValue;
+
+// 반복 감정 횟수
+let expressionCnt = 0;
+// 반복 녹화 횟수
+let recordCnt = 0;
+
+// 시, 분, 초
+let hour = 0;
+let minute = 0;
+let second = 0;
+
+// 현재 시간
+let currentTime = 0;
+// 녹화 영상 저장 이름
+let recordSave = '';
+
+// 서버로 넘어가는 유저 아이디
+let userId = 'HSH';
+// 녹화중 가장 높았던 감정 수치
+let recordExpressionMaxValue = 0;
+// 녹화중 가장 높았던 감정 수치의 시간
+let recordExpressionMaxtime = 0;
 
 // 녹화 확인 flag
 let recordFlag = false;
@@ -61,6 +113,55 @@ const constraints = {
     },
     audio: false,
 };
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Rotate = sstyled.div`
+  display: inline-block;
+  animation: ${rotate} 2s linear infinite;
+  padding: 2rem 1rem;
+  font-size: 1.2rem;
+`;
+
+const OnButton = styled.button`
+    color: #8A1441;
+    font-size: 1em;
+    width:80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #8A1441;
+    border-radius: 3px;
+    font-family:GangwonEduPowerExtraBoldA;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`
+const OffButton = styled.button`
+    color: #2679CC;
+    font-size: 1em;
+    width:80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #2679CC;
+    font-family:GangwonEduPowerExtraBoldA;
+    border-radius: 3px;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`
+
 
 function WebCamPage() {
     const wrapRef = useRef(null);
@@ -352,18 +453,29 @@ function WebCamPage() {
 
     return (
         <div>
-            <h2>Face-Api Video Test</h2>
+            <h2>Recording My DAY</h2>
             <ul>
-                <li>model loaded: {modelsLoaded.toString()}</li>
-            </ul>
 
-            <div ref={wrapRef} id="wrap">
+            </ul>
+            <div ref={wrapRef} id="wrap" style={{ border: 0, borderStyle: 'none' }}>
+                <div style={{ position: 'absolute', margin: '180px', marginLeft: '280px' }}>
+                    {camStart
+                        ?
+                        ''
+                        :
+                        <Rotate><TbLoader size='50' padding='0' /></Rotate>
+                    }
+                </div>
                 <video ref={videoRef} autoPlay muted onPlay={onPlay} width={640} height={480} />
             </div>
-
-            <button onClick={startDetecting}>영상 시작</button>
-
-            <button onClick={stopDetecting}>영상 중지</button>
+            <div style={{ marginLeft: '50px' }}>
+                <OnButton onClick={startDetecting}>
+                    ON
+                </OnButton>
+                <OffButton onClick={stopDetecting}>
+                    OFF
+                </OffButton>
+            </div>
         </div>
     );
 }
