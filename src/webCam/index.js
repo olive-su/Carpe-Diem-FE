@@ -1,8 +1,11 @@
 /* eslint-disable */
 import './index.css';
-import React, { useRef, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from '@emotion/styled';
 import * as faceapi from 'face-api.js';
+import sstyled, { keyframes } from 'styled-components';
+import { TbLoader } from 'react-icons/tb';
 
 // 녹화 확인 flag
 let recordFlag = false;
@@ -61,6 +64,54 @@ const constraints = {
     },
     audio: false,
 };
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Rotate = sstyled.div`
+  display: inline-block;
+  animation: ${rotate} 2s linear infinite;
+  padding: 2rem 1rem;
+  font-size: 1.2rem;
+`;
+
+const OnButton = styled.button`
+    color: #8a1441;
+    font-size: 1em;
+    width: 80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #8a1441;
+    border-radius: 3px;
+    font-family: GangwonEduPowerExtraBoldA;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`;
+const OffButton = styled.button`
+    color: #2679cc;
+    font-size: 1em;
+    width: 80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #2679cc;
+    font-family: GangwonEduPowerExtraBoldA;
+    border-radius: 3px;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`;
 
 function WebCamPage() {
     const wrapRef = useRef(null);
@@ -133,7 +184,8 @@ function WebCamPage() {
                 const showLabel = faceMatcher.findBestMatch(matched.descriptor).toString();
                 const distance = faceMatcher.findBestMatch(matched.descriptor).distance;
                 const label = faceMatcher.findBestMatch(matched.descriptor).label;
-                const drawBox = new faceapi.draw.DrawBox(box, { label: showLabel });
+                let labelColor = label === userId ? 'red' : 'blue';
+                const drawBox = new faceapi.draw.DrawBox(box, { boxColor: `${labelColor}`, label: showLabel });
                 drawBox.draw(canvas);
                 // 기본 안면 인식 테두리, 겹치므로 제외
                 // faceapi.draw.drawDetections(canvas, resizedDetections);
@@ -189,7 +241,7 @@ function WebCamPage() {
                             console.log(err);
                         }
 
-                        console.log('녹화 종료!');
+                        alert('녹화 종료!');
 
                         recordFlag = false;
                         expressionCnt = 0;
@@ -199,13 +251,13 @@ function WebCamPage() {
                 }
 
                 // 조건에 따라 영상 녹화 시작
-                if (nowExpressionValue > recordExpressionValue && recordFlag === false && label === 'HSH') {
+                if (nowExpressionValue > recordExpressionValue && recordFlag === false && label === `${userId}`) {
                     // 녹화 시작전에 최대 감정 값과 시간 초기화
                     recordExpressionMaxValue = 0;
                     recordExpressionMaxtime = 0;
 
                     recordFlag = true;
-                    console.log('녹화 시작!');
+                    alert('녹화 시작!');
 
                     startExpressionValue = nowExpressionValue;
                     startExpression = Object.keys(detection.expressions).find((key) => detection.expressions[key] === startExpressionValue);
@@ -352,18 +404,24 @@ function WebCamPage() {
 
     return (
         <div>
-            <h2>Face-Api Video Test</h2>
-            <ul>
-                <li>model loaded: {modelsLoaded.toString()}</li>
-            </ul>
-
-            <div ref={wrapRef} id="wrap">
+            <h2>Recording My DAY</h2>
+            <ul></ul>
+            <div ref={wrapRef} id="wrap" style={{ border: 0, borderStyle: 'none' }}>
+                <div style={{ position: 'absolute', margin: '180px', marginLeft: '280px' }}>
+                    {camStart ? (
+                        ''
+                    ) : (
+                        <Rotate>
+                            <TbLoader size="50" padding="0" />
+                        </Rotate>
+                    )}
+                </div>
                 <video ref={videoRef} autoPlay muted onPlay={onPlay} width={640} height={480} />
             </div>
-
-            <button onClick={startDetecting}>영상 시작</button>
-
-            <button onClick={stopDetecting}>영상 중지</button>
+            <div style={{ marginLeft: '50px' }}>
+                <OnButton onClick={startDetecting}>ON</OnButton>
+                <OffButton onClick={stopDetecting}>OFF</OffButton>
+            </div>
         </div>
     );
 }
