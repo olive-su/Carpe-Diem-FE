@@ -96,22 +96,22 @@ const OnButton = styled.button`
     &:focus {
         background: var(--button-hover-bg-color, white);
     }
-`
+`;
 const OffButton = styled.button`
-    color: #2679CC;
+    color: #2679cc;
     font-size: 1em;
-    width:80px;
+    width: 80px;
     margin: 1em;
     padding: 0.25em 1em;
-    border: 2px solid #2679CC;
-    font-family:GangwonEduPowerExtraBoldA;
+    border: 2px solid #2679cc;
+    font-family: GangwonEduPowerExtraBoldA;
     border-radius: 3px;
     &:active,
     &:hover,
     &:focus {
         background: var(--button-hover-bg-color, white);
     }
-`
+`;
 
 
 function WebCamPage() {
@@ -185,7 +185,8 @@ function WebCamPage() {
                 const showLabel = faceMatcher.findBestMatch(matched.descriptor).toString();
                 const distance = faceMatcher.findBestMatch(matched.descriptor).distance;
                 const label = faceMatcher.findBestMatch(matched.descriptor).label;
-                const drawBox = new faceapi.draw.DrawBox(box, { label: showLabel });
+                let labelColor = label === userId ? 'red' : 'blue';
+                const drawBox = new faceapi.draw.DrawBox(box, { boxColor: `${labelColor}`, label: showLabel });
                 drawBox.draw(canvas);
                 // 기본 안면 인식 테두리, 겹치므로 제외
                 // faceapi.draw.drawDetections(canvas, resizedDetections);
@@ -241,7 +242,7 @@ function WebCamPage() {
                             console.log(err);
                         }
 
-                        console.log('녹화 종료!');
+                        alert('녹화 종료!');
 
                         recordFlag = false;
                         expressionCnt = 0;
@@ -251,13 +252,13 @@ function WebCamPage() {
                 }
 
                 // 조건에 따라 영상 녹화 시작
-                if (nowExpressionValue > recordExpressionValue && recordFlag === false && label === 'HSH') {
+                if (nowExpressionValue > recordExpressionValue && recordFlag === false && label === `${userId}`) {
                     // 녹화 시작전에 최대 감정 값과 시간 초기화
                     recordExpressionMaxValue = 0;
                     recordExpressionMaxtime = 0;
 
                     recordFlag = true;
-                    console.log('녹화 시작!');
+                    alert('녹화 시작!');
 
                     startExpressionValue = nowExpressionValue;
                     startExpression = Object.keys(detection.expressions).find((key) => detection.expressions[key] === startExpressionValue);
@@ -404,6 +405,7 @@ function WebCamPage() {
 
     return (
         <div>
+
             <h2>Recording My DAY </h2>
 
             <div ref={wrapRef} id="wrap" style={{ borderStyle: 'none' }}>
@@ -426,6 +428,7 @@ function WebCamPage() {
                     OFF
                 </OffButton>
             </div>
+
         </div>
     );
 }
