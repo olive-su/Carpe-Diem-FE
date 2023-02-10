@@ -83,14 +83,14 @@ const Rotate = sstyled.div`
 `;
 
 const OnButton = styled.button`
-    color: #8a1441;
+    color: #8A1441;
     font-size: 1em;
-    width: 80px;
+    width:80px;
     margin: 1em;
     padding: 0.25em 1em;
-    border: 2px solid #8a1441;
+    border: 2px solid #8A1441;
     border-radius: 3px;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family:GangwonEduPowerExtraBoldA;
     &:active,
     &:hover,
     &:focus {
@@ -112,6 +112,7 @@ const OffButton = styled.button`
         background: var(--button-hover-bg-color, white);
     }
 `;
+
 
 function WebCamPage() {
     const wrapRef = useRef(null);
@@ -404,24 +405,30 @@ function WebCamPage() {
 
     return (
         <div>
-            <h2>Recording My DAY</h2>
-            <ul></ul>
-            <div ref={wrapRef} id="wrap" style={{ border: 0, borderStyle: 'none' }}>
-                <div style={{ position: 'absolute', margin: '180px', marginLeft: '280px' }}>
-                    {camStart ? (
-                        ''
-                    ) : (
-                        <Rotate>
-                            <TbLoader size="50" padding="0" />
-                        </Rotate>
-                    )}
+
+            <h2>Recording My DAY </h2>
+
+            <div ref={wrapRef} id="wrap" style={{ borderStyle: 'none' }}>
+                <div>
+                    {
+                        camStart
+                            ?
+                            ''
+                            :
+                            <Rotate><TbLoader size='50' padding='0' /> </Rotate>
+                    }
                 </div>
-                <video ref={videoRef} autoPlay muted onPlay={onPlay} width={640} height={480} />
+                < video ref={videoRef} autoPlay muted onPlay={onPlay} width={640} height={480} />
             </div>
-            <div style={{ marginLeft: '50px' }}>
-                <OnButton onClick={startDetecting}>ON</OnButton>
-                <OffButton onClick={stopDetecting}>OFF</OffButton>
+            < div>
+                <OnButton onClick={startDetecting}>
+                    ON
+                </OnButton>
+                < OffButton onClick={stopDetecting} >
+                    OFF
+                </OffButton>
             </div>
+
         </div>
     );
 }
