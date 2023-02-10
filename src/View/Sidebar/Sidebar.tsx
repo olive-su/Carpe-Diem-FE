@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Navigation } from 'react-minimal-side-navigation';
 import { Icon } from 'semantic-ui-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import '../../css/List.css'
-import { OpacityRounded } from '@mui/icons-material';
+
 
 
 
@@ -26,7 +26,6 @@ export default function Sidebar() {
 
   return (
     <>
-
       <Area>
 
         <Navigation
@@ -58,7 +57,7 @@ export default function Sidebar() {
 
             {
               title: 'My Album',
-              itemId: '/myAlbum',
+              itemId: '/myalbum',
               elemBefore: () => <Icon name="folder open" />,
               subNav: [
                 {

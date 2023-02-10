@@ -2,25 +2,28 @@ import React from 'react'
 import styled from 'styled-components';
 import Sidebar from '../../Sidebar/Sidebar';
 import Header from '../../Header/Header';
-import WebCamPage from '../../../webCam';
+import Footer from '../../Footer/Footer';
+// import WebCamPage from '../../../webCam'
 
 const StyleContent = styled.div`
     background-color:#fff;
     font-family:GangwonEduPowerExtraBoldA;
     display:flex;
-    height:100%;
+    height:100vh;
     text-align: center;
     margin-top:-16px;
     
 `;
 const WebcamContent = styled.section`
-    margin: 500px;
     display: block;
-    width: 600px;
-    height:100%;
-    border-color: white;
+    text-align: center;
     margin-top:20px;
+    width: 1000px;
+    border-color:white;
+    margin: 20px auto;
 `;
+
+
 
 export default function CamContent() {
     return (
@@ -30,9 +33,11 @@ export default function CamContent() {
             <StyleContent>
                 <Sidebar />
                 <WebcamContent>
-                    <WebCamPage />
+                    {/* <WebCamPage style={{ position: 'relative', width: '1024px', left: '50%', marginLeft: '512px' }} /> */}
                 </WebcamContent>
             </StyleContent>
+            <span ><hr style={{ marginTop: '-1px' }} /></span>
+            <Footer />
         </div>
     )
 }

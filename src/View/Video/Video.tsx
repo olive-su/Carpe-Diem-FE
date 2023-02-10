@@ -22,7 +22,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from '../Header/Header';
 import IndeterminateCheckbox from './Checkbox';
 
-
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
@@ -39,10 +38,8 @@ const theme = createTheme();
 //     margin: auto;
 // `;
 
-
 const Album = () => {
     return (
-
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main>
@@ -72,15 +69,16 @@ const Album = () => {
                                 <Card
                                     sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '12px' }}
                                     onMouseOver={() => {
-                                        let hz = document.getElementById(card);
+                                        const hz: HTMLVideoElement = document.getElementById(String(card)) as HTMLVideoElement;
 
-                                        var playPromise = hz.play();
+                                        const playPromise = hz.play();
                                         if (playPromise !== undefined) {
-                                            playPromise.then((_) => { }).catch((error) => { });
+                                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                            playPromise.then((_: any) => {}).catch((error: any) => {});
                                         }
                                     }}
                                     onMouseOut={() => {
-                                        let hz = document.getElementById(card);
+                                        const hz: HTMLVideoElement = document.getElementById(String(card)) as HTMLVideoElement;
                                         hz.load();
                                     }}
                                 >
@@ -90,7 +88,7 @@ const Album = () => {
                                                 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
                                         }}
                                     >
-                                        <video id={card} loop poster="https://source.unsplash.com/random">
+                                        <video id={String(card)} loop poster="https://source.unsplash.com/random">
                                             <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4" />
                                         </video>
                                     </CardCover>

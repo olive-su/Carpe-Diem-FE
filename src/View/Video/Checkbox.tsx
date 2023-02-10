@@ -19,10 +19,10 @@ export default function IndeterminateCheckbox() {
     const [option, setOption] = React.useState('Newest');
     const [checked, setChecked] = React.useState([false, false, false, false, false, false]);
 
-    const handleChange = (event) => {
+    const handleChange = (event: any) => {
         setOption(event.target.value);
     };
-    const handleChange1 = (event) => {
+    const handleChange1 = (event: any) => {
         setChecked([
             event.target.checked,
             event.target.checked,
@@ -44,23 +44,23 @@ const handleClickc = () => {
 
     */
 
-    const handleChange2 = (event) => {
+    const handleChange2 = () => {
         setChecked([!checked[0], checked[1], checked[2], checked[3], checked[4], checked[5]]);
     };
 
-    const handleChange3 = (event) => {
+    const handleChange3 = () => {
         setChecked([checked[0], !checked[1], checked[2], checked[3], checked[4], checked[5]]);
     };
-    const handleChange4 = (event) => {
+    const handleChange4 = () => {
         setChecked([checked[0], checked[1], !checked[2], checked[3], checked[4], checked[5]]);
     };
-    const handleChange5 = (event) => {
+    const handleChange5 = () => {
         setChecked([checked[0], checked[1], checked[2], !checked[3], checked[4], checked[5]]);
     };
-    const handleChange6 = (event) => {
+    const handleChange6 = () => {
         setChecked([checked[0], checked[1], checked[2], checked[3], !checked[4], checked[5]]);
     };
-    const handleChange7 = (event) => {
+    const handleChange7 = () => {
         setChecked([checked[0], checked[1], checked[2], checked[3], checked[4], !checked[5]]);
     };
     // setChecked([checked[0], checked[1], checked[2], checked[3], event.target.checked]);
@@ -87,7 +87,7 @@ const handleClickc = () => {
                     <MenuItem value={'Shortest'}>Shortest</MenuItem>
                 </Select>
             </FormControl>
-            <ToggleButton selected={checked[0]} onChange={handleChange2}>
+            <ToggleButton value="check" selected={checked[0]} onChange={handleChange2}>
                 <InsertEmoticonIcon /> Happy
             </ToggleButton>
             <ToggleButton value="check" selected={checked[1]} onChange={handleChange3}>
