@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { BsFillBellFill } from 'react-icons/bs';
+import styled from 'styled-components';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 
 function MyModal() {
@@ -15,13 +18,14 @@ function MyModal() {
     const handleShow = () => setShow(true);
 
 
+
     return (
         <div>
             <span>
                 <BsFillBellFill
                     onClick={handleShow}
-                    onMouseOver={({ target }) => target.style.color = '#0f382f'}
-                    onMouseOut={({ target }) => target.style.color = '#7DB2B1'}
+                    onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
+                    onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
                     style={{ color: '#7DB2B1', cursor: 'pointer', marginLeft: '20px', marginRight: '40px' }}
                 />
             </span>
