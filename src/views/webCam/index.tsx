@@ -1,11 +1,10 @@
-/* eslint-disable */
 import './index.css';
 import React, { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
 import * as faceapi from 'face-api.js';
-import constraints from '../../common/constraints'; // CHECK
+import constraints from '../../common/constraints';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
+import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 
 const rotate = keyframes`
   from {
@@ -57,28 +56,20 @@ const OffButton = styled.button`
     }
 `;
 
-let camFlag = false; // 웹 캠 작동 여부
-let recordFlag = false; // 녹화 중인지 아닌지
+let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
-let recordInfo: { maxValue: any; label: any; count: number; startTime: any; maxTime: any };
-let expression: { value: any; label: any; time: number } = { value: 0, label: '', time: 0 };
+let recordInfo: { userId: any; maxValue: any; label: any; count: number; startTime: any; maxTime: any };
+const expression: { value: any; label: any; time: number } = { value: 0, label: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
 const userId = 'test';
-
-const RecordInit = () => {
-    recordFlag = false;
-    recentRecordTime = 0;
-    recordInfo = { maxValue: undefined, label: undefined, count: 0, startTime: undefined, maxTime: undefined };
-    expression = { value: undefined, label: undefined, time: 0 };
-};
 
 // 비디오 사이즈 설정
 function WebCamPage() {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
 
-    const [camStarted, setCamStarted] = useState(false);
+    const [camStarted, setCamStarted] = useState(true);
     const [modelLoaded, setModelLoaded] = useState(false);
 
     useEffect(() => {
@@ -86,7 +77,7 @@ function WebCamPage() {
         navigator.mediaDevices
             .getUserMedia(constraints)
             .then((stream) => {
-                if (videoRef.current) {
+                if (videoRef && videoRef.current) {
                     if (camStarted) {
                         videoRef.current.srcObject = stream;
                         setModelLoaded(true);
@@ -103,19 +94,21 @@ function WebCamPage() {
         // 모델 로드
         const MODEL_URL = '/models';
 
-        Promise.all([
-            faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-            faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-            faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-            faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-            // 사용자 이미지 Face Detection
-            faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
-            faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
-        ])
-            .then(() => {
-                console.log('모델 로드 완료');
-            })
-            .catch((err) => console.error(err));
+        if (modelLoaded) {
+            Promise.all([
+                faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+                faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+                faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+                faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+                // 사용자 이미지 Face Detection
+                faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
+                faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
+            ])
+                .then(() => {
+                    console.log('모델 로드 완료');
+                })
+                .catch((err) => console.error(err));
+        }
     }, [modelLoaded]);
 
     // 라벨링 할 인물 이미지 로컬에서 가져오기
@@ -175,7 +168,6 @@ function WebCamPage() {
 
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
 
-            // canvas 초기화
             canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
 
             const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.42);
@@ -185,9 +177,10 @@ function WebCamPage() {
                     const matched = resizedDetections[i];
                     const box = matched.detection.box;
                     const showLabel = faceMatcher.findBestMatch(matched.descriptor).toString();
-                    const distance = faceMatcher.findBestMatch(matched.descriptor).distance;
                     const label = faceMatcher.findBestMatch(matched.descriptor).label;
-                    const drawBox = new faceapi.draw.DrawBox(box, { label: showLabel });
+                    const labelColor = label === userId ? 'red' : 'blue';
+                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: `${labelColor}`, label: showLabel });
+
                     drawBox.draw(canvas);
 
                     faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
@@ -206,6 +199,7 @@ function WebCamPage() {
             if (!recordFlag && expressions.value > 0.96) {
                 recordFlag = true;
                 recordInfo = {
+                    userId: userId,
                     maxValue: expressions.value,
                     label: expressions.label,
                     count: 1,
@@ -215,20 +209,21 @@ function WebCamPage() {
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
                 recordVideo(mediaRecorder); // 녹화시작
-                console.log('녹화시작');
+                console.log('녹화 시작');
             }
             // 감정 최대값 갱신
             else if (recordFlag && expression.value > 0.96 && expression.label === recordInfo.label) {
                 recordInfo.maxValue = expression.value;
                 recentRecordTime = expression.time; // 최근 감정 갱신 시간
             }
-            setTimeout(loop, 0.03);
+
+            if (camStarted === true) setTimeout(loop, 0.03);
         };
         setTimeout(loop, 0.03);
     };
 
     const recordVideo = async (mediaRecorder: MediaRecorder) => {
-        setTimeout(function () {
+        setTimeout(async () => {
             if (recordInfo.count <= 5 && Date.now() - recentRecordTime < 2000) {
                 // 2초 이내 감정 갱신시, 시간 추가
                 console.log('녹화 연장');
@@ -236,8 +231,9 @@ function WebCamPage() {
                 recordVideo(mediaRecorder);
             } else {
                 try {
-                    mediaRecorder.stop();
-                    RecordInit();
+                    if (videoRef.current) await mediaRecorder.stop();
+                    recordFlag = false;
+                    recentRecordTime = 0;
                     console.log('녹화 중지');
                 } catch (err) {
                     console.log(err);
@@ -249,60 +245,11 @@ function WebCamPage() {
     function handleDataAvailable(event: any) {
         const recordedChunks: any[] = [];
         if (event.data.size > 0) {
-            recordedChunks.push();
-            download(recordedChunks);
+            recordedChunks.push(event.data);
+            if (camStarted === true) uploadToS3Bucket(recordInfo, recordedChunks);
             recordedChunks.pop();
         }
     }
-
-    function download(recordedChunks: any[]) {
-        const blob = new Blob(recordedChunks, {
-            type: 'video/webm',
-        });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        // a.style = 'display: none';
-        a.href = url;
-        a.download = 'test.webm';
-        a.click();
-        window.URL.revokeObjectURL(url);
-    }
-
-    // function uploadToS3Bucket(recordedChunks: any[]) {
-    //     // 녹화 영상 저장 이름 조합
-    //     recordSave = `${currentTime}`;
-
-    //     const file = new File(recordedChunks, `${recordSave}.webm`);
-
-    //     const formData = new FormData();
-    //     const expressionData = {
-    //         user_id: userId,
-    //         expression: startExpression,
-    //         accuracy: recordExpressionMaxValue,
-    //         time: recordExpressionMaxtime,
-    //     };
-
-    //     formData.append('file', file);
-    //     formData.append('expressionData', JSON.stringify(expressionData));
-
-    //     axios({
-    //         url: `http://localhost:4000/camera?userId=${userId}`,
-    //         method: 'post',
-    //         data: formData,
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data',
-    //         },
-    //     })
-    //         .then(function (result) {
-    //             // console.log(result.data[0]);
-    //             console.log('파일 전송 성공');
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //             console.log('파일 전송 실패');
-    //         });
-    // }
 
     return (
         <div>
