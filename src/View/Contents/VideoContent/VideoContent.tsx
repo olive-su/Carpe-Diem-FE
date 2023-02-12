@@ -1,27 +1,28 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import Sidebar from '../../Sidebar/Sidebar';
-import Video from '../../Video/Video'
+import Video from '../../Video/Video';
 import Header from '../../Header/Header';
-
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;
     font-family: GangwonEduPowerExtraBoldA;
     display: flex;
-    margin-top:-16px;
+    margin-top: -16px;
     text-align: center;
-    
 `;
 const VideoContent = styled.section`
     margin: auto;
+    width: 1000px;
 `;
 
 export default function CamContent() {
     return (
         <div style={{ height: '100vh' }}>
             <Header />
-            <span><hr /></span>
+            <span>
+                <hr />
+            </span>
             <StyleContent>
                 <Sidebar />
                 <VideoContent>
@@ -29,5 +30,5 @@ export default function CamContent() {
                 </VideoContent>
             </StyleContent>
         </div>
-    )
+    );
 }

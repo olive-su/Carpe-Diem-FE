@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logotitle from './images/logotitle.png';
-import MyModals from './MyModal';
-
+import MyModal from './MyModal';
 
 // 헤더
 const StyleHeader = styled.div`
     font-size: 20px;
-    color:black;
-    background-color:#fff;
+    color: black;
+    background-color: #fff;
     height: 100px;
-    font-family:GangwonEduPowerExtraBoldA;
-
+    font-family: GangwonEduPowerExtraBoldA;
 `;
 
 // 1. navcontainer
 const NavContainer = styled.div`
-    display:block;
+    display: block;
     justify-content: space-between;
     height: 80px;
     z-index: 1;
@@ -26,33 +24,30 @@ const NavContainer = styled.div`
     max-width: 1100px;
 `;
 
-// 2. logo 
+// 2. logo
 const Logo = styled.img`
-    max-width:100%;
-    height:90px;
-    margin-top:15px;
+    max-width: 100%;
+    height: 90px;
+    margin-top: 15px;
     /* transform: translate(30%, -10%);  */
-    text-align:center;
+    text-align: center;
 `;
 
 // 3. nav-menu
 const NavMenu = styled.div`
-    display:flex;
-    justify-content:right;
+    display: flex;
+    justify-content: right;
 `;
 
 // 4.nav-item
 const NavItem = styled.div`
-    color:#7DB2B1;
-    text-decoration:none;
+    color: #7db2b1;
+    text-decoration: none;
     padding: 0 1rem;
     cursor: pointer;
-   
 `;
 
-
 export default function Header() {
-
     return (
         <StyleHeader>
             <div>
@@ -61,18 +56,14 @@ export default function Header() {
                 </NavContainer>
             </div>
             <NavMenu>
-                <NavItem
-                    onMouseOver={({ target }) => target.style.color = '#0f382f'}
-                    onMouseOut={({ target }) => target.style.color = '#7DB2B1'}
-
-                >My Page</NavItem>
-                <NavItem
-                    onMouseOver={({ target }) => target.style.color = '#0f382f'}
-                    onMouseOut={({ target }) => target.style.color = '#7DB2B1'}
-                >Logout</NavItem>
-                <MyModals />
+                <NavItem onMouseOver={({ target }) => (target.style.color = '#0f382f')} onMouseOut={({ target }) => (target.style.color = '#7DB2B1')}>
+                    My Page
+                </NavItem>
+                <NavItem onMouseOver={({ target }) => (target.style.color = '#0f382f')} onMouseOut={({ target }) => (target.style.color = '#7DB2B1')}>
+                    Logout
+                </NavItem>
+                <MyModal />
             </NavMenu>
         </StyleHeader>
-    )
+    );
 }
-
