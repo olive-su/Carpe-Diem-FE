@@ -1,75 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation } from 'react-minimal-side-navigation';
 import { Icon } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import '../../styles/List.css';
+import { OpacityRounded } from '@mui/icons-material';
+
+
 
 const Area = styled.div`
-    float: left;
-    top: 150px;
-    width: 230px;
-    padding-top: 10px;
-    background-color: #e2e8f0;
+float: left;
+top: 150px;
+width: 230px;
+padding-top: 10px;
+background-color: #e2e8f0;
 `;
 
+
 export default function Sidebar() {
-    const navigate = useNavigate();
 
-    return (
-        <>
-            <Area>
-                <Navigation
-                    activeItemId="/management/members"
-                    onSelect={({ itemId }) => {
-                        navigate(itemId);
-                    }}
-                    items={[
-                        {
-                            title: 'ON Air',
-                            itemId: '/',
-                            elemBefore: () => <Icon name="record" style={{ fontSize: '1.2rem' }} />,
-                        },
+  const navigate = useNavigate();
 
-                        {
-                            title: 'Album',
-                            itemId: '/album',
-                            elemBefore: () => <Icon name="book" />,
-                        },
+  return (
+    <>
 
-                        {
-                            title: 'Video',
-                            itemId: '/video',
-                            elemBefore: () => <Icon name="video play" />,
-                        },
+      <Area>
 
-                        {
-                            title: 'My Album',
-                            itemId: '/myalbum',
-                            elemBefore: () => <Icon name="folder open" />,
-                            subNav: [
-                                {
-                                    title: '1st Album',
-                                    itemId: '/myalbum/1stAlbum',
-                                    // Requires v1.9.1+ (https://github.com/abhijithvijayan/react-minimal-side-navigation/issues/13)
-                                },
-                                {
-                                    title: '2nd Album',
-                                    itemId: '/myalbum/2ndAlbum',
-                                },
-                                {
-                                    title: '3rd Album',
-                                    itemId: '/myalbum/3rdAlbum',
-                                },
-                            ],
-                        },
-                    ]}
-                />
-            </Area>
-        </>
-    );
+        <Navigation
+          activeItemId="/management/members"
+          onSelect={({ itemId }) => {
+            navigate(itemId)
+          }}
+          items={[
+            {
+              title: 'ON Air',
+              itemId: '/',
+              elemBefore: () =>
+                <Icon name="record" style={{ fontSize: '1.2rem' }} />,
+
+
+            },
+
+            {
+              title: 'Album',
+              itemId: '/album',
+              elemBefore: () => <Icon name="book" />,
+            },
+
+            {
+              title: 'Video',
+              itemId: '/video',
+              elemBefore: () => <Icon name="video play" />,
+            },
+
+            {
+              title: 'My Album',
+              itemId: '/myalbum',
+              elemBefore: () => <Icon name="folder open" />,
+              subNav: [
+                {
+                  title: '1st Album',
+                  itemId: '/myalbum/1stAlbum',
+                  // Requires v1.9.1+ (https://github.com/abhijithvijayan/react-minimal-side-navigation/issues/13)
+
+                },
+                {
+                  title: '2nd Album',
+                  itemId: '/myalbum/2ndAlbum',
+
+                },
+                {
+                  title: '3rd Album',
+                  itemId: '/myalbum/3rdAlbum',
+
+                },
+              ],
+            },
+          ]}
+        />
+      </Area>
+    </>
+  );
 }
+
 
 // import React, { useState } from 'react';
 // import styled from 'styled-components';
@@ -86,6 +100,7 @@ export default function Sidebar() {
 //   background-color:#e2e8f0;
 // `;
 
+
 // export default function Sidebar() {
 
 //   const [close, setClose] = useState(false);
@@ -96,6 +111,8 @@ export default function Sidebar() {
 //   // () => {setClose(close)}
 
 //   const [hide, setHide] = useState(true);
+
+
 
 //   return (
 //     <>
