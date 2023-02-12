@@ -1,9 +1,12 @@
-import './index.css';
+/* eslint-disable */
 import React, { useRef, useState, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
-import constraints from '../../common/constraints';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
+
+import './index.css';
+import * as types from '../../types/cam';
+import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 
 const rotate = keyframes`
@@ -14,8 +17,6 @@ const rotate = keyframes`
     to { transform: rotate(360deg);
     }
     `;
-
-// TODO : any 체크하기
 
 const Rotate = styled.div`
     display: inline-block;
@@ -58,8 +59,8 @@ const OffButton = styled.button`
 
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
-let recordInfo: { userId: any; maxValue: any; label: any; count: number; startTime: any; maxTime: any };
-const expression: { value: any; label: any; time: number } = { value: 0, label: '', time: 0 };
+let recordInfo: types.RecordInfo;
+const expression: types.Expression = { value: 0, label: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
 const userId = 'test';
@@ -154,7 +155,7 @@ function WebCamPage() {
         const labeledFaceDescriptors = await loadImage();
 
         // 안면 인식 부분
-        const faceDetecting = async (expression: any) => {
+        const faceDetecting = async (expression: types.Expression) => {
             let detections;
 
             if (videoRef.current) {
@@ -188,7 +189,7 @@ function WebCamPage() {
                     const { neutral, ...otherDetection }: Record<string, any> = detection.expressions;
 
                     expression.value = Math.max(...Object.values(otherDetection));
-                    expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value); // 현재 최대 수치 감정 종류 가져오기
+                    expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value) || ''; // 현재 최대 수치 감정 종류 가져오기
                     expression.time = Date.now();
                 });
             return expression;
