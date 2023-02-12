@@ -36,14 +36,14 @@ export default function CamContent() {
             <span>
                 <hr />
             </span>
-            <StyleContent>
+            {/* <StyleContent>
                 <Sidebar />
-                <WebcamContent>
-                    <WebcamPage>
-                        <WebCamPage />
-                    </WebcamPage>
-                </WebcamContent>
-            </StyleContent>
+                <WebcamContent> */}
+            {/* <WebcamPage> */}
+            <WebCamPage />
+            {/* </WebcamPage> */}
+            {/* </WebcamContent> */}
+            {/* </StyleContent> */}
             <span>
                 <hr style={{ marginTop: '-1px' }} />
             </span>
