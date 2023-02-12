@@ -9,7 +9,7 @@ import '../../styles/List.css';
 const Area = styled.div`
     float: left;
     top: 150px;
-    width: 230px;
+    width: 200px;
     padding-top: 10px;
     background-color: #e2e8f0;
 `;
@@ -51,16 +51,16 @@ export default function Sidebar() {
                             subNav: [
                                 {
                                     title: '1st Album',
-                                    itemId: '/myalbum/1stAlbum',
+                                    itemId: '/myalbum/1album',
                                     // Requires v1.9.1+ (https://github.com/abhijithvijayan/react-minimal-side-navigation/issues/13)
                                 },
                                 {
                                     title: '2nd Album',
-                                    itemId: '/myalbum/2ndAlbum',
+                                    itemId: '/myalbum/2album',
                                 },
                                 {
                                     title: '3rd Album',
-                                    itemId: '/myalbum/3rdAlbum',
+                                    itemId: '/myalbum/3album',
                                 },
                             ],
                         },

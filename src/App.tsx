@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import VideoContent from './views/Contents/VideoContent/VideoContent';
 import CamContent from './views/Contents/CamContent/CamContent';
-import PageContent from './views/Contents/PageContent/PageContent';
+import AlbumContent from './views/Contents/AlbumContent/AlbumContent';
 
 function App() {
     return (
@@ -14,7 +14,7 @@ function App() {
                 <Route>
                     <Route path="/" element={<CamContent />} />
                     <Route path="/video" element={<VideoContent />} />
-                    <Route path="/page" element={<PageContent />} />
+                    <Route path="/album" element={<AlbumContent />} />
                 </Route>
             </Routes>
         </Router>
