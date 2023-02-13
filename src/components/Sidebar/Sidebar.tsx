@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation } from 'react-minimal-side-navigation';
 import { Icon } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import '../../styles/List.css';
+import { OpacityRounded } from '@mui/icons-material';
 
 const Area = styled.div`
     float: left;
     top: 150px;
-    width: 230px;
+    width: 200px;
     padding-top: 10px;
     background-color: #e2e8f0;
 `;
@@ -51,16 +52,16 @@ export default function Sidebar() {
                             subNav: [
                                 {
                                     title: '1st Album',
-                                    itemId: '/myalbum/1stAlbum',
+                                    itemId: '/myalbum/1album',
                                     // Requires v1.9.1+ (https://github.com/abhijithvijayan/react-minimal-side-navigation/issues/13)
                                 },
                                 {
                                     title: '2nd Album',
-                                    itemId: '/myalbum/2ndAlbum',
+                                    itemId: '/myalbum/2album',
                                 },
                                 {
                                     title: '3rd Album',
-                                    itemId: '/myalbum/3rdAlbum',
+                                    itemId: '/myalbum/3album',
                                 },
                             ],
                         },
