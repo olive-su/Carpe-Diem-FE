@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation } from 'react-minimal-side-navigation';
 import { Icon } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import '../../styles/List.css';
+import { OpacityRounded } from '@mui/icons-material';
 
 const Area = styled.div`
     float: left;
