@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation } from 'react-minimal-side-navigation';
 import { Icon } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import '../../styles/List.css';
+import { OpacityRounded } from '@mui/icons-material';
+
+
 
 const Area = styled.div`
     float: left;
@@ -13,6 +16,7 @@ const Area = styled.div`
     padding-top: 10px;
     background-color: #e2e8f0;
 `;
+
 
 export default function Sidebar() {
     const navigate = useNavigate();
@@ -71,6 +75,7 @@ export default function Sidebar() {
     );
 }
 
+
 // import React, { useState } from 'react';
 // import styled from 'styled-components';
 // import { Navigation } from 'react-minimal-side-navigation';
@@ -86,6 +91,7 @@ export default function Sidebar() {
 //   background-color:#e2e8f0;
 // `;
 
+
 // export default function Sidebar() {
 
 //   const [close, setClose] = useState(false);
@@ -96,6 +102,8 @@ export default function Sidebar() {
 //   // () => {setClose(close)}
 
 //   const [hide, setHide] = useState(true);
+
+
 
 //   return (
 //     <>

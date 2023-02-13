@@ -87,7 +87,7 @@ const handleClickc = () => {
                     <MenuItem value={'Shortest'}>Shortest</MenuItem>
                 </Select>
             </FormControl>
-            <ToggleButton value="check" selected={checked[0]} onChange={handleChange2}>
+            <ToggleButton value="check"selected={checked[0]} onChange={handleChange2}>
                 <InsertEmoticonIcon /> Happy
             </ToggleButton>
             <ToggleButton value="check" selected={checked[1]} onChange={handleChange3}>
