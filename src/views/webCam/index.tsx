@@ -8,6 +8,7 @@ import './index.css';
 import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
+import loadUsim from '../../services/Cam/loadUsim';
 
 const rotate = keyframes`
   from {
@@ -116,6 +117,7 @@ function WebCamPage() {
     const loadImage = async () => {
         // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
         const labels = [`${userId}`];
+        // const labels: any[] = await loadUsim(userId);
 
         return Promise.all(
             labels.map(async (label) => {
