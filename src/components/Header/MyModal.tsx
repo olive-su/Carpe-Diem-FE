@@ -81,6 +81,7 @@ const MyModal = (notis: any) => {
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
+                style={{ marginRight: 20 }}
             >
                 <BsFillBellFill style={{ color: '#7DB2B1', cursor: 'pointer' }} />
             </IconButton>

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
-import AlbumMultiPage from '../../Album/AlbumMultiPage';
+import Page from '../../Page/Page';
 
 const StyleContent = styled.div`
-    background-color: #f1f5f9;
+    background-color: #fff;
     font-family: IBMPlexSansKR-Regular;
     display: flex;
     margin-top: -16px;
@@ -14,21 +14,20 @@ const StyleContent = styled.div`
 `;
 
 const AlbumPage = styled.div`
-    margin: 20px auto;
+    height: 100vh;
 `;
 
-export default function AlbumContent() {
+export default function PageContent() {
     return (
         <div>
             <Header />
             <span>
                 <hr />
             </span>
+
             <StyleContent>
                 <Sidebar />
-                <AlbumPage>
-                    <AlbumMultiPage />
-                </AlbumPage>
+                <AlbumPage></AlbumPage>
             </StyleContent>
             <span>
                 <hr style={{ marginTop: '-1px' }} />

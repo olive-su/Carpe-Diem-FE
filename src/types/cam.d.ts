@@ -10,6 +10,7 @@ declare interface RecordInfo {
 declare interface Expression {
     value: number;
     label: string;
+    target: string;
     time: number;
 }
 

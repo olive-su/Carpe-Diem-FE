@@ -10,6 +10,12 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import config from '../../config';
 import Modal from '@mui/material/Modal';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const theme = createTheme();
 const Div = styled('div')`
@@ -96,11 +102,11 @@ const Book = (props: any) => {
                     {/* <Button variant="contained">수정</Button> */}
                 </Typography>
             ) : (
-                <Typography variant="h6" mt={2}>
+                <Typography noWrap={true} variant="h6" mt={2}>
                     {text}
                 </Typography>
             )}
-            <Typography fontSize={6}>{props.album.createdAt}</Typography>
+            <Typography fontSize={15}>{dayjs(props.album.createdAt).tz('utc').format('YYYY.MM.DD HH:mm:ss')}</Typography>
             <Typography ml={7}>
                 <IconButton size="small" onClick={() => editOn()}>
                     <EditIcon />
