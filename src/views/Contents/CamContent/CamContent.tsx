@@ -61,7 +61,7 @@ export default function CamContent() {
                     <WebCamPage onVideoListRender={videoRenderFlag} />
                 </WebcamPage>
                 <div style={{ marginLeft: '20px', marginTop: '20px' }}>
-                    <h2>최근 24시간 내에 저장된 영상</h2>
+                    <h2>최근 저장된 영상</h2>
                     <div>
                         {videoList[0]?.map((videos: any, index: any) => (
                             <InteractiveCard key={index} properties={videos} />
