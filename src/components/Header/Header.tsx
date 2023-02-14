@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import logotitle from './images/logotitle.png';
 import MyModal from './MyModal';
+import { Link } from 'react-router-dom';
 
 // 헤더
 const StyleHeader = styled.div`
@@ -50,9 +51,11 @@ export default function Header() {
     return (
         <StyleHeader>
             <div>
-                <NavContainer>
-                    <Logo src={logotitle} />
-                </NavContainer>
+                <Link to="/">
+                    <NavContainer>
+                        <Logo src={logotitle} />
+                    </NavContainer>
+                </Link>
             </div>
             <NavMenu>
                 <NavItem
