@@ -65,52 +65,26 @@ const OffButton = styled.button`
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
 let recordInfo: types.RecordInfo;
-const expression: types.Expression = { value: 0, label: '', time: 0 };
+const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
 const userId = 'test';
 
 // 비디오 사이즈 설정
-function WebCamPage(props: any) {
+function CameraPage(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
 
     const [camStarted, setCamStarted] = useState(true);
     let [video, setVideo] = useState(0);
     const [modelLoaded, setModelLoaded] = useState(false);
-    const [videoList, setVideoList] = useState<any[]>([]);
 
-    // console.log('홋시 뭐?');
-    // console.log('v3', videoList);
-    // setTimeout(() => setVideo(video + 1), 10000);
     useEffect(() => {
-        // async function fetchData(): Promise<any> {
-        //     const result = await axios({
-        //         url: `http://${config.server.host}:${config.server.port}/camera/${userId}`,
-        //         method: 'get',
-        //     });
-        //     return result;
-        // }
-        // fetchData()
-        //     .then((result) => {
-        //         // console.log('v1', videoList);
-        //         setVideoList(new Array(result.data));
-
-        //         // console.log('v2', videoList);
-        //         // console.log(r);
-        //         // console.log(result.data);
-        //         // console.log('최근 24시간 내 저장된 영상 데이터 로드 성공');
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         console.log('최근 24시간 내 저장된 영상 데이터 로드 실패');
-        //     });
         console.log('video');
-        props.onVideoListRender(new Date());
     }, [video]);
     const [data, setData] = useState([
         {
-            name: 'natural',
+            name: 'neutral',
             uv: 0,
         },
         {
@@ -182,7 +156,6 @@ function WebCamPage(props: any) {
     const loadImage = async () => {
         // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
         const labels = [`${userId}`];
-        // const labels: any[] = await loadUsim(userId);
 
         return Promise.all(
             labels.map(async (label) => {
@@ -244,60 +217,62 @@ function WebCamPage(props: any) {
                 resizedDetections.forEach((detection, i) => {
                     const matched = resizedDetections[i];
                     const box = matched.detection.box;
-                    const showLabel = faceMatcher.findBestMatch(matched.descriptor).toString();
-                    const label = faceMatcher.findBestMatch(matched.descriptor).label;
-                    const labelColor = label === userId ? 'red' : 'blue';
-                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: `${labelColor}`, label: showLabel });
+                    // const target = faceMatcher.findBestMatch(matched.descriptor).toString();
+                    const label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
+                    // const labelColor = label === userId ? 'red' : 'blue';
+                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: 'red', label: label });
 
-                    drawBox.draw(canvas);
+                    if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
 
-                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+                    // faceapi.draw.drawFaceExpressions(canvas, resizedDetections); // 감정 수치 표시
 
                     const { neutral, ...otherDetection }: Record<string, any> = detection.expressions;
 
                     expression.value = Math.max(...Object.values(otherDetection));
                     expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value) || ''; // 현재 최대 수치 감정 종류 가져오기
+                    expression.target = label;
                     expression.time = Date.now();
 
-                    // console.log(detection.expressions);
-
-                    setData([
-                        {
-                            name: 'natural',
-                            uv: detection.expressions.fearful,
-                        },
-                        {
-                            name: 'Happy',
-                            uv: detection.expressions.happy,
-                        },
-                        {
-                            name: 'Sad',
-                            uv: detection.expressions.sad,
-                        },
-                        {
-                            name: 'Surprised',
-                            uv: detection.expressions.surprised,
-                        },
-                        {
-                            name: 'disgusted',
-                            uv: detection.expressions.disgusted,
-                        },
-                        {
-                            name: 'angry',
-                            uv: detection.expressions.angry,
-                        },
-                        {
-                            name: 'fearful',
-                            uv: detection.expressions.fearful,
-                        },
-                    ]);
+                    if (expression.target === userId) {
+                        setData([
+                            {
+                                name: 'neutral',
+                                uv: detection.expressions.neutral,
+                            },
+                            {
+                                name: 'Happy',
+                                uv: detection.expressions.happy,
+                            },
+                            {
+                                name: 'Sad',
+                                uv: detection.expressions.sad,
+                            },
+                            {
+                                name: 'Surprised',
+                                uv: detection.expressions.surprised,
+                            },
+                            {
+                                name: 'disgusted',
+                                uv: detection.expressions.disgusted,
+                            },
+                            {
+                                name: 'angry',
+                                uv: detection.expressions.angry,
+                            },
+                            {
+                                name: 'fearful',
+                                uv: detection.expressions.fearful,
+                            },
+                        ]);
+                    }
                 });
             return expression;
         };
 
         const loop = async () => {
             const expressions = await faceDetecting(expression);
-            if (!recordFlag && expressions.value > 0.96) {
+            // 새로 녹화 시작
+            if (!recordFlag && expressions.value > 0.96 && expressions.target === userId) {
                 recordFlag = true;
                 recordInfo = {
                     userId: userId,
@@ -305,18 +280,21 @@ function WebCamPage(props: any) {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: 0,
+                    maxTime: -32400000,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
                 recordVideo(mediaRecorder); // 녹화시작
                 console.log('녹화 시작');
             }
-            // 감정 최대값 갱신
-            else if (recordFlag && expression.value > 0.96 && expression.label === recordInfo.label) {
-                recordInfo.maxValue = expression.value;
-                recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
-                recentRecordTime = expression.time; // 최근 감정 갱신 시간
+            // 녹화 시간 연장
+            else if (recordFlag && expressions.value > 0.96 && expressions.label === recordInfo.label && expressions.target === userId) {
+                if (recordInfo.maxValue < expressions.value) {
+                    // 최대 감정 관측 데이터 변경
+                    recordInfo.maxValue = expressions.value;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                }
+                recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }
 
             if (camStarted === true) setTimeout(loop, 0.03);
@@ -335,7 +313,7 @@ function WebCamPage(props: any) {
                 try {
                     if (videoRef.current) {
                         mediaRecorder.stop();
-                        setVideo(video + 1);
+                        props.onVideoListRender(new Date());
                     }
                     recordFlag = false;
                     recentRecordTime = 0;
@@ -347,11 +325,11 @@ function WebCamPage(props: any) {
         }, 10000);
     };
 
-    function handleDataAvailable(event: any) {
+    async function handleDataAvailable(event: any) {
         const recordedChunks: any[] = [];
         if (event.data.size > 0) {
             recordedChunks.push(event.data);
-            if (camStarted === true) uploadToS3Bucket(recordInfo, recordedChunks);
+            if (camStarted === true) await uploadToS3Bucket(recordInfo, recordedChunks);
             recordedChunks.pop();
         }
     }
@@ -385,17 +363,8 @@ function WebCamPage(props: any) {
                 </div>
             </div>
             <Emotion data={data} />
-            {/* <div>
-                    <h2>최근 24시간 내에 저장된 영상</h2>
-                    <div>
-                        {videoList[0]?.map((videos: any) => (
-                            <InteractiveCard properties={videos} />
-                            // <div>{videos.cardId}</div>
-                        ))}
-                    </div>
-                </div> */}
         </>
     );
 }
 
-export default WebCamPage;
+export default CameraPage;

@@ -26,4 +26,4 @@ yarn-error.log*
 .env
 
 ### Webcam img ###
-src/views/webCam/imgs
+src/views/Camera/imgs

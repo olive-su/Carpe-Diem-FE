@@ -5,7 +5,7 @@ import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import InteractiveCard from '../../Card/InteractiveCard';
-import WebCamPage from '../../webCam';
+import CameraPage from '../../Camera';
 import config from '../../../config';
 
 const StyleContent = styled.div`
@@ -16,7 +16,7 @@ const StyleContent = styled.div`
     text-align: left;
     margin-top: -16px;
 `;
-const WebcamPage = styled.section`
+const WebCamPage = styled.section`
     display: block;
     flex-direction: row;
     text-align: center;
@@ -26,8 +26,6 @@ const WebcamPage = styled.section`
 
 export default function CamContent() {
     const [videoList, setVideoList] = useState<any[]>([]);
-    // const [videoRenderFlag, setVideoRenderFlag] = useState<Date>(new Date());
-    console.log(videoList);
     const videoRenderFlag = () => {
         async function fetchData(): Promise<any> {
             const result = await axios({
@@ -48,6 +46,9 @@ export default function CamContent() {
                 console.log('최근 24시간 내 저장된 영상 데이터 로드 실패');
             });
     };
+    useEffect(() => {
+        videoRenderFlag();
+    }, []);
 
     return (
         <>
@@ -57,16 +58,13 @@ export default function CamContent() {
             </span>
             <StyleContent>
                 <Sidebar />
-                <WebcamPage>
-                    <WebCamPage onVideoListRender={videoRenderFlag} />
-                </WebcamPage>
+                <WebCamPage>
+                    <CameraPage onVideoListRender={videoRenderFlag} />
+                </WebCamPage>
                 <div style={{ marginLeft: '20px', marginTop: '20px' }}>
                     <h2>최근 저장된 영상</h2>
                     <div>
-                        {videoList[0]?.map((videos: any, index: any) => (
-                            <InteractiveCard key={index} properties={videos} />
-                            // <div>{videos.cardId}</div>
-                        ))}
+                        {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
                 </div>
             </StyleContent>
