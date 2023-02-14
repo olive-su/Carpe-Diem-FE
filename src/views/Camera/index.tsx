@@ -184,7 +184,7 @@ function CameraPage(props: any) {
 
             canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
 
-            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.42);
+            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, constraints.model.matchValue);
 
             if (resizedDetections)
                 resizedDetections.forEach((detection, i) => {
@@ -216,7 +216,7 @@ function CameraPage(props: any) {
         const loop = async () => {
             const expressions = await faceDetecting(expression);
             // 새로 녹화 시작
-            if (!recordFlag && expressions.value > 0.96 && expressions.target === userId) {
+            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.target === userId) {
                 recordFlag = true;
                 recordInfo = {
                     userId: userId,
@@ -233,7 +233,12 @@ function CameraPage(props: any) {
                 console.log('녹화 시작');
             }
             // 녹화 시간 연장
-            else if (recordFlag && expressions.value > 0.96 && expressions.label === recordInfo.label && expressions.target === userId) {
+            else if (
+                recordFlag &&
+                expressions.value > constraints.model.emotionValue &&
+                expressions.label === recordInfo.label &&
+                expressions.target === userId
+            ) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
@@ -284,6 +289,7 @@ function CameraPage(props: any) {
         backgroundColor: 'black',
         color: 'red',
         textDecoration: 'none',
+        marginBottom: 20,
         fontWeight: 'bold',
         border: '4px solid red',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -308,6 +314,7 @@ function CameraPage(props: any) {
         backgroundColor: 'black',
         color: 'white',
         textDecoration: 'none',
+        marginBottom: 20,
         fontWeight: 'bold',
         border: '2px solid grey',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',

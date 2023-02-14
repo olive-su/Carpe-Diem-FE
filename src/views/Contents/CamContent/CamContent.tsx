@@ -20,7 +20,7 @@ const WebCamPage = styled.section`
     display: block;
     flex-direction: row;
     text-align: center;
-    margin-left: 10px;
+    margin-left: 30px;
     margin-top: 20px;
 `;
 
