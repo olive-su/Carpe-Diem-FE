@@ -8,6 +8,9 @@ import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 
+// 삭제해야함!!!:테스트용
+import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
+
 function App() {
     // const history = useHistory();
     // useEffect(() => {
@@ -22,6 +25,9 @@ function App() {
                     <Route path="/video" element={<VideoContent />} />
                     <Route path="/video/:cardId" element={<AlbumSinglePage />} />
                     <Route path="/album" element={<LibraryContent />} />
+
+                    {/* 삭제해야함!!!:테스트용 */}
+                    <Route path="/album/5" element={<AlbumMultiContent />} />
                 </Route>
             </Routes>
         </Router>
