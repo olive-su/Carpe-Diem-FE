@@ -319,11 +319,8 @@ function CameraPage(props: any) {
 
     return (
         <>
-            <h2>Recording My DAY</h2>
             <div>
                 {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
-                <h2>Recording My DAY</h2>
-
                 <div
                     ref={wrapRef}
                     id="wrap"
