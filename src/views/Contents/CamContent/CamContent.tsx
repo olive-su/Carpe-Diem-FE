@@ -24,12 +24,14 @@ const WebCamPage = styled.section`
     margin-top: 20px;
 `;
 
+const userId = 'test';
+
 export default function CamContent() {
     const [videoList, setVideoList] = useState<any[]>([]);
     const videoRenderFlag = () => {
         async function fetchData(): Promise<any> {
             const result = await axios({
-                url: `http://${config.server.host}:${config.server.port}/camera/test`,
+                url: `http://${config.server.host}:${config.server.port}/camera/${userId}`,
                 method: 'get',
             });
             return result;

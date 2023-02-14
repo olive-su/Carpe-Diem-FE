@@ -3,17 +3,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
-import InteractiveCard from '../Card/InteractiveCard';
-import axios from 'axios';
 import Emotion from './Emotion';
 
 import './index.css';
-import config from '../../config';
 import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
-import loadUsim from '../../services/Cam/loadUsim';
-// import loadRecentVideo from '../../services/Cam/loadRecentVideo';
+import EmotionSetData from './EmotionSetData';
 
 const rotate = keyframes`
   from {
@@ -82,36 +78,7 @@ function CameraPage(props: any) {
     useEffect(() => {
         console.log('video');
     }, [video]);
-    const [data, setData] = useState([
-        {
-            name: 'neutral',
-            uv: 0,
-        },
-        {
-            name: 'Happy',
-            uv: 0,
-        },
-        {
-            name: 'Sad',
-            uv: 0,
-        },
-        {
-            name: 'Surprised',
-            uv: 0,
-        },
-        {
-            name: 'disgusted',
-            uv: 0,
-        },
-        {
-            name: 'angry',
-            uv: 0,
-        },
-        {
-            name: 'fearful',
-            uv: 0,
-        },
-    ]);
+    const [data, setData] = useState(EmotionSetData(0));
 
     useEffect(() => {
         // 비디오
@@ -234,36 +201,7 @@ function CameraPage(props: any) {
                     expression.time = Date.now();
 
                     if (expression.target === userId) {
-                        setData([
-                            {
-                                name: 'neutral',
-                                uv: detection.expressions.neutral,
-                            },
-                            {
-                                name: 'Happy',
-                                uv: detection.expressions.happy,
-                            },
-                            {
-                                name: 'Sad',
-                                uv: detection.expressions.sad,
-                            },
-                            {
-                                name: 'Surprised',
-                                uv: detection.expressions.surprised,
-                            },
-                            {
-                                name: 'disgusted',
-                                uv: detection.expressions.disgusted,
-                            },
-                            {
-                                name: 'angry',
-                                uv: detection.expressions.angry,
-                            },
-                            {
-                                name: 'fearful',
-                                uv: detection.expressions.fearful,
-                            },
-                        ]);
+                        setData(EmotionSetData(detection.expressions));
                     }
                 });
             return expression;
