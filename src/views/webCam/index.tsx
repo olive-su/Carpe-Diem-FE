@@ -3,12 +3,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
+import InteractiveCard from '../Card/InteractiveCard';
+import axios from 'axios';
 
 import './index.css';
+import config from '../../config';
 import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import loadUsim from '../../services/Cam/loadUsim';
+// import loadRecentVideo from '../../services/Cam/loadRecentVideo';
 
 const rotate = keyframes`
   from {
@@ -18,7 +22,6 @@ const rotate = keyframes`
     to { transform: rotate(360deg);
     }
     `;
-
 const Rotate = styled.div`
     display: inline-block;
     animation: ${rotate} 2s linear infinite;
@@ -72,8 +75,36 @@ function WebCamPage() {
     const videoRef = useRef<any>(null);
 
     const [camStarted, setCamStarted] = useState(true);
+    const [video, setVideo] = useState(0);
     const [modelLoaded, setModelLoaded] = useState(false);
+    const [videoList, setVideoList] = useState<any[]>([]);
 
+    console.log('홋시 뭐?');
+    console.log('v3', videoList);
+    // setTimeout(() => setVideo(video + 1), 10000);
+    useEffect(() => {
+        async function fetchData(): Promise<any> {
+            const result = await axios({
+                url: `http://${config.server.host}:${config.server.port}/camera/${userId}`,
+                method: 'get',
+            });
+            return result;
+        }
+        fetchData()
+            .then((result) => {
+                console.log('v1', videoList);
+                setVideoList(new Array(result.data));
+
+                console.log('v2', videoList);
+                // console.log(r);
+                console.log(result.data);
+                console.log('최근 24시간 내 저장된 영상 데이터 로드 성공');
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log('최근 24시간 내 저장된 영상 데이터 로드 실패');
+            });
+    }, [video, videoList]);
     useEffect(() => {
         // 비디오
         navigator.mediaDevices
@@ -207,7 +238,7 @@ function WebCamPage() {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: expressions.time,
+                    maxTime: 0,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -217,6 +248,7 @@ function WebCamPage() {
             // 감정 최대값 갱신
             else if (recordFlag && expression.value > 0.96 && expression.label === recordInfo.label) {
                 recordInfo.maxValue = expression.value;
+                recordInfo.maxTime = expressions.time - recordInfo.startTime;
                 recentRecordTime = expression.time; // 최근 감정 갱신 시간
             }
 
@@ -237,6 +269,7 @@ function WebCamPage() {
                     if (videoRef.current) await mediaRecorder.stop();
                     recordFlag = false;
                     recentRecordTime = 0;
+                    setVideo(video + 1);
                     console.log('녹화 중지');
                 } catch (err) {
                     console.log(err);
@@ -280,6 +313,13 @@ function WebCamPage() {
             <div>
                 <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
                 <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+            </div>
+            <h2>최근 24시간 내에 저장된 영상</h2>
+            <div>
+                {videoList[0]?.map((videos: any) => (
+                    <InteractiveCard properties={videos} />
+                    // <div>{videos.cardId}</div>
+                ))}
             </div>
         </div>
     );
