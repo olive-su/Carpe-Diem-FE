@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
+import Emotion from './Emotion';
 
 import './index.css';
 import * as types from '../../types/cam';
@@ -14,7 +15,7 @@ const rotate = keyframes`
   from {
       transform: rotate(0deg);
     }
-    
+
     to { transform: rotate(360deg);
     }
     `;
@@ -73,6 +74,37 @@ function WebCamPage() {
 
     const [camStarted, setCamStarted] = useState(true);
     const [modelLoaded, setModelLoaded] = useState(false);
+
+    const [data, setData] = useState([
+        {
+            name: 'natural',
+            uv: 0,
+        },
+        {
+            name: 'Happy',
+            uv: 0,
+        },
+        {
+            name: 'Sad',
+            uv: 0,
+        },
+        {
+            name: 'Surprised',
+            uv: 0,
+        },
+        {
+            name: 'disgusted',
+            uv: 0,
+        },
+        {
+            name: 'angry',
+            uv: 0,
+        },
+        {
+            name: 'fearful',
+            uv: 0,
+        },
+    ]);
 
     useEffect(() => {
         // 비디오
@@ -193,6 +225,39 @@ function WebCamPage() {
                     expression.value = Math.max(...Object.values(otherDetection));
                     expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value) || ''; // 현재 최대 수치 감정 종류 가져오기
                     expression.time = Date.now();
+
+                    console.log(detection.expressions);
+
+                    setData([
+                        {
+                            name: 'natural',
+                            uv: detection.expressions.fearful,
+                        },
+                        {
+                            name: 'Happy',
+                            uv: detection.expressions.happy,
+                        },
+                        {
+                            name: 'Sad',
+                            uv: detection.expressions.sad,
+                        },
+                        {
+                            name: 'Surprised',
+                            uv: detection.expressions.surprised,
+                        },
+                        {
+                            name: 'disgusted',
+                            uv: detection.expressions.disgusted,
+                        },
+                        {
+                            name: 'angry',
+                            uv: detection.expressions.angry,
+                        },
+                        {
+                            name: 'fearful',
+                            uv: detection.expressions.fearful,
+                        },
+                    ]);
                 });
             return expression;
         };
@@ -255,33 +320,36 @@ function WebCamPage() {
     }
 
     return (
-        <div>
-            <h2>Recording My DAY</h2>
+        <>
+            <div>
+                <h2>Recording My DAY</h2>
 
-            <div
-                ref={wrapRef}
-                id="wrap"
-                style={{
-                    borderStyle: 'none',
-                    width: constraints.video.width,
-                    height: constraints.video.height,
-                }}
-            >
+                <div
+                    ref={wrapRef}
+                    id="wrap"
+                    style={{
+                        borderStyle: 'none',
+                        width: constraints.video.width,
+                        height: constraints.video.height,
+                    }}
+                >
+                    <div>
+                        {camStarted ? (
+                            <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
+                        ) : (
+                            <Rotate>
+                                <TbLoader size="50" style={{ padding: 0 }} />
+                            </Rotate>
+                        )}
+                    </div>
+                </div>
                 <div>
-                    {camStarted ? (
-                        <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
-                    ) : (
-                        <Rotate>
-                            <TbLoader size="50" style={{ padding: 0 }} />
-                        </Rotate>
-                    )}
+                    <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
                 </div>
             </div>
-            <div>
-                <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
-            </div>
-        </div>
+            <Emotion data={data} />
+        </>
     );
 }
 

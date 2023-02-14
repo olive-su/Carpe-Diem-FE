@@ -9,15 +9,14 @@ const StyleContent = styled.div`
     background-color: #fff;
     font-family: GangwonEduPowerExtraBoldA;
     display: flex;
-    height: 100vh;
-    text-align: center;
+    height: auto;
+    text-align: left;
     margin-top: -16px;
 `;
-
 const WebcamPage = styled.section`
     display: block;
     text-align: center;
-    margin-left: 300px;
+    margin-left: 10px;
     margin-top: 20px;
 `;
 
