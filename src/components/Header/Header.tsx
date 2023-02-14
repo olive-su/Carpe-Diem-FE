@@ -9,7 +9,7 @@ const StyleHeader = styled.div`
     color: black;
     background-color: #fff;
     height: 100px;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
 `;
 
 // 1. navcontainer

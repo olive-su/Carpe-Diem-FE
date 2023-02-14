@@ -38,7 +38,7 @@ const OnButton = styled.button`
     padding: 0.25em 1em;
     border: 2px solid #8a1441;
     border-radius: 3px;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     &:active,
     &:hover,
     &:focus {
@@ -53,7 +53,7 @@ const OffButton = styled.button`
     margin: 1em;
     padding: 0.25em 1em;
     border: 2px solid #2679cc;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     border-radius: 3px;
     &:active,
     &:hover,

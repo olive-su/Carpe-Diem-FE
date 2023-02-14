@@ -10,7 +10,7 @@ import config from '../../../config';
 
 const StyleContent = styled.div`
     background-color: #fff;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     display: flex;
     height: auto;
     text-align: left;

@@ -32,7 +32,7 @@ const userId = 'test';
 // import styled from 'styled-components';
 // const StyleContent = styled.div`
 //     background-color: #f1f5f9;
-//     font-family: GangwonEduPowerExtraBoldA;
+//     font-family: IBMPlexSansKR-Regular;
 //     display: flex;
 
 //     text-align: center;
