@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-
-import VideoContent from './View/Contents/VideoContent/VideoContent';
-import CamContent from './View/Contents/CamContent/CamContent';
+import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
+import VideoContent from './views/Contents/VideoContent/VideoContent';
+import CamContent from './views/Contents/CamContent/CamContent';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
+import AlbumSinglePage from './views/Album/AlbumSinglePage';
 
 function App() {
     // const history = useHistory();
@@ -15,14 +15,16 @@ function App() {
     // }, [])
 
     return (
-            <Router>
-                <Routes>
-                    <Route>
-                        <Route path="/" element={<CamContent />} />
-                        <Route path="/video" element={<VideoContent />} />
-                    </Route>
-                </Routes>
-            </Router>
+        <Router>
+            <Routes>
+                <Route>
+                    <Route path="/" element={<CamContent />} />
+                    <Route path="/video" element={<VideoContent />} />
+                    <Route path="/video/:cardId" element={<AlbumSinglePage />} />
+                    <Route path="/album" element={<LibraryContent />} />
+                </Route>
+            </Routes>
+        </Router>
     );
 }
 

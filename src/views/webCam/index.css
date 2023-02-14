@@ -1,0 +1,22 @@
+#wrap {
+    position: relative;
+    border: 1px solid brown;
+}
+
+canvas {
+    position: relative;
+    top: 50;
+    left: 0;
+    border: 1px solid black;
+    border-style: none;
+}
+
+div#wrap {
+    position: relative;
+}
+
+div#wrap canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
