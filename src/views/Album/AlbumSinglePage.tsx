@@ -4,6 +4,10 @@ import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import axios from 'axios';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import styled from 'styled-components';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import OutletIcon from '@mui/icons-material/Outlet';
@@ -15,8 +19,39 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import frame from '../../assets/frame.png';
+import Modal from '@mui/material/Modal';
+import { Box } from '@mui/system';
+import { Typography, Button } from '@mui/material';
 
 const userId = 'test';
+
+const StyleContent = styled.div`
+    background-color: #fff;
+    font-family: GangwonEduPowerExtraBoldA;
+    display: flex;
+    height: auto;
+    text-align: center;
+    margin-top: -16px;
+`;
+
+const AlbumSingle = styled.section`
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+`;
+
+// 삭제 모달창
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'white',
+    boxShadow: 24,
+    p: 4,
+};
 
 interface IProps {
     albumId: any;
@@ -31,6 +66,10 @@ interface IProps {
 }
 
 const AlbumSinglePage = () => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     const [cardAlbum, setCardAlbum] = useState<IProps>({
         albumId: '',
         cardId: '',
@@ -77,7 +116,7 @@ const AlbumSinglePage = () => {
     };
     const handleKeyDown = (e: any) => {
         if (e.key === 'Enter') {
-            setEditable(!editable);
+            setEditable(false);
             cardAlbum.comment = text;
 
             axios
@@ -136,24 +175,21 @@ const AlbumSinglePage = () => {
             });
     };
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
-
     return (
         <>
             <div>
-                <Slider {...settings}>
-                    <div>
-                        <h1>1</h1>
+                <Header />
+                <span>
+                    <hr />
+                </span>
+                <StyleContent>
+                    <Sidebar />
 
+                    <AlbumSingle>
                         <div>
-                            <img src="./images/frame.png" height="500px" style={{ overflow: 'hideen', width: '100%', position: 'absolute' }}></img>
+                            <img src={frame} height="500px" style={{ overflow: 'hideen', width: '600px', position: 'absolute' }}></img>
                             <video
+                                autoPlay
                                 controls
                                 loop
                                 src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${cardAlbum.videoUrl}`}
@@ -192,7 +228,7 @@ const AlbumSinglePage = () => {
                                 </button>
 
                                 <button
-                                    onClick={onClickDelete}
+                                    onClick={handleOpen}
                                     style={{
                                         outline: 'none',
                                         borderRadius: '50%',
@@ -206,13 +242,31 @@ const AlbumSinglePage = () => {
                                 >
                                     <FontAwesomeIcon icon={faTrashAlt} size="lg" style={{ color: '#1d1d1d' }} />
                                 </button>
+                                <Modal
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <Box sx={style}>
+                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                            정말 삭제하시겠습니까?
+                                        </Typography>
+                                        <Typography fontSize={13} color="#64748b" id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
+                                            삭제된 앨범의 영상은 Video 탭에서 계속 볼 수 있습니다.
+                                        </Typography>
+                                        <Typography align="right">
+                                            <Button onClick={onClickDelete}>확인</Button>
+                                            <Button onClick={handleClose}>취소</Button>
+                                        </Typography>
+                                    </Box>
+                                </Modal>
                             </div>
 
-                            <div>
+                            <h4>
                                 comment
                                 <br />
-                                {cardAlbum.comment}
-                            </div>
+                            </h4>
                             {editable ? (
                                 <div>
                                     <form>
@@ -229,6 +283,8 @@ const AlbumSinglePage = () => {
                                                 boxShadow: '3px 3px 1px gray',
                                                 paddingLeft: '10px',
                                                 marginBottom: '20px',
+                                                width: '400px',
+                                                textAlign: 'center',
                                             }}
                                         />
                                         {/* <label>
@@ -249,12 +305,16 @@ const AlbumSinglePage = () => {
                                     </form>{' '}
                                 </div>
                             ) : (
-                                ''
+                                <div>{cardAlbum.comment}</div>
                             )}
                         </div>
-                    </div>
-                </Slider>
+                    </AlbumSingle>
+                </StyleContent>
             </div>
+            <span>
+                <hr style={{ marginTop: '-1px' }} />
+            </span>
+            <Footer />
         </>
     );
 };
