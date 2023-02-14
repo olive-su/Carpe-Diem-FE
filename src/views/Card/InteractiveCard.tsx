@@ -38,7 +38,7 @@ export default function InteractiveCard(properties: any) {
     else if (expressionLabel === 'angry') emotionIcon = <LocalFireDepartment color="primary" sx={{ marginRight: 1 }} />;
     else if (expressionLabel === 'disgusted') emotionIcon = <Sick color="primary" sx={{ marginRight: 1 }} />;
     else if (expressionLabel === 'fearful') emotionIcon = <SentimentVeryDissatisfiedRounded color="primary" sx={{ marginRight: 1 }} />;
-    else emotionIcon = <OutletIcon color="primary" sx={{ marginRight: 1 }} />;
+    else emotionIcon = <Outlet color="primary" sx={{ marginRight: 1 }} />;
 
     return (
         <Card
