@@ -10,6 +10,9 @@ import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import EmotionSetData from './EmotionSetData';
+import loadUsim from '../../services/Cam/loadUsim';
+import Sparky from 'react-sparkle';
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 const rotate = keyframes`
   from {
@@ -74,6 +77,9 @@ function CameraPage(props: any) {
     const [camStarted, setCamStarted] = useState(true);
     let [video, setVideo] = useState(0);
     const [modelLoaded, setModelLoaded] = useState(false);
+    const [recordStarted, setRecordStarted] = useState(false);
+
+    // const recordFlag = useState(true);
 
     useEffect(() => {
         console.log('video');
@@ -223,6 +229,7 @@ function CameraPage(props: any) {
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
                 recordVideo(mediaRecorder); // 녹화시작
+                setRecordStarted(true);
                 console.log('녹화 시작');
             }
             // 녹화 시간 연장
@@ -256,6 +263,7 @@ function CameraPage(props: any) {
                     recordFlag = false;
                     recentRecordTime = 0;
                     console.log('녹화 중지');
+                    setRecordStarted(false);
                 } catch (err) {
                     console.log(err);
                 }
@@ -272,10 +280,50 @@ function CameraPage(props: any) {
         }
     }
 
+    const onairButton = {
+        backgroundColor: 'black',
+        color: 'red',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        border: '4px solid red',
+        boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
+        padding: '8px 16px',
+        fontSize: '24px',
+        borderRadius: '20px',
+        transition: 'all 0.6s ease-in-out',
+        // @keyframes sparkle {
+        //     0% {
+        //       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5);
+        //     }
+        //     50% {
+        //       box-shadow: 8px 8px 8px rgba(255, 255, 0, 0.5), -8px -8px 8px rgba(255, 255, 255, 0.5);
+        //     }
+        //     100% {
+        //       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5);
+        //     }
+        //   }
+    };
+
+    const offairButton = {
+        backgroundColor: 'black',
+        color: 'white',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        border: '2px solid grey',
+        boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
+        padding: '8px 16px',
+        fontSize: '24px',
+        borderRadius: '20px',
+        transition: 'all 0.6s ease-in-out',
+    };
+
     return (
         <>
             <h2>Recording My DAY</h2>
             <div>
+                {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                <h2>Recording My DAY</h2>
+
                 <div
                     ref={wrapRef}
                     id="wrap"

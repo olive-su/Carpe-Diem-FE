@@ -3,32 +3,31 @@ import styled from 'styled-components';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
-import AlbumSlider from '../../Album/Slider';
+import Library from '../../../views/Library/Library';
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;
-    font-family: IBMPlexSansKR-Regular;
+    font-family: GangwonEduPowerExtraBoldA;
     display: flex;
     margin-top: -16px;
     text-align: center;
 `;
 
-const AlbumPage = styled.div`
-    margin: 20px auto;
+const LibraryPage = styled.div`
+    height: 100vh;
 `;
 
-export default function AlbumContent() {
+export default function PageContent() {
     return (
         <div>
             <Header />
             <span>
                 <hr />
             </span>
+
             <StyleContent>
                 <Sidebar />
-                <AlbumPage>
-                    <AlbumSlider />
-                </AlbumPage>
+                <Library />
             </StyleContent>
             <span>
                 <hr style={{ marginTop: '-1px' }} />

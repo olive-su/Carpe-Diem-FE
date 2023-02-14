@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
-import UpdateSlider from '../../Album/UpdateSlider';
-import { Routes, Route } from 'react-router-dom';
+import AlbumMultiPage from '../../Album/AlbumMultiPage';
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;
@@ -28,11 +27,7 @@ export default function AlbumContent() {
             <StyleContent>
                 <Sidebar />
                 <AlbumPage>
-                    <Routes>
-                        <Route path="/album/4">
-                            <UpdateSlider />
-                        </Route>
-                    </Routes>
+                    <AlbumMultiPage />
                 </AlbumPage>
             </StyleContent>
             <span>

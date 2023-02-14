@@ -1,5 +1,5 @@
 export interface cardData {
-    albumId: 1;
+    albumId: number;
     cardId: number;
     comment: string;
     createdAt: string;
@@ -8,4 +8,14 @@ export interface cardData {
     updatedAt: string;
     userId: string;
     videoUrl: string;
+}
+
+export interface albumData{
+    albumId: number;
+    cardId: cardData[];
+    createdAt: string;
+    coverImgUrl: string;
+    updatedAt: string;
+    userId: string;
+    title: string;
 }

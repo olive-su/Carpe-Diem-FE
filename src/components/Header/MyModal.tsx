@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -15,6 +15,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
 import { addNoti, deleteNoti } from '../../reducer/notiReducer';
+import axios from 'axios';
 
 function elapsedTime(date: any) {
     const start: any = new Date(date);
@@ -40,10 +41,12 @@ function elapsedTime(date: any) {
 }
 
 const MyModal = (notis: any) => {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const API_URL = 'http://localhost:4000';
+    const userId = 'test';
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
@@ -53,6 +56,23 @@ const MyModal = (notis: any) => {
     const add = () => {
         notis.addNoti('dsdf');
     };
+    function del(key: string) {
+        console.log('삭제');
+        notis.deleteNoti(key);
+    }
+    // useEffect(
+    //     function () {
+    //         axios({
+    //             url: `${API_URL}/notification/${userId}`,
+    //             method: 'get',
+    //         }).then(function (result) {
+    //             result.data.map((noti: any) => {
+    //                 notis.addNoti(noti.createdAt);
+    //             });
+    //         });
+    //     },
+    //     [notis.notis.notiReducer],
+    // );
     return (
         <div>
             <IconButton
@@ -103,13 +123,12 @@ const MyModal = (notis: any) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem sx={{ color: '#9ca3af', marginLeft: 2 }}> Notifications</MenuItem>
-                <button onClick={add}>추가</button>
                 <Divider sx={{ color: '#334155' }} />
                 <Stack sx={{ width: '100%' }}>
                     {notis.notis.notiReducer.map((noti: any) => (
                         <MenuItem
                             key={noti.createdAt}
-                            sx={{
+                            style={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 borderBottom: 1,
@@ -119,7 +138,7 @@ const MyModal = (notis: any) => {
                                 backgroundColor: '#f1f5f9',
                             }}
                         >
-                            <Typography sx={{ marginRight: 20 }}>{noti.text}</Typography>
+                            <Typography sx={{ marginRight: 15 }}>{noti.text}</Typography>
                             <Typography ml={22}>{elapsedTime(noti.createdAt)}</Typography>
                         </MenuItem>
                     ))}
@@ -135,7 +154,7 @@ function mapStateToProps(state: any, ownProps: any) {
 function mapDispatchToProps(dispatch: any, ownProps: any) {
     return {
         addNoti: (text: any) => dispatch(addNoti(text)),
-        deletNoti: (id: any) => dispatch(deleteNoti(id)),
+        deleteNoti: (id: any) => dispatch(deleteNoti(id)),
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyModal);
