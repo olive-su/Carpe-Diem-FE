@@ -30,6 +30,7 @@ import config from '../../config';
 import { Link } from 'react-router-dom';
 //import IndeterminateCheckbox from './Checkbox';
 import axios from 'axios';
+import { Height } from '@mui/icons-material';
 
 // import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
@@ -243,7 +244,7 @@ const handleClickc = () => {
                         </Box>
                     </Container>
                 </Box>
-                <Container sx={{ width: '1000px', height: '1000px', py: 2 }}>
+                <Container sx={{ width: '1000px', height: 'auto', py: 2 }}>
                     {/* End hero unit */}
                     <Grid container spacing={4}>
                         {cards.map((card: any) => (

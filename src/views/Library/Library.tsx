@@ -50,7 +50,7 @@ const Library = () => {
                     </Box>
                 </Box>
             </ThemeProvider>
-            <Box height={1200} flex={{ xs: 1 }}>
+            <Box flex={{ xs: 1 }}>
                 <Grid container rowSpacing={0}>
                     {albums.map((album: albumData) => (
                         <Grow in={true} key={album.albumId} {...{ timeout: 500 }}>

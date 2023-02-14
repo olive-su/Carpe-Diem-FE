@@ -8,9 +8,8 @@ import '../../styles/List.css';
 import { OpacityRounded } from '@mui/icons-material';
 
 const Area = styled.div`
-    float: left;
-    top: 150px;
     width: 200px;
+    height: auto;
     padding-top: 10px;
     background-color: #e2e8f0;
 `;

@@ -8,17 +8,22 @@ import Footer from '../../../components/Footer/Footer';
 const StyleContent = styled.div`
     background-color: #f1f5f9;
     font-family: GangwonEduPowerExtraBoldA;
+    box-sizing: border-box;
     display: flex;
+    height: auto;
     margin-top: -16px;
     text-align: center;
 `;
 const VideoContent = styled.section`
     margin: auto;
+    /* overflow: hidden; */
+    display: block;
+    height: auto;
 `;
 
 export default function CamContent() {
     return (
-        <div style={{ height: '100vh' }}>
+        <div>
             <Header />
             <span>
                 <hr />

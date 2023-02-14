@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
-import AlbumSlider from '../../Album/Slider';
+import AlbumMultiPage from '../../Album/AlbumMultiPage';
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;
@@ -27,7 +27,7 @@ export default function AlbumContent() {
             <StyleContent>
                 <Sidebar />
                 <AlbumPage>
-                    <AlbumSlider />
+                    <AlbumMultiPage />
                 </AlbumPage>
             </StyleContent>
             <span>
