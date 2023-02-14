@@ -9,6 +9,7 @@ import './index.css';
 import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
+import EmotionSetData from './EmotionSetData';
 import loadUsim from '../../services/Cam/loadUsim';
 import Sparky from 'react-sparkle';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
@@ -21,7 +22,6 @@ const rotate = keyframes`
     to { transform: rotate(360deg);
     }
     `;
-
 const Rotate = styled.div`
     display: inline-block;
     animation: ${rotate} 2s linear infinite;
@@ -37,7 +37,7 @@ const OnButton = styled.button`
     padding: 0.25em 1em;
     border: 2px solid #8a1441;
     border-radius: 3px;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     &:active,
     &:hover,
     &:focus {
@@ -52,7 +52,7 @@ const OffButton = styled.button`
     margin: 1em;
     padding: 0.25em 1em;
     border: 2px solid #2679cc;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     border-radius: 3px;
     &:active,
     &:hover,
@@ -64,52 +64,27 @@ const OffButton = styled.button`
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
 let recordInfo: types.RecordInfo;
-const expression: types.Expression = { value: 0, label: '', time: 0 };
+const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
 const userId = 'test';
 
 // 비디오 사이즈 설정
-function WebCamPage() {
+function CameraPage(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
 
     const [camStarted, setCamStarted] = useState(true);
+    let [video, setVideo] = useState(0);
     const [modelLoaded, setModelLoaded] = useState(false);
     const [recordStarted, setRecordStarted] = useState(false);
 
     // const recordFlag = useState(true);
 
-    const [data, setData] = useState([
-        {
-            name: 'natural',
-            uv: 0,
-        },
-        {
-            name: 'Happy',
-            uv: 0,
-        },
-        {
-            name: 'Sad',
-            uv: 0,
-        },
-        {
-            name: 'Surprised',
-            uv: 0,
-        },
-        {
-            name: 'disgusted',
-            uv: 0,
-        },
-        {
-            name: 'angry',
-            uv: 0,
-        },
-        {
-            name: 'fearful',
-            uv: 0,
-        },
-    ]);
+    useEffect(() => {
+        console.log('video');
+    }, [video]);
+    const [data, setData] = useState(EmotionSetData(0));
 
     useEffect(() => {
         // 비디오
@@ -154,7 +129,6 @@ function WebCamPage() {
     const loadImage = async () => {
         // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
         const labels = [`${userId}`];
-        // const labels: any[] = await loadUsim(userId);
 
         return Promise.all(
             labels.map(async (label) => {
@@ -210,66 +184,39 @@ function WebCamPage() {
 
             canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
 
-            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.42);
+            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, constraints.model.matchValue);
 
             if (resizedDetections)
                 resizedDetections.forEach((detection, i) => {
                     const matched = resizedDetections[i];
                     const box = matched.detection.box;
-                    const showLabel = faceMatcher.findBestMatch(matched.descriptor).toString();
-                    const label = faceMatcher.findBestMatch(matched.descriptor).label;
-                    const labelColor = label === userId ? 'red' : 'blue';
-                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: `${labelColor}`, label: showLabel });
+                    // const target = faceMatcher.findBestMatch(matched.descriptor).toString();
+                    const label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
+                    // const labelColor = label === userId ? 'red' : 'blue';
+                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: 'red', label: label });
 
-                    drawBox.draw(canvas);
+                    if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
 
-                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+                    // faceapi.draw.drawFaceExpressions(canvas, resizedDetections); // 감정 수치 표시
 
                     const { neutral, ...otherDetection }: Record<string, any> = detection.expressions;
 
                     expression.value = Math.max(...Object.values(otherDetection));
                     expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value) || ''; // 현재 최대 수치 감정 종류 가져오기
+                    expression.target = label;
                     expression.time = Date.now();
 
-                    console.log(detection.expressions);
-
-                    setData([
-                        {
-                            name: 'natural',
-                            uv: detection.expressions.fearful,
-                        },
-                        {
-                            name: 'Happy',
-                            uv: detection.expressions.happy,
-                        },
-                        {
-                            name: 'Sad',
-                            uv: detection.expressions.sad,
-                        },
-                        {
-                            name: 'Surprised',
-                            uv: detection.expressions.surprised,
-                        },
-                        {
-                            name: 'disgusted',
-                            uv: detection.expressions.disgusted,
-                        },
-                        {
-                            name: 'angry',
-                            uv: detection.expressions.angry,
-                        },
-                        {
-                            name: 'fearful',
-                            uv: detection.expressions.fearful,
-                        },
-                    ]);
+                    if (expression.target === userId) {
+                        setData(EmotionSetData(detection.expressions));
+                    }
                 });
             return expression;
         };
 
         const loop = async () => {
             const expressions = await faceDetecting(expression);
-            if (!recordFlag && expressions.value > 0.96) {
+            // 새로 녹화 시작
+            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.target === userId) {
                 recordFlag = true;
                 recordInfo = {
                     userId: userId,
@@ -277,7 +224,7 @@ function WebCamPage() {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: expressions.time,
+                    maxTime: -32400000,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -285,10 +232,19 @@ function WebCamPage() {
                 setRecordStarted(true);
                 console.log('녹화 시작');
             }
-            // 감정 최대값 갱신
-            else if (recordFlag && expression.value > 0.96 && expression.label === recordInfo.label) {
-                recordInfo.maxValue = expression.value;
-                recentRecordTime = expression.time; // 최근 감정 갱신 시간
+            // 녹화 시간 연장
+            else if (
+                recordFlag &&
+                expressions.value > constraints.model.emotionValue &&
+                expressions.label === recordInfo.label &&
+                expressions.target === userId
+            ) {
+                if (recordInfo.maxValue < expressions.value) {
+                    // 최대 감정 관측 데이터 변경
+                    recordInfo.maxValue = expressions.value;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                }
+                recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }
 
             if (camStarted === true) setTimeout(loop, 0.03);
@@ -305,7 +261,10 @@ function WebCamPage() {
                 recordVideo(mediaRecorder);
             } else {
                 try {
-                    if (videoRef.current) await mediaRecorder.stop();
+                    if (videoRef.current) {
+                        mediaRecorder.stop();
+                        props.onVideoListRender(new Date());
+                    }
                     recordFlag = false;
                     recentRecordTime = 0;
                     console.log('녹화 중지');
@@ -317,11 +276,11 @@ function WebCamPage() {
         }, 10000);
     };
 
-    function handleDataAvailable(event: any) {
+    async function handleDataAvailable(event: any) {
         const recordedChunks: any[] = [];
         if (event.data.size > 0) {
             recordedChunks.push(event.data);
-            if (camStarted === true) uploadToS3Bucket(recordInfo, recordedChunks);
+            if (camStarted === true) await uploadToS3Bucket(recordInfo, recordedChunks);
             recordedChunks.pop();
         }
     }
@@ -330,6 +289,7 @@ function WebCamPage() {
         backgroundColor: 'black',
         color: 'red',
         textDecoration: 'none',
+        marginBottom: 20,
         fontWeight: 'bold',
         border: '4px solid red',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -354,6 +314,7 @@ function WebCamPage() {
         backgroundColor: 'black',
         color: 'white',
         textDecoration: 'none',
+        marginBottom: 20,
         fontWeight: 'bold',
         border: '2px solid grey',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -367,8 +328,6 @@ function WebCamPage() {
         <>
             <div>
                 {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
-                <h2>Recording My DAY</h2>
-
                 <div
                     ref={wrapRef}
                     id="wrap"
@@ -398,4 +357,4 @@ function WebCamPage() {
     );
 }
 
-export default WebCamPage;
+export default CameraPage;

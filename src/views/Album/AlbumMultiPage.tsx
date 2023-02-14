@@ -21,7 +21,7 @@ export default class AlbumMultiPage extends Component {
         };
         return (
             <div style={{ width: '80vw', height: '100vh' }}>
-                <h2> Single Album Page</h2>
+                <h2> My Album</h2>
                 <Slider {...settings}>
                     <div>
                         <h3>1</h3>

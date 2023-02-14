@@ -7,7 +7,7 @@ import Page from '../../Page/Page';
 
 const StyleContent = styled.div`
     background-color: #fff;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     display: flex;
     margin-top: -16px;
     text-align: center;

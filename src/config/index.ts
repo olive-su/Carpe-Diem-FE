@@ -6,5 +6,5 @@ export default {
     aws: {
         bucket_name: process.env.REACT_APP_BASIC_AWS_BUCKET_NAME,
         region: process.env.REACT_APP_BASIC_AWS_REGION,
-    }
+    },
 };

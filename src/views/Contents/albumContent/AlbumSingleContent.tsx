@@ -7,7 +7,7 @@ import AlbumSinglePage from '../../Album/AlbumSinglePage';
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     display: flex;
     margin-top: -16px;
     text-align: center;

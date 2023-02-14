@@ -7,7 +7,7 @@ import Footer from '../../../components/Footer/Footer';
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     box-sizing: border-box;
     display: flex;
     height: auto;
