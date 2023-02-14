@@ -11,10 +11,12 @@ const StyleContent = styled.div`
     display: flex;
     margin-top: -16px;
     text-align: center;
+    height: auto;
 `;
 
 const AlbumPage = styled.div`
     margin: 20px auto;
+    height: auto;
 `;
 
 export default function AlbumContent() {
