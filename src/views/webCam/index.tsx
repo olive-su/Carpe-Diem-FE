@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
 import InteractiveCard from '../Card/InteractiveCard';
 import axios from 'axios';
+import Emotion from './Emotion';
 
 import './index.css';
 import config from '../../config';
@@ -18,7 +19,7 @@ const rotate = keyframes`
   from {
       transform: rotate(0deg);
     }
-    
+
     to { transform: rotate(360deg);
     }
     `;
@@ -70,41 +71,74 @@ const expression: types.Expression = { value: 0, label: '', time: 0 };
 const userId = 'test';
 
 // 비디오 사이즈 설정
-function WebCamPage() {
+function WebCamPage(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
 
     const [camStarted, setCamStarted] = useState(true);
-    const [video, setVideo] = useState(0);
+    let [video, setVideo] = useState(0);
     const [modelLoaded, setModelLoaded] = useState(false);
     const [videoList, setVideoList] = useState<any[]>([]);
 
-    console.log('홋시 뭐?');
-    console.log('v3', videoList);
+    // console.log('홋시 뭐?');
+    // console.log('v3', videoList);
     // setTimeout(() => setVideo(video + 1), 10000);
     useEffect(() => {
-        async function fetchData(): Promise<any> {
-            const result = await axios({
-                url: `http://${config.server.host}:${config.server.port}/camera/${userId}`,
-                method: 'get',
-            });
-            return result;
-        }
-        fetchData()
-            .then((result) => {
-                console.log('v1', videoList);
-                setVideoList(new Array(result.data));
+        // async function fetchData(): Promise<any> {
+        //     const result = await axios({
+        //         url: `http://${config.server.host}:${config.server.port}/camera/${userId}`,
+        //         method: 'get',
+        //     });
+        //     return result;
+        // }
+        // fetchData()
+        //     .then((result) => {
+        //         // console.log('v1', videoList);
+        //         setVideoList(new Array(result.data));
 
-                console.log('v2', videoList);
-                // console.log(r);
-                console.log(result.data);
-                console.log('최근 24시간 내 저장된 영상 데이터 로드 성공');
-            })
-            .catch((err) => {
-                console.log(err);
-                console.log('최근 24시간 내 저장된 영상 데이터 로드 실패');
-            });
-    }, [video, videoList]);
+        //         // console.log('v2', videoList);
+        //         // console.log(r);
+        //         // console.log(result.data);
+        //         // console.log('최근 24시간 내 저장된 영상 데이터 로드 성공');
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         console.log('최근 24시간 내 저장된 영상 데이터 로드 실패');
+        //     });
+        console.log('video');
+        props.onVideoListRender(new Date());
+    }, [video]);
+    const [data, setData] = useState([
+        {
+            name: 'natural',
+            uv: 0,
+        },
+        {
+            name: 'Happy',
+            uv: 0,
+        },
+        {
+            name: 'Sad',
+            uv: 0,
+        },
+        {
+            name: 'Surprised',
+            uv: 0,
+        },
+        {
+            name: 'disgusted',
+            uv: 0,
+        },
+        {
+            name: 'angry',
+            uv: 0,
+        },
+        {
+            name: 'fearful',
+            uv: 0,
+        },
+    ]);
+
     useEffect(() => {
         // 비디오
         navigator.mediaDevices
@@ -224,6 +258,39 @@ function WebCamPage() {
                     expression.value = Math.max(...Object.values(otherDetection));
                     expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value) || ''; // 현재 최대 수치 감정 종류 가져오기
                     expression.time = Date.now();
+
+                    // console.log(detection.expressions);
+
+                    setData([
+                        {
+                            name: 'natural',
+                            uv: detection.expressions.fearful,
+                        },
+                        {
+                            name: 'Happy',
+                            uv: detection.expressions.happy,
+                        },
+                        {
+                            name: 'Sad',
+                            uv: detection.expressions.sad,
+                        },
+                        {
+                            name: 'Surprised',
+                            uv: detection.expressions.surprised,
+                        },
+                        {
+                            name: 'disgusted',
+                            uv: detection.expressions.disgusted,
+                        },
+                        {
+                            name: 'angry',
+                            uv: detection.expressions.angry,
+                        },
+                        {
+                            name: 'fearful',
+                            uv: detection.expressions.fearful,
+                        },
+                    ]);
                 });
             return expression;
         };
@@ -248,7 +315,7 @@ function WebCamPage() {
             // 감정 최대값 갱신
             else if (recordFlag && expression.value > 0.96 && expression.label === recordInfo.label) {
                 recordInfo.maxValue = expression.value;
-                recordInfo.maxTime = expressions.time - recordInfo.startTime;
+                recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
                 recentRecordTime = expression.time; // 최근 감정 갱신 시간
             }
 
@@ -266,10 +333,12 @@ function WebCamPage() {
                 recordVideo(mediaRecorder);
             } else {
                 try {
-                    if (videoRef.current) await mediaRecorder.stop();
+                    if (videoRef.current) {
+                        mediaRecorder.stop();
+                        setVideo(video + 1);
+                    }
                     recordFlag = false;
                     recentRecordTime = 0;
-                    setVideo(video + 1);
                     console.log('녹화 중지');
                 } catch (err) {
                     console.log(err);
@@ -288,40 +357,44 @@ function WebCamPage() {
     }
 
     return (
-        <div>
+        <>
             <h2>Recording My DAY</h2>
-
-            <div
-                ref={wrapRef}
-                id="wrap"
-                style={{
-                    borderStyle: 'none',
-                    width: constraints.video.width,
-                    height: constraints.video.height,
-                }}
-            >
+            <div>
+                <div
+                    ref={wrapRef}
+                    id="wrap"
+                    style={{
+                        borderStyle: 'none',
+                        width: constraints.video.width,
+                        height: constraints.video.height,
+                    }}
+                >
+                    <div>
+                        {camStarted ? (
+                            <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
+                        ) : (
+                            <Rotate>
+                                <TbLoader size="50" style={{ padding: 0 }} />
+                            </Rotate>
+                        )}
+                    </div>
+                </div>
                 <div>
-                    {camStarted ? (
-                        <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
-                    ) : (
-                        <Rotate>
-                            <TbLoader size="50" style={{ padding: 0 }} />
-                        </Rotate>
-                    )}
+                    <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
                 </div>
             </div>
-            <div>
-                <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
-            </div>
-            <h2>최근 24시간 내에 저장된 영상</h2>
-            <div>
-                {videoList[0]?.map((videos: any) => (
-                    <InteractiveCard properties={videos} />
-                    // <div>{videos.cardId}</div>
-                ))}
-            </div>
-        </div>
+            <Emotion data={data} />
+            {/* <div>
+                    <h2>최근 24시간 내에 저장된 영상</h2>
+                    <div>
+                        {videoList[0]?.map((videos: any) => (
+                            <InteractiveCard properties={videos} />
+                            // <div>{videos.cardId}</div>
+                        ))}
+                    </div>
+                </div> */}
+        </>
     );
 }
 

@@ -4,18 +4,37 @@ import Link from '@mui/joy/Link';
 import Card from '@mui/joy/Card';
 import Chip from '@mui/joy/Chip';
 import Typography from '@mui/joy/Typography';
+import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import duration, { Duration } from 'dayjs/plugin/duration';
+import timezone from 'dayjs/plugin/timezone';
 
 import config from '../../config';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(duration);
+
+const getTimeDiff = (timeToCompare: Dayjs): string => {
+    const timeDiffDuration: Duration = dayjs.duration(dayjs().diff(timeToCompare));
+    const hourDiff: number = parseInt(timeDiffDuration.format('H'));
+    const minuteDiff: number = parseInt(timeDiffDuration.format('m'));
+    const secondDiff: number = parseInt(timeDiffDuration.format('s'));
+
+    const hourDiffString: string = hourDiff === 0 ? '' : `${hourDiff}시간 `;
+    const minuteDiffString: string = minuteDiff === 0 ? '' : `${minuteDiff}분 `;
+
+    return `${hourDiffString}${minuteDiffString}${secondDiff}초 전`;
+};
 
 export default function InteractiveCard(properties: any) {
-    console.log('properties', properties);
+    // console.log('properties', properties);
     const videoList = properties;
     return (
         <Card
             variant="outlined"
             orientation="horizontal"
             sx={{
-                width: 800,
+                width: 400,
                 gap: 2,
                 my: 2,
                 '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
@@ -34,7 +53,7 @@ export default function InteractiveCard(properties: any) {
                 </Typography>
                 <Typography fontSize="sm" aria-describedby="card-description" mb={1}>
                     <Link overlay underline="none" href="#interactive-card" sx={{ color: 'text.tertiary' }}>
-                        {videoList.properties.createdAt}
+                        {getTimeDiff(dayjs(videoList.properties.createdAt))}
                     </Link>
                 </Typography>
                 <Chip variant="outlined" color="primary" size="sm" sx={{ pointerEvents: 'none' }}>
