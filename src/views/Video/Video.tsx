@@ -26,8 +26,11 @@ import { cardData } from '../../types/type';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import config from '../../config';
+import { Link } from 'react-router-dom';
 //import IndeterminateCheckbox from './Checkbox';
 import axios from 'axios';
+
 // import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
 
@@ -57,14 +60,15 @@ const Album = () => {
     const [cards, setCards] = useState<any[]>([]);
     React.useEffect(function () {
         axios({
-            url: `${API_URL}/card/${userId}`,
             method: 'get',
+            url: `${API_URL}/card/${userId}`,
         })
             .then(function (result) {
                 setCards(result.data);
                 allCard = result.data;
             })
             .catch(function (error) {
+                console.log(`${API_URL}/card/${userId}`);
                 console.error('card 에러발생: ', error);
             });
     }, []);
@@ -244,58 +248,62 @@ const handleClickc = () => {
                     <Grid container spacing={4}>
                         {cards.map((card: any) => (
                             <Grid item key={card.cardId} xs={6} sm={4} md={3}>
-                                <Card
-                                    sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '12px' }}
-                                    onMouseOver={() => {
-                                        const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
+                                <Link to={`/video/${card.cardId}`}>
+                                    <Card
+                                        sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '12px' }}
+                                        onMouseOver={() => {
+                                            const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
 
-                                        const playPromise = hz.play();
-                                        if (playPromise !== undefined) {
-                                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                            playPromise.then((_: any) => {}).catch((error: any) => {});
-                                        }
-                                    }}
-                                    onMouseOut={() => {
-                                        const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
-                                        hz.load();
-                                    }}
-                                >
-                                    <CardCover
-                                    // sx={{
-                                    //     background:
-                                    //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                                    // }}
+                                            const playPromise = hz.play();
+                                            if (playPromise !== undefined) {
+                                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                                playPromise.then((_: any) => {}).catch((error: any) => {});
+                                            }
+                                        }}
+                                        onMouseOut={() => {
+                                            const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
+                                            hz.load();
+                                        }}
                                     >
-                                        {/* <video id={String(card)} loop poster="https://source.unsplash.com/random">
+                                        <CardCover
+                                        // sx={{
+                                        //     background:
+                                        //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
+                                        // }}
+                                        >
+                                            {/* <video id={String(card)} loop poster="https://source.unsplash.com/random">
                                             <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4" />
                                         </video> */}
-                                        <video
-                                            id={String(card.cardId)}
-                                            loop
-                                            poster={card.thumbnailUrl ? card.thumbnailUrl : './imgs/not_found_files.png'}
-                                        >
-                                            <source src={card.videoUrl} type="video/webm" />
-                                        </video>
-                                    </CardCover>
-                                    <CardCover
-                                        sx={{
-                                            background:
-                                                'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 100px), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 200px)',
-                                        }}
-                                    />
-                                    <CardMedia
-                                        component="img"
-                                        sx={{
-                                            // 16:9
-                                            width: '120',
-                                            height: '250px',
-                                            objectFit: 'fill',
-                                        }}
-                                        image="./imgs/not_found_files.jpg"
-                                        alt="img"
-                                    />
+                                            <video
+                                                id={String(card.cardId)}
+                                                loop
+                                                poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
+                                            >
+                                                <source
+                                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.videoUrl}`}
+                                                    type="video/webm"
+                                                />
+                                            </video>
+                                        </CardCover>
+                                        <CardCover
+                                            sx={{
+                                                background:
+                                                    'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 100px), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 200px)',
+                                            }}
+                                        />
+                                        <CardMedia
+                                            component="img"
+                                            sx={{
+                                                // 16:9
+                                                width: '120',
+                                                height: '250px',
+                                                objectFit: 'fill',
+                                            }}
+                                            image="./imgs/not_found_files.jpg"
+                                            alt="img"
+                                        />
 
-                                    {/* <CardMedia
+                                        {/* <CardMedia
                                             component="img"
                                             sx={{
                                                 // 16:9
@@ -305,36 +313,37 @@ const handleClickc = () => {
                                             }}
                                             alt="random"
                                         /> */}
-                                    {/* <h2>Heading</h2>
+                                        {/* <h2>Heading</h2>
                                     <div>This is a media card. You can use this section to describe the content.</div> */}
-                                    <Box
-                                        sx={{
-                                            bottom: '0%',
-                                            width: '100%',
-                                            textAlign: 'center',
-                                            position: 'absolute',
-                                            color: 'white',
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            {/* <Typography mt={5} ml={2} fontSize={10} color="#d1d5db">
+                                        <Box
+                                            sx={{
+                                                bottom: '0%',
+                                                width: '100%',
+                                                textAlign: 'center',
+                                                position: 'absolute',
+                                                color: 'white',
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                {/* <Typography mt={5} ml={2} fontSize={10} color="#d1d5db">
                                                 2023.02.07
                                             </Typography> */}
-                                            <Typography mt={5} ml={1} fontSize={10} color="#d1d5db">
-                                                {dayjs(card.createdAt).tz('utc').format('YYYY.MM.DD HH:mm:ss')}
-                                            </Typography>
-                                            <Typography mr={0} mt={2} variant="h5" component="h2">
-                                                {card.expressionLabel}
-                                            </Typography>
-                                        </Box>
-                                        {/* <Typography noWrap={true} color="#e5e7eb" mb={2} ml={2} mr={2}>
+                                                <Typography mt={5} ml={1} fontSize={10} color="#d1d5db">
+                                                    {dayjs(card.createdAt).tz('utc').format('YYYY.MM.DD HH:mm:ss')}
+                                                </Typography>
+                                                <Typography mr={1} mt={2} variant="h6" component="h2">
+                                                    {card.expressionLabel}
+                                                </Typography>
+                                            </Box>
+                                            {/* <Typography noWrap={true} color="#e5e7eb" mb={2} ml={2} mr={2}>
                                             This is a media card. You can use this section to describe the content.
                                         </Typography> */}
-                                        <Typography noWrap={true} color="#e5e7eb" mb={2} ml={2} mr={2}>
-                                            {card.comment}
-                                        </Typography>
-                                    </Box>
-                                </Card>
+                                            <Typography noWrap={true} color="#e5e7eb" mb={2} ml={2} mr={2}>
+                                                {card.comment}
+                                            </Typography>
+                                        </Box>
+                                    </Card>
+                                </Link>
                             </Grid>
                         ))}
                     </Grid>
