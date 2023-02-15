@@ -76,15 +76,15 @@ const Album = () => {
     const [option, setOption] = React.useState('Newest');
     const [checked, setChecked] = React.useState([true, true, true, true, true, true]);
     if (option == 'Newest') {
-        cards.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt)));
+        cards.sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)));
     }
 
     const handleChange = (event: any) => {
         setOption(event.target.value);
-        if (option == 'Newest') {
-            cards.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt)));
-        } else {
+        if (option == 'Oldest') {
             cards.sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)));
+        } else {
+            cards.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt)));
         }
     };
     const handleChange1 = (event: any) => {
@@ -278,7 +278,6 @@ const handleClickc = () => {
                                             <video
                                                 id={String(card.cardId)}
                                                 loop
-                                                muted
                                                 poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
                                             >
                                                 <source
