@@ -36,7 +36,7 @@ import { Height } from '@mui/icons-material';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const API_URL = 'http://localhost:4000';
+const API_URL = `http://${config.server.host}:${config.server.port}`;
 const theme = createTheme({
     typography: {
         fontFamily: "'IBMPlexSansKR-Regular'",

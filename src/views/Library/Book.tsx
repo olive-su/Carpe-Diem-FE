@@ -40,7 +40,7 @@ const style = {
     p: 4,
 };
 const userId = 'test';
-const API_URL = 'http://localhost:4000';
+const API_URL = `http://${config.server.host}:${config.server.port}`;
 const Book = (props: any) => {
     const [text, setText] = useState(props.album.title);
     const [editable, setEditable] = useState(false);

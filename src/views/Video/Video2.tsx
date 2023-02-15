@@ -24,8 +24,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
 import '../../styles/App.css';
+import config from '../../config';
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const API_URL = 'http://localhost:4000';
+const API_URL = `http://${config.server.host}:${config.server.port}`;
 const theme = createTheme();
 const userId = 'test';
 

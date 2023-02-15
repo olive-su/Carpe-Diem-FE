@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
 import { addNoti, deleteNoti } from '../../reducer/notiReducer';
 import axios from 'axios';
+import config from '../../config';
 
 function elapsedTime(date: any) {
     const start: any = new Date(date);
@@ -45,7 +46,7 @@ const MyModal = (notis: any) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const API_URL = 'http://localhost:4000';
+    const API_URL = `http://${config.server.host}:${config.server.port}`;
     const userId = 'test';
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
