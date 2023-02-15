@@ -23,6 +23,8 @@ import frame from '../../assets/frame.png';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/system';
 import { Typography, Button } from '@mui/material';
+import Share from './Share';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const userId = 'test';
 
@@ -242,6 +244,23 @@ const AlbumSinglePage = () => {
                                 >
                                     <FontAwesomeIcon icon={faTrashAlt} size="lg" style={{ color: '#1d1d1d' }} />
                                 </button>
+                                <a href={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${cardAlbum.videoUrl}`} download>
+                                    <button
+                                        style={{
+                                            outline: 'none',
+                                            borderRadius: '50%',
+                                            border: '1.5px solid #221718',
+                                            boxShadow: '3px 3px 1px gray',
+                                            borderColor: 'black',
+                                            backgroundColor: 'white',
+                                            color: 'black',
+                                            margin: '10px',
+                                        }}
+                                    >
+                                        <DownloadIcon />
+                                    </button>
+                                </a>
+                                <Share img={cardAlbum.thumbnailUrl} comment={cardAlbum.comment} />
                                 <Modal
                                     open={open}
                                     onClose={handleClose}
