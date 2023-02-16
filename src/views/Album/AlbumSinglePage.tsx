@@ -170,6 +170,7 @@ const AlbumSinglePage = () => {
             .delete(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {})
             .then(function (response) {
                 console.log(response.status);
+                window.location.replace(`http://${config.server.host}/video`);
             })
             .catch(function (error) {
                 console.log(error);

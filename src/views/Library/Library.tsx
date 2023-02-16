@@ -24,7 +24,7 @@ const Library = () => {
     const [albums, setAlbums] = useState<any[]>([]);
     React.useEffect(function () {
         axios({
-            url: `${API_URL}/album/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/album/${userId}`,
             method: 'get',
         })
             .then(function (result: any) {

@@ -62,14 +62,14 @@ const Album = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `${API_URL}/card/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/card/${userId}`,
         })
             .then(function (result) {
                 setCards(result.data);
                 allCard = result.data;
             })
             .catch(function (error) {
-                console.log(`${API_URL}/card/${userId}`);
+                console.log(`http://${config.server.host}:${config.server.port}/card/${userId}`);
                 console.error('card 에러발생: ', error);
             });
     }, []);
@@ -278,6 +278,7 @@ const handleClickc = () => {
                                             <video
                                                 id={String(card.cardId)}
                                                 loop
+                                                muted
                                                 poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
                                             >
                                                 <source
