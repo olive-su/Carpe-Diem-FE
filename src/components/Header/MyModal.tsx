@@ -14,7 +14,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
-import { addNoti, deleteNoti } from '../../reducer/notiReducer';
+import { addNoti, deleteNoti } from '../../redux/reducer/notiReducer';
 import axios from 'axios';
 import config from '../../config';
 
@@ -126,7 +126,7 @@ const MyModal = (notis: any) => {
                 <MenuItem sx={{ color: '#9ca3af', marginLeft: 2 }}> Notifications</MenuItem>
                 <Divider sx={{ color: '#334155' }} />
                 <Stack sx={{ width: '100%' }}>
-                    {notis.notis.notiReducer.map((noti: any) => (
+                    {notis.notis.notiReducer?.map((noti: any) => (
                         <MenuItem
                             key={noti.createdAt}
                             style={{

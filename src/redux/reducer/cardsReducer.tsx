@@ -1,5 +1,5 @@
 import { createReducer, createAction, combineReducers } from '@reduxjs/toolkit';
-import { cardData } from '../types/type';
+import { cardData } from '../../types/type';
 
 export const setCard: any = createAction('SET');
 export const filterOn: any = createAction('ON');
