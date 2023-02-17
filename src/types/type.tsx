@@ -10,7 +10,7 @@ export interface cardData {
     videoUrl: string;
 }
 
-export interface albumData{
+export interface albumData {
     albumId: number;
     cardId: cardData[];
     createdAt: string;
@@ -18,4 +18,9 @@ export interface albumData{
     updatedAt: string;
     userId: string;
     title: string;
+}
+
+export interface Notification {
+    id: string;
+    message: string;
 }

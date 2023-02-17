@@ -1,6 +1,8 @@
-import { createStore } from 'redux';
-import cardsReducer from '../reducer/cardsReducer';
-import notiReducer from '../reducer/notiReducer';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+
+import cardsReducer from '../reducers/cardsReducer';
+import notiReducer from '../reducers/notiReducer';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
@@ -8,6 +10,9 @@ const rootReducer = combineReducers({
     notiReducer,
 });
 
-const store = createStore(rootReducer);
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+//sagaMiddleware.run(rootSaga);
 
 export default store;

@@ -278,6 +278,7 @@ const handleClickc = () => {
                                             <video
                                                 id={String(card.cardId)}
                                                 loop
+                                                muted
                                                 poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
                                             >
                                                 <source

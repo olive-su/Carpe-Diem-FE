@@ -22,7 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IndeterminateCheckbox from './Checkbox';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
+import { setCard, filterOn, filterOut } from '../../reducers/cardsReducer';
 import '../../styles/App.css';
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const API_URL = 'http://localhost:4000';

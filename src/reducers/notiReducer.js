@@ -1,0 +1,48 @@
+import { createReducer, createAction, combineReducers } from '@reduxjs/toolkit';
+
+const ADD_NOTI = 'ADD_NOTI';
+const DELETE_NOTI = 'DELETE_NOTI';
+
+export const addNoti = (message) => ({ type: ADD_NOTI, message });
+export const deleteNoti = (id) => ({ type: DELETE_NOTI, id });
+
+const saveNotifications = (notifications) => {
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+};
+const loadNotifications = () => {
+    const notifications = localStorage.getItem('notifications');
+    return notifications ? JSON.parse(notifications) : [];
+};
+const initialState = {
+    notifications: loadNotifications(),
+};
+
+const notiReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case ADD_NOTI:
+            // eslint-disable-next-line no-case-declarations
+            if (state.notifications.length >= 6) {
+                state.notifications.shift();
+                console.log('삭제', state.notifications);
+            }
+            // eslint-disable-next-line no-case-declarations
+            const newNoti = { id: Date.now(), message: action.message };
+            saveNotifications([...state.notifications, newNoti]);
+            return {
+                ...state,
+                notifications: [...state.notifications, newNoti],
+            };
+        case DELETE_NOTI:
+            // eslint-disable-next-line no-case-declarations
+            const newNotifications = state.notifications.filter((notification) => notification.id !== action.id);
+            saveNotifications(newNotifications);
+            return {
+                ...state,
+                notifications: newNotifications,
+            };
+        default:
+            return state;
+    }
+};
+
+export default notiReducer;
