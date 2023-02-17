@@ -122,7 +122,7 @@ const AlbumSinglePage = () => {
             cardAlbum.comment = text;
 
             axios
-                .put(`http://localhost:4000/card/${userId}/${cardId}`, {
+                .put(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {
                     // card_id: cardAlbum.cardId,
                     // user_id: cardAlbum.userId,
                     album_id: cardAlbum.albumId,
@@ -153,7 +153,7 @@ const AlbumSinglePage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://localhost:4000/card/${userId}/${cardId}`,
+            url: `http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`,
         })
             .then(function (result) {
                 setCardAlbum(result.data);
@@ -167,10 +167,10 @@ const AlbumSinglePage = () => {
     // delete
     const onClickDelete = () => {
         axios
-            .delete(`http://localhost:4000/card/${userId}/${cardId}`, {})
+            .delete(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {})
             .then(function (response) {
                 console.log(response.status);
-                window.location.replace(`http://localhost:3000/video`);
+                window.location.replace(`http://${config.server.host}/video`);
             })
             .catch(function (error) {
                 console.log(error);

@@ -9,6 +9,7 @@ import Book from './Book';
 import Grow from '@mui/material/Grow';
 import { albumData } from '../../types/type';
 import axios from 'axios';
+import config from '../../config';
 
 const theme = createTheme({
     typography: {
@@ -16,14 +17,14 @@ const theme = createTheme({
     },
 });
 const userId = 'test';
-const API_URL = 'http://localhost:4000';
+const API_URL = `http://${config.server.host}:${config.server.port}`;
 
 const albums: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const Library = () => {
     const [albums, setAlbums] = useState<any[]>([]);
     React.useEffect(function () {
         axios({
-            url: `${API_URL}/album/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/album/${userId}`,
             method: 'get',
         })
             .then(function (result: any) {

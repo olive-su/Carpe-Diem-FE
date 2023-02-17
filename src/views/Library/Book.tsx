@@ -40,7 +40,7 @@ const style = {
     p: 4,
 };
 const userId = 'test';
-const API_URL = 'http://localhost:4000';
+// const API_URL = ``;
 const Book = (props: any) => {
     const [text, setText] = useState(props.album.title);
     const [editable, setEditable] = useState(false);
@@ -49,7 +49,7 @@ const Book = (props: any) => {
     const handleClose = () => setOpen(false);
     const sendEdit = () => {
         axios
-            .put(`${API_URL}/album/${props.album.userId}/${props.album.albumId}`, {
+            .put(`http://${config.server.host}:${config.server.port}/album/${props.album.userId}/${props.album.albumId}`, {
                 card_id: props.album.cardId,
                 cover_img_url: props.album.coverImgUrl,
                 title: text,
@@ -75,7 +75,7 @@ const Book = (props: any) => {
     };
     const onClickDelete = () => {
         axios
-            .delete(`${API_URL}/album/${userId}/${props.album.albumId}`, {
+            .delete(`http://${config.server.host}:${config.server.port}/album/${userId}/${props.album.albumId}`, {
                 data: {},
             })
             .then(function (response: any) {

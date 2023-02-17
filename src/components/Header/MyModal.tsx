@@ -13,9 +13,8 @@ import Divider from '@mui/material/Divider';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Notification } from '../../types/type';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { addNoti, deleteNoti } from '../../reducers/notiReducer';
+import { connect } from 'react-redux';
+import { addNoti, deleteNoti } from '../../reducer/notiReducer';
 
 function elapsedTime(date: any) {
     const start: any = new Date(date);

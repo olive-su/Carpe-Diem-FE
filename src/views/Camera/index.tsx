@@ -216,7 +216,7 @@ function CameraPage(props: any) {
         const loop = async () => {
             const expressions = await faceDetecting(expression);
             // 새로 녹화 시작
-            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.target === userId) {
+            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy' && expressions.target === userId) {
                 recordFlag = true;
                 recordInfo = {
                     userId: userId,

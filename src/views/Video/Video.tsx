@@ -36,7 +36,7 @@ import { Height } from '@mui/icons-material';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const API_URL = 'http://localhost:4000';
+const API_URL = `http://${config.server.host}:${config.server.port}`;
 const theme = createTheme({
     typography: {
         fontFamily: "'IBMPlexSansKR-Regular'",
@@ -62,14 +62,14 @@ const Album = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `${API_URL}/card/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/card/${userId}`,
         })
             .then(function (result) {
                 setCards(result.data);
                 allCard = result.data;
             })
             .catch(function (error) {
-                console.log(`${API_URL}/card/${userId}`);
+                console.log(`http://${config.server.host}:${config.server.port}/card/${userId}`);
                 console.error('card 에러발생: ', error);
             });
     }, []);
