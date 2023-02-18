@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -18,15 +19,15 @@ const theme = createTheme({
         fontFamily: "'IBMPlexSansKR-Regular'",
     },
 });
+
 const userId = 'test';
 const API_URL = `http://${config.server.host}:${config.server.port}`;
-
-const albums: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const albums: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const Library = () => {
     const dispatch = useDispatch();
-    const { albumList, albumRequest } = useSelector((state: any) => state.album);
+    const { albumList } = useSelector((state: any) => state.albumList);
 
-    const [albums, setAlbums] = useState<any[]>([]);
+    // const [albums, setAlbums] = useState<any[]>([]);
     useEffect(() => {
         dispatch({
             type: ALBUM_LIST_LOADING_REQUEST,
@@ -55,7 +56,9 @@ const Library = () => {
                     {albumList?.map((data: albumData, idx: any) => (
                         <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>
                             <Grid item xs={6} sm={4} md={3}>
-                                <Book album={data} />
+                                <Link to={`/album/${data.albumId}`}>
+                                    <Book album={data} />
+                                </Link>
                             </Grid>
                         </Grow>
                     ))}

@@ -1,7 +1,11 @@
 import React, { Component, useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { ALBUM_LOADING_REQUEST } from '../../redux/types';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import AlbumCarousel from './AlbumCarousel';
 import axios from 'axios';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
@@ -10,46 +14,101 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
 import SickIcon from '@mui/icons-material/Sick';
 
-export default class AlbumMultiPage extends Component {
-    render() {
-        const settings = {
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-        };
-        return (
-            <div style={{ width: '80vw', height: '100vh' }}>
-                <h2> My Album</h2>
-                <Slider {...settings}>
-                    <div>
-                        <h3>1</h3>
-                        <div>
-                            <img src="./images/frame.png" height="500px" style={{ overflow: 'hideen', width: '100%', position: 'absolute' }}></img>
-                            <video controls loop src="{cardAlbum.videoUrl}" width="600px" height="460px"></video>
-                        </div>
-                    </div>
-                    <div>
-                        <h3>2</h3>
-                    </div>
-                    <div>
-                        <h3>3</h3>
-                    </div>
-                    <div>
-                        <h3>4</h3>
-                    </div>
-                    <div>
-                        <h3>5</h3>
-                    </div>
-                    <div>
-                        <h3>6</h3>
-                    </div>
-                </Slider>
-            </div>
-        );
-    }
-}
+const albumMultiPage = () => {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
+    const dispatch = useDispatch();
+    const { albumId } = useParams();
+    const { album } = useSelector((state: any) => state.album);
+
+    useEffect(() => {
+        dispatch({
+            type: ALBUM_LOADING_REQUEST,
+            payload: albumId,
+        });
+    }, [dispatch]);
+
+    return (
+        <div style={{ width: '80vw', height: '100vh' }}>
+            <h2> My Album</h2>
+            <Slider {...settings}>
+                {album.cardId?.map((cardId: any) => (
+                    <AlbumCarousel key={cardId} cardInfo={cardId} />
+                ))}
+            </Slider>
+        </div>
+    );
+};
+
+export default albumMultiPage;
+// export default class AlbumMultiPage extends Component {
+//     render() {
+//         const settings = {
+//             dots: true,
+//             infinite: true,
+//             speed: 500,
+//             slidesToShow: 1,
+//             slidesToScroll: 1,
+//         };
+//         // console.log(albumId);
+//         // const dispatch = useDispatch();
+//         // const { albumId } = useSe;
+//         // const { album } = useSelector((state: any) => state.album);
+
+//         // useEffect(() => {
+//         //     dispatch({
+//         //         type: album_LOADING_REQUEST,
+//         //     });
+//         // }, [dispatch]);
+
+//         return (
+//             <div style={{ width: '80vw', height: '100vh' }}>
+//                 <h2> My Album</h2>
+//                 <Slider {...settings}>
+//                     {/* {album?.map((data: albumData, idx: any) => (
+//                         <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>
+//                         <Grid item xs={6} sm={4} md={3}>
+//                         <Link to={`/album/${data.albumId}`}>
+//                         <Book album={data} />
+//                         </Link>
+//                         </Grid>
+//                         </Grow>
+
+//                     ))} */}
+//                     <div>
+//                         <h3>1</h3>
+//                         <div>
+//                             {/* {console.log(album)} */}
+//                             {/* <h1>{album}</h1> */}
+//                             <img src="./images/frame.png" height="500px" style={{ overflow: 'hideen', width: '100%', position: 'absolute' }}></img>
+//                             <video controls loop src="{cardAlbum.videoUrl}" width="600px" height="460px"></video>
+//                         </div>
+//                     </div>
+//                     <div>
+//                         <h3>2</h3>
+//                     </div>
+//                     <div>
+//                         <h3>3</h3>
+//                     </div>
+//                     <div>
+//                         <h3>4</h3>
+//                     </div>
+//                     <div>
+//                         <h3>5</h3>
+//                     </div>
+//                     <div>
+//                         <h3>6</h3>
+//                     </div>
+//                 </Slider>
+//             </div>
+//         );
+//     }
+// }
 
 // const userId = 'test';
 // const cardId = 65;

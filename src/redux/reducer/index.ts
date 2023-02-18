@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux';
-import cardsReducer from './cardsReducer';
 import notiReducer from './notiReducer';
-import albumReducer from './albumReducer';
+import { albumListReducer, albumReducer } from './albumReducer';
 
 const rootReducer = combineReducers({
+    albumList: albumListReducer,
     album: albumReducer,
-    cards: cardsReducer,
     noti: notiReducer,
 });
 
