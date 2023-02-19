@@ -75,16 +75,10 @@ function CameraPage(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
 
-    const [camStarted, setCamStarted] = useState(true);
-    let [video, setVideo] = useState(0);
+    const [camStarted, setCamStarted] = useState(false);
     const [modelLoaded, setModelLoaded] = useState(false);
     const [recordStarted, setRecordStarted] = useState(false);
 
-    // const recordFlag = useState(true);
-
-    useEffect(() => {
-        console.log('video');
-    }, [video]);
     const [data, setData] = useState(EmotionSetData(0));
 
     useEffect(() => {
@@ -139,13 +133,11 @@ function CameraPage(props: any) {
                     console.log(element);
                     resultUrls.push(element.userImgUrl);
                 });
-                console.log(resultUrls);
-                console.log('이미지 로드 성공');
+                console.log('loadImage', resultUrls);
                 return resultUrls;
             })
             .catch(function (error) {
-                console.log(error);
-                console.log('이미지 로드 실패');
+                console.log('loadImage Error', error);
                 return resultUrls;
             });
 
