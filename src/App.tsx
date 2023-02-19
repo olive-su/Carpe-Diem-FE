@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
 import CamContent from './views/Contents/CamContent/CamContent';
+import OnCamera from './views/Camera/OnCamera';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
@@ -15,6 +16,7 @@ function App() {
             <Routes>
                 <Route>
                     <Route path="/" element={<CamContent />} />
+                    <Route path="/camera" element={<OnCamera />} />
                     <Route path="/video" element={<VideoContent />} />
                     <Route path="/video/:cardId" element={<AlbumSinglePage />} />
                     <Route path="/album" element={<LibraryContent />} />
