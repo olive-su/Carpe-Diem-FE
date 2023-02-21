@@ -20,8 +20,9 @@ export default (recordInfo: any, recordedChunks: any[]) => {
     formData.append('expressionData', JSON.stringify(expressionData));
 
     axios({
-        url: `http://${config.server.host}:${config.server.port}/camera/${recordInfo.userId}`,
+        url: `http://${config.server.host}:${config.server.port}/camera`,
         method: 'post',
+        withCredentials: true,
         data: formData,
         headers: {
             'Content-Type': 'multipart/form-data',
