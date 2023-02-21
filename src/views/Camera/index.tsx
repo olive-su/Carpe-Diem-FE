@@ -76,19 +76,13 @@ function CameraPage(props: any) {
     const videoRef = useRef<any>(null);
 
     const [camStarted, setCamStarted] = useState(true);
-    let [video, setVideo] = useState(0);
     const [modelLoaded, setModelLoaded] = useState(false);
     const [recordStarted, setRecordStarted] = useState(false);
 
-    // const recordFlag = useState(true);
-
-    useEffect(() => {
-        console.log('video');
-    }, [video]);
     const [data, setData] = useState(EmotionSetData(0));
 
+    // 사용자 비디오 가져오기
     useEffect(() => {
-        // 비디오
         navigator.mediaDevices
             .getUserMedia(constraints)
             .then((stream) => {
@@ -131,21 +125,20 @@ function CameraPage(props: any) {
         // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
         const resultUrls: any[] = [];
         let labels = await axios({
-            url: `http://${config.server.host}:${config.server.port}/camera/usim/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/camera/usim`,
             method: 'get',
+            withCredentials: true,
         })
             .then(function (result) {
                 result.data.forEach((element: any) => {
                     console.log(element);
                     resultUrls.push(element.userImgUrl);
                 });
-                console.log(resultUrls);
-                console.log('이미지 로드 성공');
+                console.log('loadImage', resultUrls);
                 return resultUrls;
             })
             .catch(function (error) {
-                console.log(error);
-                console.log('이미지 로드 실패');
+                console.log('loadImage Error', error);
                 return resultUrls;
             });
 
@@ -214,8 +207,8 @@ function CameraPage(props: any) {
                     // const labelColor = label === userId ? 'red' : 'blue';
                     const drawBox = new faceapi.draw.DrawBox(box, { boxColor: 'red', label: label });
 
-                    if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
-                    // drawBox.draw(canvas); // 전체 사용자 인식
+                    // if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
+                    drawBox.draw(canvas); // 전체 사용자 인식
 
                     // faceapi.draw.drawFaceExpressions(canvas, resizedDetections); // 감정 수치 표시
 
@@ -236,7 +229,9 @@ function CameraPage(props: any) {
         const loop = async () => {
             const expressions = await faceDetecting(expression);
             // 새로 녹화 시작
-            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy' && expressions.target === userId) {
+            // CHECK
+            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy') {
+                // if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy' && expressions.target === userId) {
                 recordFlag = true;
                 recordInfo = {
                     userId: userId,

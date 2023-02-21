@@ -31,8 +31,9 @@ export default function CamContent() {
     const videoRenderFlag = () => {
         async function fetchData(): Promise<any> {
             const result = await axios({
-                url: `http://${config.server.host}:${config.server.port}/camera/${userId}`,
+                url: `http://${config.server.host}:${config.server.port}/camera`,
                 method: 'get',
+                withCredentials: true,
             });
             return result;
         }
