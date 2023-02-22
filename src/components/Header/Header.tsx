@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import logotitle from './images/logotitle.png';
-import MyModal from './MyModal';
 import { Link } from 'react-router-dom';
 
 // 헤더
@@ -70,7 +69,6 @@ export default function Header() {
                 >
                     Logout
                 </NavItem>
-                <MyModal />
             </NavMenu>
         </StyleHeader>
     );

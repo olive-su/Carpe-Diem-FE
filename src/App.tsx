@@ -12,7 +12,7 @@ import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
 import Login from './views/Login/Login';
-import Parallax from './views/Main/\bParallax';
+import Parallax from './views/Main/Parallax';
 
 function App() {
     return (
