@@ -28,9 +28,18 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import config from '../../config';
 import { Link } from 'react-router-dom';
-//import IndeterminateCheckbox from './Checkbox';
 import axios from 'axios';
 import { Height } from '@mui/icons-material';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
+import { red } from '@mui/material/colors';
+import styled from 'styled-components';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
@@ -180,12 +189,19 @@ const handleClickc = () => {
                     onChange={handleChange}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
-                    sx={{ border: 1, borderColor: '#60a5fa' }}
+                    sx={{ border: 1, borderColor: '#60a5fa', backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
                 >
                     <MenuItem value={'Newest'}>Newest</MenuItem>
                     <MenuItem value={'Oldest'}>Oldest</MenuItem>
                 </Select>
             </FormControl>
+            <FormControlLabel
+                label="ALL"
+                control={
+                    <Checkbox checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]} onChange={handleChange1} />
+                }
+                sx={{ mt: 3, ml: 3, paddingRight: '20px', border: '1px solid lightgrey', borderRadius: '2px' }}
+            />
             <ToggleButton value="check" selected={checked[0]} onChange={handleChange2}>
                 <InsertEmoticonIcon /> Happy
             </ToggleButton>
@@ -210,11 +226,44 @@ const handleClickc = () => {
             </ToggleButton>
         </Stack>
     );
+    const [checkedListAlbum, setCheckedListAlbum]: any = useState([]);
+    // 체크시 데이터 저장, 체크 해제시 데이터 삭제
+    const onCheckedElement = (checked: boolean, item: number) => {
+        if (checked) {
+            setCheckedListAlbum([...checkedListAlbum, item]);
+        } else if (!checked) {
+            onRemoveChecked(item);
+        }
+    };
+
+    console.log('cardId는 ', checkedListAlbum);
+    console.log(`${checkedListAlbum.length}개 선택`);
+
+    // 체크 해제 데이터 삭제
+    const onRemoveChecked = (item: any) => {
+        setCheckedListAlbum(checkedListAlbum.filter((el: any) => el !== item));
+    };
+
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+    const CheckboxStyle = styled.div`
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    `;
+
+    const [titleInput, setTitleInput]: any = useState('');
+
+    const onKeyPress = (e: any) => {
+        if (e.key == 'Enter') {
+            alert('title이 저장되었습니다.');
+        }
+    };
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <main style={{ fontFamily: 'IBM Plex Sans KR' }}>
+            <main style={{ fontFamily: 'IBMPlexSansKR-Regular' }}>
                 {/* Hero unit */}
                 <Box
                     sx={{
@@ -231,18 +280,86 @@ const handleClickc = () => {
                             too short so folks don&apos;t simply skip over it entirely.
                         </Typography> */}
                         <Box>
-                            <FormControlLabel
-                                label="전체선택"
-                                control={
-                                    <Checkbox
-                                        checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]}
-                                        onChange={handleChange1}
-                                    />
-                                }
-                                sx={{ mt: 3, ml: 3 }}
-                            />
-                            {children}
+                            <Accordion style={{ backgroundColor: '#F1F5F9' }}>
+                                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                                    <Typography>앨범에 추가할 비디오 확인하기</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        {checkedListAlbum.length === 0 && <div style={{ color: 'grey' }}>{'선택한 비디오가 없습니다'}</div>}
+                                        {checkedListAlbum.map((list: any) => {
+                                            return (
+                                                <div key={list}>
+                                                    <Card>
+                                                        <img
+                                                            src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${list.thumbnailUrl}`}
+                                                        />
+                                                        <span>{list}</span>
+
+                                                        <FontAwesomeIcon
+                                                            onClick={() => onRemoveChecked(list)}
+                                                            icon={faTrashAlt}
+                                                            size="sm"
+                                                            style={{ color: 'grey', cursor: 'pointer' }}
+                                                        />
+                                                    </Card>
+                                                </div>
+                                            );
+                                        })}
+                                    </Typography>
+                                </AccordionDetails>
+                                <input
+                                    type="text"
+                                    style={{
+                                        outline: 'none',
+                                        borderRadius: '3px',
+                                        border: '1.5px thin #221718',
+                                        fontSize: '16px',
+                                        boxShadow: '3px 3px 1px lightgray',
+                                        paddingLeft: '10px',
+                                        marginBottom: '20px',
+                                        width: '400px',
+                                        textAlign: 'center',
+                                        marginRight: '10px',
+                                        backgroundColor: '#F1F5F9',
+                                    }}
+                                    placeholder="앨범의 title을 입력"
+                                    onChange={(e) => {
+                                        setTitleInput(e.target.value);
+                                    }}
+                                    onKeyDown={onKeyPress}
+                                ></input>
+                                <button
+                                    type="button"
+                                    style={{
+                                        outline: 'none',
+                                        borderRadius: '3px',
+                                        border: '0.1px thin black',
+                                        fontSize: '16px',
+                                        boxShadow: '3px 3px 1px lightgray',
+                                        paddingLeft: '10px',
+                                        marginBottom: '20px',
+                                        textAlign: 'center',
+                                    }}
+                                    onClick={() => {
+                                        axios
+                                            .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
+                                                titile: titleInput,
+                                                card_id: checkedListAlbum,
+                                            })
+                                            .then(function (result) {
+                                                console.log(result);
+                                            })
+                                            .catch(function (error) {
+                                                console.log(error);
+                                            });
+                                    }}
+                                >
+                                    앨범 만들기
+                                </button>
+                            </Accordion>
                         </Box>
+                        <Box>{children}</Box>
                     </Container>
                 </Box>
                 <Container sx={{ width: '1000px', height: 'auto', py: 2 }}>
@@ -294,6 +411,34 @@ const handleClickc = () => {
                                                     'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 100px), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 200px)',
                                             }}
                                         />
+                                        {/* <label>
+                                            <input
+                                                type="checkbox"
+                                                style={{ position: 'absolute', top: '0px', right: '0px' }}
+                                                onClick={(e) => e.stopPropagation()}
+                                                value={card.cardId}
+                                                onChange={(event) => onCheckedElement(event.target.checked, card.cardId)}
+                                                checked={checkedListAlbum.includes(card.cardId) ? true : false}
+                                            />
+                                        </label> */}
+                                        <CheckboxStyle>
+                                            <Checkbox
+                                                onClick={(e) => e.stopPropagation()}
+                                                value={card.cardId}
+                                                onChange={(event) => onCheckedElement(event.target.checked, card.cardId)}
+                                                checked={checkedListAlbum.includes(card.cardId) ? true : false}
+                                                {...label}
+                                                defaultChecked
+                                                sx={{
+                                                    color: red[800],
+                                                    '&.Mui-checked': {
+                                                        color: red[600],
+                                                    },
+                                                }}
+                                                icon={<FavoriteBorder />}
+                                                checkedIcon={<Favorite />}
+                                            />
+                                        </CheckboxStyle>
                                         <CardMedia
                                             component="img"
                                             sx={{
