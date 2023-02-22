@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import Auth from './views/Auth';
 import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
 import CamContent from './views/Contents/CamContent/CamContent';
@@ -16,6 +17,7 @@ function App() {
             <Routes>
                 <Route>
                     <Route path="/" element={<CamContent />} />
+                    <Route path="/auth" element={<Auth />} />
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/video" element={<VideoContent />} />
                     <Route path="/video/:cardId" element={<AlbumSinglePage />} />

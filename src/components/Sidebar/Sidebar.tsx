@@ -36,6 +36,11 @@ export default function Sidebar() {
                             itemId: '/remote',
                         },
                         {
+                            title: 'On Air - Remote Cam',
+                            itemId: '/remote',
+                        },
+
+                        {
                             title: 'Album',
                             itemId: '/album',
                             elemBefore: () => <Icon name="book" />,
