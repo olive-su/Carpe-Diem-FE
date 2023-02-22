@@ -219,9 +219,9 @@ function CameraPage(props: any) {
                     expression.target = label;
                     expression.time = Date.now();
 
-                    if (expression.target === userId) {
-                        setData(EmotionSetData(detection.expressions));
-                    }
+                    // if (expression.target === userId) { // CHECK
+                    setData(EmotionSetData(detection.expressions));
+                    // }
                 });
             return expression;
         };
