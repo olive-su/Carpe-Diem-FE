@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -62,11 +62,9 @@ const Library = () => {
                     {albumList?.map((data: albumData, idx: any) => (
                         <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>
                             <Grid item xs={6} sm={4} md={3}>
-                                <LinkStyle>
-                                    <Link to={`/album/${data.albumId}`}>
-                                        <Book album={data} />
-                                    </Link>
-                                </LinkStyle>
+                                <NavLink to={`/album/${data.albumId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                    <Book album={data} />
+                                </NavLink>
                             </Grid>
                         </Grow>
                     ))}
