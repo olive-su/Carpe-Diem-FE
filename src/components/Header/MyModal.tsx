@@ -14,7 +14,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
-import { addNoti, deleteNoti } from '../../reducer/notiReducer';
+import { addNoti, deleteNoti } from '../../reducers/notiReducer';
 
 function elapsedTime(date: any) {
     const start: any = new Date(date);
