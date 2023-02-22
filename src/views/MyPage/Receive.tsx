@@ -43,7 +43,7 @@ const Receive = () => {
                     </Typography>
                     <List>
                         {friendList.map((item: friendData) => (
-                            <ListItem key={item.userId} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
+                            <ListItem key={item.user_id} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
                                 {/* <FriendItem item={item} />
                                 <Button
                                     onClick={(e) => ondel(item.email)}

@@ -20,10 +20,10 @@ export interface albumData {
     title: string;
 }
 export interface friendData {
-    userId: string;
+    user_id: string;
     email: string;
     nickname: string;
-    profileImg: string;
+    profile_img: string;
 }
 
 export interface Notification {

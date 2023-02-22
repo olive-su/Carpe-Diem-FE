@@ -16,7 +16,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 
-const friend: friendData = { userId: '2312314', nickname: '수개미', email: 'test@gamil.com', profileImg: '' };
+const friend: friendData = { user_id: '2312314', nickname: '수개미', email: 'test@gamil.com', profile_img: '' };
 const Friend = () => {
     const [friendList, setFriendList] = useState([]);
     const [searchedFriend, setSearchedFriend] = useState<friendData>();
@@ -106,8 +106,8 @@ const Friend = () => {
                     <List>
                         <Paper sx={{ my: { xs: 1, md: 2 }, p: { xs: 1, md: 2 }, color: '#1e319d' }}>
                             {friendList.map((item: friendData) => (
-                                <ListItem key={item.userId} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <FriendItem nickname={item.nickname} email={item.email} img={item.profileImg} />
+                                <ListItem key={item.user_id} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
                                     <Button
                                         onClick={(e) => ondel(item.email)}
                                         sx={{ marginLeft: '15px', backgroundColor: '#1e319d', color: 'white' }}
