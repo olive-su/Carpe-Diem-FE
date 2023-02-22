@@ -14,9 +14,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { connect } from 'react-redux';
-import { addNoti, deleteNoti } from '../../redux/reducer/notiReducer';
-import axios from 'axios';
-import config from '../../config';
+import { addNoti, deleteNoti } from '../../reducers/notiReducer';
 
 function elapsedTime(date: any) {
     const start: any = new Date(date);
@@ -126,7 +124,7 @@ const MyModal = (props: any) => {
                 <button onClick={add}> 추가 </button>
                 <Divider sx={{ color: '#334155' }} />
                 <Stack sx={{ width: '100%' }}>
-                    {notis.notis.notiReducer?.map((noti: any) => (
+                    {notifications.map((noti: any) => (
                         <MenuItem
                             key={noti.id}
                             style={{

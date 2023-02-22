@@ -10,7 +10,6 @@ import FriendContent from './views/Contents/MyContent/FriendContent';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
-import Login from './views/Login/Login';
 import EditContent from './views/Contents/MyContent/EditContent';
 import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 
@@ -20,9 +19,7 @@ function App() {
             <Routes>
                 <Route>
                     <Route path="/" element={<CamContent />} />
-                    <Route path="/edit" element={<EditContent />} />
                     <Route path="/friend" element={<FriendContent />} />
-                    <Route path="/login" element={<Login />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/video" element={<VideoContent />} />

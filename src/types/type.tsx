@@ -19,8 +19,21 @@ export interface albumData {
     userId: string;
     title: string;
 }
+export interface friendData {
+    userId: string;
+    email: string;
+    nickname: string;
+    profileImg: string;
+}
 
 export interface Notification {
     id: string;
     message: string;
+}
+
+export interface req {
+    requestId: number;
+    sendEmail: string;
+    receiveEmail: string;
+    check: number;
 }

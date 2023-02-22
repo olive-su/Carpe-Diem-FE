@@ -40,7 +40,7 @@ const Edit = () => {
     // const [pwd2, setPwd2] = useState('');
     const [email, setEmail] = useState('test@gmail.com');
     const [editable, setEditable] = useState(false);
-    const userId = '12321312312';
+    const userId = '111026319355272059757';
     React.useEffect(function () {
         axios({
             url: `http://${config.server.host}:${config.server.port}/user/${userId}`,
@@ -116,7 +116,7 @@ const Edit = () => {
                                 프로필
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sx={{display:'flex', justifyContent: 'center'}}>
                             <Profile src="./imgs/not_found_files.jpg"></Profile>
                         </Grid>
                         <Grid item xs={12}>
