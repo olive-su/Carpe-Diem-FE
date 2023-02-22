@@ -1,2 +1,0 @@
-// import { put, takeLatest } from 'redux-saga/effects';
-// import { addNoti } from '../reducers/notiReducer';

@@ -78,11 +78,12 @@ const Album = () => {
             withCredentials: true,
         })
             .then(function (result) {
+                console.log('dafsfasdffsfdsaafsd', result.data);
                 setCards(result.data);
                 allCard = result.data;
             })
             .catch(function (error) {
-                console.log(`http://${config.server.host}:${config.server.port}/card/${userId}`);
+                console.log(`http://${config.server.host}:${config.server.port}/card`);
                 console.error('card 에러발생: ', error);
             });
     }, []);
@@ -317,8 +318,8 @@ const handleClickc = () => {
                                                             <img
                                                                 src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${checkedListAlbum[list].thumbnailUrl}`}
                                                                 style={{
-                                                                    width: '300px',
-                                                                    height: '170px',
+                                                                    width: '170px',
+                                                                    height: '120px',
                                                                 }}
                                                             />
                                                             {/* <span style={{ display: 'none' }}></span> */}
@@ -373,7 +374,7 @@ const handleClickc = () => {
                                         axios
                                             .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
                                                 title: titleInput,
-                                                card_id: checkedListAlbum,
+                                                card_id: Object.keys(checkedListAlbum),
                                             })
                                             .then(function (result) {
                                                 console.log(result);
