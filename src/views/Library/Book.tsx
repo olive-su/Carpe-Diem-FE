@@ -89,9 +89,9 @@ const Book = (props: any) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Div style={{ position: 'relative', width: '130px', height: '200px', margin: 'auto' }}>
+            <Div style={{ position: 'relative', width: '130px', height: '200px', margin: 'auto', border: '1px solid' }}>
                 <img
-                    style={{ width: '128px', height: '200px', position: 'absolute', right: '5%', top: '4%', objectFit: 'cover' }}
+                    style={{ width: '128px', height: '200px', position: 'absolute', right: '5%', top: '4%', objectFit: 'cover', border: '1px solid' }}
                     src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.album.coverImgUrl}`}
                 />
                 <Paper sx={{ width: '128px', height: '200px', margin: 'auto' }} elevation={24} />

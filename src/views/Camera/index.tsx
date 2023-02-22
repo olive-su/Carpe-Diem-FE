@@ -12,7 +12,7 @@ import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
-import Sparky from 'react-sparkle';
+//import Sparky from 'react-sparkle';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 const rotate = keyframes`
