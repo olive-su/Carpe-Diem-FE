@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
+import Login from '../Login/Login';
+import Footer from '../../components/Footer/Footer';
 import './parallax.css';
 
 export default function Parallax() {
@@ -39,11 +42,11 @@ export default function Parallax() {
     return (
         <>
             <header className="et-header">
-                <div className="et-header__left">
+                {/* <div className="et-header__left">
                     <a href="" className="et-header__logo">
                         My Header
                     </a>
-                </div>
+                </div> */}
             </header>
             <div className="carpe">
                 <span className="c1 span">C</span>
@@ -58,6 +61,10 @@ export default function Parallax() {
                 <span className="c10 span"></span>
                 <div className="bg"></div>
             </div>
+            <span style={{ marginTop: '900vw' }}>
+                <Login />
+            </span>
+            <Footer />
 
             {/* <div style={{ scrollBehavior: 'smooth' }}>
                 <div

@@ -6,37 +6,6 @@ body {
     overflow-x: hidden;
 }
 
-/* header */
-.et-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 0 2em;
-    height: 75px;
-    z-index: 2;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-    &--scrolled {
-        background: #fff;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    }
-    &--move-up {
-        transform: translateY(-75px);
-        transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-    }
-    &__logo {
-        color: #000;
-    }
-    &__link {
-        margin-left: 1em;
-        color: #000;
-    }
-}
-
 /* main */
 .carpe {
     display: flex;
@@ -44,6 +13,7 @@ body {
     align-items: flex-start;
     color: rgb(2, 9, 22);
     justify-content: center;
+    background-color: #0284c7;
 }
 
 .bg {
@@ -51,7 +21,7 @@ body {
     left: -25vw;
     top: -50vw;
     width: 150vw;
-    height: 900vw;
+    height: 420vw;
     background-color: #0284c7;
     background-size: cover;
     z-index: -1;
@@ -77,33 +47,33 @@ body {
 }
 
 .c3 {
-    margin-top: 200vw;
+    margin-top: 130vw;
 }
 
 .c4 {
-    margin-top: 300vw;
+    margin-top: 160vw;
 }
 
 .c5 {
-    margin-top: 400vw;
+    margin-top: 190vw;
 }
 
 .c6 {
-    margin-top: 500vw;
+    margin-top: 210vw;
 }
 
 .c7 {
-    margin-top: 600vw;
+    margin-top: 240vw;
 }
 
 .c8 {
-    margin-top: 700vw;
+    margin-top: 270vw;
 }
 
 .c9 {
-    margin-top: 800vw;
+    margin-top: 300vw;
 }
 
 .c10 {
-    margin-top: 900vw;
+    margin-top: 330vw;
 }
