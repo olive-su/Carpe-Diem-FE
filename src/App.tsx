@@ -1,25 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import Auth from './views/Auth';
 import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
 import CamContent from './views/Contents/CamContent/CamContent';
+import RemoteCamera from './views/Camera/RemoteCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 import Login from './views/Login/Login';
 import EditContent from './views/Contents/MyContent/EditContent';
-
-// 삭제해야함!!!:테스트용
-// import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
+import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 
 function App() {
-    // const history = useHistory();
-    // useEffect(() => {
-    //   history.push('/'); // 마운트 될 때 /webcam 에 해당하는 페이지로 이동
-    // }, [])
-
     return (
         <Router>
             <Routes>
@@ -28,11 +23,12 @@ function App() {
                     <Route path="/edit" element={<EditContent />} />
                     <Route path="/friend" element={<FriendContent />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/video" element={<VideoContent />} />
                     <Route path="/video/:cardId" element={<AlbumSinglePage />} />
                     <Route path="/album" element={<LibraryContent />} />
-                    {/* 삭제해야함!!!:테스트용 */}
-                    {/* <Route path="/album/5" element={<AlbumMultiContent />} /> */}
+                    <Route path="/album/:albumId" element={<AlbumMultiContent />} />
                 </Route>
             </Routes>
         </Router>

@@ -22,7 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IndeterminateCheckbox from './Checkbox';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { setCard, filterOn, filterOut } from '../../reducers/cardsReducer';
+// import { setCard, filterOn, filterOut } from '../../redux/reducer/albumsReducer';
 import '../../styles/App.css';
 import config from '../../config';
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -182,12 +182,13 @@ function StateToProps(state: any) {
     return { filteredCards: state };
 }
 
-function mapDispatchToProps(dispatch: any) {
-    return {
-        setCard: (cards: any) => dispatch(setCard(cards)),
-        filterOn: (filter: any) => dispatch(filterOn(filter)),
-        filterOut: (filter: any) => dispatch(filterOut(filter)),
-    };
-}
+// function mapDispatchToProps(dispatch: any) {
+//     return {
+//         setCard: (cards: any) => dispatch(setCard(cards)),
+//         filterOn: (filter: any) => dispatch(filterOn(filter)),
+//         filterOut: (filter: any) => dispatch(filterOut(filter)),
+//     };
+// }
 
-export default connect(StateToProps, mapDispatchToProps)(Album);
+// export default connect(StateToProps, mapDispatchToProps)(Album);
+export default connect(StateToProps)(Album);

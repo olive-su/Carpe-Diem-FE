@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -10,30 +11,29 @@ import Grow from '@mui/material/Grow';
 import { albumData } from '../../types/type';
 import axios from 'axios';
 import config from '../../config';
+import { useDispatch, useSelector } from 'react-redux';
+import { ALBUM_LIST_LOADING_REQUEST } from '../../redux/types';
 
 const theme = createTheme({
     typography: {
         fontFamily: "'IBMPlexSansKR-Regular'",
     },
 });
+
 const userId = 'test';
 const API_URL = `http://${config.server.host}:${config.server.port}`;
-
-const albums: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const albums: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const Library = () => {
-    const [albums, setAlbums] = useState<any[]>([]);
-    React.useEffect(function () {
-        axios({
-            url: `http://${config.server.host}:${config.server.port}/album/${userId}`,
-            method: 'get',
-        })
-            .then(function (result: any) {
-                setAlbums(result.data);
-            })
-            .catch(function (error: any) {
-                console.error('Album 에러발생: ', error);
-            });
-    }, []);
+    const dispatch = useDispatch();
+    const { albumList } = useSelector((state: any) => state.albumList);
+
+    // const [albums, setAlbums] = useState<any[]>([]);
+    useEffect(() => {
+        dispatch({
+            type: ALBUM_LIST_LOADING_REQUEST,
+        });
+    }, [dispatch]);
+
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column' }}>
             <ThemeProvider theme={theme}>
@@ -53,10 +53,12 @@ const Library = () => {
             </ThemeProvider>
             <Box flex={{ xs: 1 }}>
                 <Grid container rowSpacing={0}>
-                    {albums.map((album: albumData) => (
-                        <Grow in={true} key={album.albumId} {...{ timeout: 500 }}>
+                    {albumList?.map((data: albumData, idx: any) => (
+                        <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>
                             <Grid item xs={6} sm={4} md={3}>
-                                <Book album={album} />
+                                <Link to={`/album/${data.albumId}`}>
+                                    <Book album={data} />
+                                </Link>
                             </Grid>
                         </Grow>
                     ))}
