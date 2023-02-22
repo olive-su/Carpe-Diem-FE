@@ -25,8 +25,7 @@ import { Box } from '@mui/system';
 import { Typography, Button } from '@mui/material';
 import Share from './Share';
 import DownloadIcon from '@mui/icons-material/Download';
-
-const userId = 'test';
+import { url } from 'inspector';
 
 const StyleContent = styled.div`
     background-color: #fff;
@@ -101,7 +100,6 @@ const AlbumSinglePage = () => {
     };
 
     const { cardId } = useParams();
-    console.log(cardId);
 
     // put
     const ref: any = useRef(null);
@@ -121,16 +119,20 @@ const AlbumSinglePage = () => {
             setEditable(false);
             cardAlbum.comment = text;
 
-            axios
-                .put(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {
-                    // card_id: cardAlbum.cardId,
-                    // user_id: cardAlbum.userId,
+            axios({
+                method: 'put',
+                url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+                withCredentials: true,
+                data: {
+                    card_id: cardAlbum.cardId,
+                    user_id: cardAlbum.userId,
                     album_id: cardAlbum.albumId,
                     expression_label: cardAlbum.expressionLabel,
                     comment: text,
                     thumbnail_url: cardAlbum.thumbnailUrl,
                     video_url: cardAlbum.videoUrl,
-                })
+                },
+            })
                 .then(function (result) {
                     console.log(result);
                     // window.location.reload();
@@ -153,7 +155,8 @@ const AlbumSinglePage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`,
+            url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+            withCredentials: true,
         })
             .then(function (result) {
                 setCardAlbum(result.data);
@@ -166,11 +169,15 @@ const AlbumSinglePage = () => {
 
     // delete
     const onClickDelete = () => {
-        axios
-            .delete(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {})
+        axios({
+            method: 'delete',
+            url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+            withCredentials: true,
+        })
             .then(function (response) {
                 console.log(response.status);
-                window.location.replace(`http://${config.server.host}/video`);
+                // 배포 시, 아래 수정해야 함
+                window.location.replace(`http://localhost:3000/video`);
             })
             .catch(function (error) {
                 console.log(error);
