@@ -10,6 +10,7 @@ import { OpacityRounded } from '@mui/icons-material';
 const Area = styled.div`
     width: 200px;
     height: auto;
+    font-family: IBMPlexSansKR-Regular;
     padding-top: 10px;
     background-color: #e2e8f0;
 `;
