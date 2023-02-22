@@ -13,12 +13,18 @@ import axios from 'axios';
 import config from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import { ALBUM_LIST_LOADING_REQUEST } from '../../redux/types';
+import styled from 'styled-components';
 
 const theme = createTheme({
     typography: {
         fontFamily: "'IBMPlexSansKR-Regular'",
     },
 });
+
+const LinkStyle = styled.div`
+    text-decoration: none;
+    font-family: 'IBMPlexSansKR-Regular';
+`;
 
 const userId = 'test';
 const API_URL = `http://${config.server.host}:${config.server.port}`;
@@ -56,9 +62,11 @@ const Library = () => {
                     {albumList?.map((data: albumData, idx: any) => (
                         <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>
                             <Grid item xs={6} sm={4} md={3}>
-                                <Link to={`/album/${data.albumId}`}>
-                                    <Book album={data} />
-                                </Link>
+                                <LinkStyle>
+                                    <Link to={`/album/${data.albumId}`}>
+                                        <Book album={data} />
+                                    </Link>
+                                </LinkStyle>
                             </Grid>
                         </Grow>
                     ))}
