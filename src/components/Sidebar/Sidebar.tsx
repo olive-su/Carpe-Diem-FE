@@ -27,11 +27,14 @@ export default function Sidebar() {
                     }}
                     items={[
                         {
-                            title: 'ON Air',
+                            title: 'ON Air - Web Cam',
                             itemId: '/',
                             elemBefore: () => <Icon name="record" style={{ fontSize: '1.2rem' }} />,
                         },
-
+                        {
+                            title: 'On Air - Remote Cam',
+                            itemId: '/remote',
+                        },
                         {
                             title: 'Album',
                             itemId: '/album',
