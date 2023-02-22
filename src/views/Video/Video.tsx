@@ -74,7 +74,8 @@ const Album = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/card`,
+            withCredentials: true,
         })
             .then(function (result) {
                 setCards(result.data);
