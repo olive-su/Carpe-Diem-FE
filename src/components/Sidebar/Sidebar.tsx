@@ -31,7 +31,10 @@ export default function Sidebar() {
                             itemId: '/',
                             elemBefore: () => <Icon name="record" style={{ fontSize: '1.2rem' }} />,
                         },
-
+                        {
+                            title: 'On Air - Remote Cam',
+                            itemId: '/remote',
+                        },
                         {
                             title: 'On Air - Remote Cam',
                             itemId: '/remote',
