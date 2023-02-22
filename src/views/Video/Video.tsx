@@ -343,7 +343,7 @@ const handleClickc = () => {
                                     onClick={() => {
                                         axios
                                             .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
-                                                titile: titleInput,
+                                                title: titleInput,
                                                 card_id: checkedListAlbum,
                                             })
                                             .then(function (result) {
