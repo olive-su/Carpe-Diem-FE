@@ -31,7 +31,6 @@ export default function AlbumCarousel(props: any) {
             <div style={{ position: 'relative', margin: '20px' }}>
                 <img src={logotitle} style={{ width: '620px', height: '500px', position: 'absolute', top: 0, left: '24%' }}></img>
                 <video
-                    autoPlay
                     controls
                     loop
                     src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.cardInfo.videoUrl}`}

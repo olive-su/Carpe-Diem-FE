@@ -6,12 +6,13 @@ import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
 import CamContent from './views/Contents/CamContent/CamContent';
 import RemoteCamera from './views/Camera/RemoteCamera';
+import FriendContent from './views/Contents/MyContent/FriendContent';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import Login from './views/Login/Login';
-import Parallax from './views/Main/\bParallax';
+import Parallax from './views/Main/Parallax';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
             <Routes>
                 <Route>
                     <Route path="/" element={<CamContent />} />
+                    <Route path="/friend" element={<FriendContent />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/main" element={<Parallax />} />
                     <Route path="/auth" element={<Auth />} />

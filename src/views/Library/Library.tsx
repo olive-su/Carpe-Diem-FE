@@ -13,18 +13,12 @@ import axios from 'axios';
 import config from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import { ALBUM_LIST_LOADING_REQUEST } from '../../redux/types';
-import styled from 'styled-components';
 
 const theme = createTheme({
     typography: {
         fontFamily: "'IBMPlexSansKR-Regular'",
     },
 });
-
-const LinkStyle = styled.div`
-    text-decoration: none;
-    font-family: 'IBMPlexSansKR-Regular';
-`;
 
 const userId = 'test';
 const API_URL = `http://${config.server.host}:${config.server.port}`;

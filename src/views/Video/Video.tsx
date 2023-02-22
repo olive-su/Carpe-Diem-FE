@@ -28,18 +28,9 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import config from '../../config';
 import { Link } from 'react-router-dom';
+//import IndeterminateCheckbox from './Checkbox';
 import axios from 'axios';
 import { Height } from '@mui/icons-material';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
-import { red } from '@mui/material/colors';
-import styled from 'styled-components';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
@@ -188,19 +179,12 @@ const handleClickc = () => {
                     onChange={handleChange}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
-                    sx={{ border: 1, borderColor: '#60a5fa', backgroundColor: 'rgba(0, 0, 0, 0.08)' }}
+                    sx={{ border: 1, borderColor: '#60a5fa' }}
                 >
                     <MenuItem value={'Newest'}>Newest</MenuItem>
                     <MenuItem value={'Oldest'}>Oldest</MenuItem>
                 </Select>
             </FormControl>
-            <FormControlLabel
-                label="ALL"
-                control={
-                    <Checkbox checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]} onChange={handleChange1} />
-                }
-                sx={{ mt: 3, ml: 3, paddingRight: '20px', border: '1px solid lightgrey', borderRadius: '2px' }}
-            />
             <ToggleButton value="check" selected={checked[0]} onChange={handleChange2}>
                 <InsertEmoticonIcon /> Happy
             </ToggleButton>
@@ -225,44 +209,11 @@ const handleClickc = () => {
             </ToggleButton>
         </Stack>
     );
-    const [checkedListAlbum, setCheckedListAlbum]: any = useState([]);
-    // 체크시 데이터 저장, 체크 해제시 데이터 삭제
-    const onCheckedElement = (checked: boolean, item: number) => {
-        if (checked) {
-            setCheckedListAlbum([...checkedListAlbum, item]);
-        } else if (!checked) {
-            onRemoveChecked(item);
-        }
-    };
-
-    console.log('cardId는 ', checkedListAlbum);
-    console.log(`${checkedListAlbum.length}개 선택`);
-
-    // 체크 해제 데이터 삭제
-    const onRemoveChecked = (item: any) => {
-        setCheckedListAlbum(checkedListAlbum.filter((el: any) => el !== item));
-    };
-
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
-    const CheckboxStyle = styled.div`
-        position: absolute;
-        top: 0px;
-        right: 0px;
-    `;
-
-    const [titleInput, setTitleInput]: any = useState('');
-
-    const onKeyPress = (e: any) => {
-        if (e.key == 'Enter') {
-            alert('title이 저장되었습니다.');
-        }
-    };
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <main style={{ fontFamily: 'IBMPlexSansKR-Regular' }}>
+            <main style={{ fontFamily: 'IBM Plex Sans KR' }}>
                 {/* Hero unit */}
                 <Box
                     sx={{
@@ -358,7 +309,6 @@ const handleClickc = () => {
                                 </button>
                             </Accordion>
                         </Box>
-                        <Box>{children}</Box>
                     </Container>
                 </Box>
                 <Container sx={{ width: '1000px', height: 'auto', py: 2 }}>
@@ -410,34 +360,6 @@ const handleClickc = () => {
                                                     'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 100px), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 200px)',
                                             }}
                                         />
-                                        {/* <label>
-                                            <input
-                                                type="checkbox"
-                                                style={{ position: 'absolute', top: '0px', right: '0px' }}
-                                                onClick={(e) => e.stopPropagation()}
-                                                value={card.cardId}
-                                                onChange={(event) => onCheckedElement(event.target.checked, card.cardId)}
-                                                checked={checkedListAlbum.includes(card.cardId) ? true : false}
-                                            />
-                                        </label> */}
-                                        <CheckboxStyle>
-                                            <Checkbox
-                                                onClick={(e) => e.stopPropagation()}
-                                                value={card.cardId}
-                                                onChange={(event) => onCheckedElement(event.target.checked, card.cardId)}
-                                                checked={checkedListAlbum.includes(card.cardId) ? true : false}
-                                                {...label}
-                                                defaultChecked
-                                                sx={{
-                                                    color: red[800],
-                                                    '&.Mui-checked': {
-                                                        color: red[600],
-                                                    },
-                                                }}
-                                                icon={<FavoriteBorder />}
-                                                checkedIcon={<Favorite />}
-                                            />
-                                        </CheckboxStyle>
                                         <CardMedia
                                             component="img"
                                             sx={{

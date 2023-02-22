@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { useParams } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
@@ -27,8 +28,7 @@ import { Box } from '@mui/system';
 import { Typography, Button } from '@mui/material';
 import Share from './Share';
 import DownloadIcon from '@mui/icons-material/Download';
-
-const userId = 'test';
+import { url } from 'inspector';
 
 const StyleContent = styled.div`
     background-color: #fff;
@@ -103,7 +103,6 @@ const AlbumSinglePage = () => {
     };
 
     const { cardId } = useParams();
-    console.log(cardId);
 
     // put
     const ref: any = useRef(null);
@@ -123,16 +122,20 @@ const AlbumSinglePage = () => {
             setEditable(false);
             cardAlbum.comment = text;
 
-            axios
-                .put(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {
-                    // card_id: cardAlbum.cardId,
-                    // user_id: cardAlbum.userId,
+            axios({
+                method: 'put',
+                url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+                withCredentials: true,
+                data: {
+                    card_id: cardAlbum.cardId,
+                    user_id: cardAlbum.userId,
                     album_id: cardAlbum.albumId,
                     expression_label: cardAlbum.expressionLabel,
                     comment: text,
                     thumbnail_url: cardAlbum.thumbnailUrl,
                     video_url: cardAlbum.videoUrl,
-                })
+                },
+            })
                 .then(function (result) {
                     console.log(result);
                     // window.location.reload();
@@ -155,7 +158,8 @@ const AlbumSinglePage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`,
+            url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+            withCredentials: true,
         })
             .then(function (result) {
                 setCardAlbum(result.data);
@@ -168,11 +172,15 @@ const AlbumSinglePage = () => {
 
     // delete
     const onClickDelete = () => {
-        axios
-            .delete(`http://${config.server.host}:${config.server.port}/card/${userId}/${cardId}`, {})
+        axios({
+            method: 'delete',
+            url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+            withCredentials: true,
+        })
             .then(function (response) {
                 console.log(response.status);
-                window.location.replace(`http://${config.server.host}/video`);
+                // window.location.replace(`http://${config.client.host}:${config.client.port}/video`);
+                window.location.reload();
             })
             .catch(function (error) {
                 console.log(error);
@@ -194,7 +202,6 @@ const AlbumSinglePage = () => {
                         <div>
                             <img src={frame} height="500px" style={{ width: '600px', position: 'absolute' }}></img>
                             <video
-                                autoPlay
                                 controls
                                 loop
                                 src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${cardAlbum.videoUrl}`}
@@ -282,7 +289,9 @@ const AlbumSinglePage = () => {
                                             삭제된 앨범의 영상은 Video 탭에서 계속 볼 수 있습니다.
                                         </Typography>
                                         <Typography align="right">
-                                            <Button onClick={onClickDelete}>확인</Button>
+                                            <Link to="/video">
+                                                <Button onClick={onClickDelete}>확인</Button>
+                                            </Link>
                                             <Button onClick={handleClose}>취소</Button>
                                         </Typography>
                                     </Box>
