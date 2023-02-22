@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
@@ -10,6 +11,7 @@ const LoginStyle = styled.div`
     height: 90vh;
     text-align: center;
     font-family: 'IBMPlexSansKR-Regular';
+    margin-bottom: 90px;
 `;
 
 const Left = styled.div`
@@ -48,31 +50,14 @@ export default function Login() {
                         </div>
                     </div>
                 </Left> */}
-                <div style={{ paddingTop: '230px' }}>
-                    <img src="./logo512.png" style={{ width: '200px' }} />
-                    <h1>Welcome to CARPE DIEM</h1>
-                    <h3 style={{ margin: '40px', color: '#71717a' }}>Great to see you again</h3>
-                    <button
-                        style={{
-                            // flexWrap: 'wrap',
-                            outline: 'none',
-                            borderRadius: '1px',
-                            border: '1.5px solid #0284c7',
-                            boxShadow: '3px 3px 1px gray',
-                            backgroundColor: '#0284c7',
-                            color: 'white',
-                            width: '90vw',
-                            maxWidth: '400px',
-                            height: '50px',
-                            fontSize: '16px',
-                            lineHeight: '16px',
-                        }}
-                        onClick={() => {
-                            window.location.replace(`http://${config.server.host}:${config.server.port}/auth/google`);
-                        }}
-                    >
-                        Google Login
-                    </button>
+                <div style={{ paddingTop: '200px' }}>
+                    <img src="./imgs/login-page.png" style={{ width: '1300px' }} />
+                    {/* <img src="./logo512.png" style={{ width: '200px' }} /> */}
+                    {/* <h1>Welcome to CARPE DIEM</h1> */}
+                    {/* <h3 style={{ margin: '40px', color: '#71717a' }}>Great to see you again</h3> */}
+                    <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
+                        <img src="./imgs/btn-google-signin-light-normal-web@2x.png" style={{ width: '20vw' }} />
+                    </NavLink>
                 </div>
             </LoginStyle>
         </>

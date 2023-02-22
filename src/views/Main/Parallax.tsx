@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import Box from '@mui/material/Box';
+import Grow from '@mui/material/Grow';
 import Login from '../Login/Login';
 import Footer from '../../components/Footer/Footer';
 import './parallax.css';
@@ -44,7 +46,7 @@ export default function Parallax() {
             <header className="et-header">
                 {/* <div className="et-header__left">
                     <a href="" className="et-header__logo">
-                        My Header
+                    My Header
                     </a>
                 </div> */}
             </header>
@@ -62,7 +64,11 @@ export default function Parallax() {
                 <div className="bg"></div>
             </div>
             <span style={{ marginTop: '900vw' }}>
-                <Login />
+                <Box>
+                    <Grow>
+                        <Login />
+                    </Grow>
+                </Box>
             </span>
             <Footer />
 
