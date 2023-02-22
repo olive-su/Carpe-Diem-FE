@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -21,11 +21,6 @@ const theme = createTheme({
     },
 });
 
-const LinkStyle = styled.div`
-    text-decoration: none;
-    font-family: 'IBMPlexSansKR-Regular';
-`;
-
 const userId = 'test';
 const API_URL = `http://${config.server.host}:${config.server.port}`;
 // const albums: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -43,7 +38,6 @@ const Library = () => {
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column' }}>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
                 <Box flex={{ xs: 1 }}>
                     <Box
                         sx={{
@@ -57,16 +51,14 @@ const Library = () => {
                     </Box>
                 </Box>
             </ThemeProvider>
-            <Box flex={{ xs: 1 }}>
+            <Box style={{ fontFamily: 'IBMPlexSansKR-Regular' }} flex={{ xs: 1 }}>
                 <Grid container rowSpacing={0}>
                     {albumList?.map((data: albumData, idx: any) => (
                         <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>
                             <Grid item xs={6} sm={4} md={3}>
-                                <LinkStyle>
-                                    <Link to={`/album/${data.albumId}`}>
-                                        <Book album={data} />
-                                    </Link>
-                                </LinkStyle>
+                                <NavLink to={`/album/${data.albumId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                    <Book album={data} />
+                                </NavLink>
                             </Grid>
                         </Grow>
                     ))}

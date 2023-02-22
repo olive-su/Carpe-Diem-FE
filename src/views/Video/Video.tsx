@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { ToggleButton } from '@mui/material';
+import { listClasses, ToggleButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -32,6 +32,8 @@ import axios from 'axios';
 import { Height } from '@mui/icons-material';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { red } from '@mui/material/colors';
 import styled from 'styled-components';
 import Accordion from '@mui/material/Accordion';
@@ -40,6 +42,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { List } from 'semantic-ui-react';
 
 // import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../reducer/cardsReducer';
@@ -225,22 +228,27 @@ const handleClickc = () => {
             </ToggleButton>
         </Stack>
     );
-    const [checkedListAlbum, setCheckedListAlbum]: any = useState([]);
+    const [checkedListAlbum, setCheckedListAlbum]: any = useState({});
     // 체크시 데이터 저장, 체크 해제시 데이터 삭제
-    const onCheckedElement = (checked: boolean, item: number) => {
+    const onCheckedElement = (checked: boolean, item: any) => {
         if (checked) {
-            setCheckedListAlbum([...checkedListAlbum, item]);
+            checkedListAlbum[item.cardId] = item; // CHECK
+            setCheckedListAlbum({ ...checkedListAlbum });
         } else if (!checked) {
             onRemoveChecked(item);
         }
     };
-
+    {
+        console.log(cards);
+    }
     console.log('cardId는 ', checkedListAlbum);
+    console.log(checkedListAlbum.thumbnail_url);
     console.log(`${checkedListAlbum.length}개 선택`);
 
     // 체크 해제 데이터 삭제
     const onRemoveChecked = (item: any) => {
-        setCheckedListAlbum(checkedListAlbum.filter((el: any) => el !== item));
+        delete checkedListAlbum[item.cardId];
+        setCheckedListAlbum({ ...checkedListAlbum });
     };
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -279,22 +287,41 @@ const handleClickc = () => {
                             too short so folks don&apos;t simply skip over it entirely.
                         </Typography> */}
                         <Box>
-                            <Accordion style={{ backgroundColor: '#F1F5F9' }}>
+                            <Accordion style={{ backgroundColor: '#e5e7eb', width: '950px', right: '36%' }}>
                                 <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                                     <Typography>앨범에 추가할 비디오 확인하기</Typography>
                                 </AccordionSummary>
+
                                 <AccordionDetails>
-                                    <Typography>
-                                        {checkedListAlbum.length === 0 && <div style={{ color: 'grey' }}>{'선택한 비디오가 없습니다'}</div>}
-                                        {checkedListAlbum.map((list: any) => {
+                                    <Typography
+                                        style={{
+                                            backgroundColor: '#f1f5f9',
+                                            borderRadius: '3px',
+                                            display: 'flex',
+                                            margin: '0 auto',
+                                            paddingTop: '10px',
+                                            overflow: 'scroll',
+                                            flexDirection: 'row',
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        {Object.keys(checkedListAlbum).length === 0 && (
+                                            <div style={{ color: 'grey' }}>{'선택한 비디오가 없습니다'}</div>
+                                        )}
+                                        {Object.keys(checkedListAlbum).map((list: any) => {
                                             return (
                                                 <div key={list}>
                                                     <Card>
-                                                        <img
-                                                            src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${list.thumbnailUrl}`}
-                                                        />
-                                                        <span>{list}</span>
-
+                                                        <div style={{ marginLeft: '10px', marginBottom: '10px' }}>
+                                                            <img
+                                                                src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${checkedListAlbum[list].thumbnailUrl}`}
+                                                                style={{
+                                                                    width: '300px',
+                                                                    height: '170px',
+                                                                }}
+                                                            />
+                                                            {/* <span style={{ display: 'none' }}></span> */}
+                                                        </div>
                                                         <FontAwesomeIcon
                                                             onClick={() => onRemoveChecked(list)}
                                                             icon={faTrashAlt}
@@ -328,6 +355,7 @@ const handleClickc = () => {
                                     }}
                                     onKeyDown={onKeyPress}
                                 ></input>
+
                                 <button
                                     type="button"
                                     style={{
@@ -343,7 +371,7 @@ const handleClickc = () => {
                                     onClick={() => {
                                         axios
                                             .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
-                                                titile: titleInput,
+                                                title: titleInput,
                                                 card_id: checkedListAlbum,
                                             })
                                             .then(function (result) {
@@ -420,7 +448,7 @@ const handleClickc = () => {
                                                 checked={checkedListAlbum.includes(card.cardId) ? true : false}
                                             />
                                         </label> */}
-                                        <CheckboxStyle>
+                                        {/* <CheckboxStyle>
                                             <Checkbox
                                                 onClick={(e) => e.stopPropagation()}
                                                 value={card.cardId}
@@ -434,8 +462,34 @@ const handleClickc = () => {
                                                         color: red[600],
                                                     },
                                                 }}
-                                                icon={<FavoriteBorder />}
-                                                checkedIcon={<Favorite />}
+                                                // 하트
+                                                // icon={<FavoriteBorder sx={{fontSize:'40px'}}/>}
+                                                // checkedIcon={<Favorite sx={{fontSize:'40px'}} />}
+                                                // 책갈피
+                                                icon={<BookmarkBorderIcon sx={{ fontSize: '40px' }} />}
+                                                checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
+                                            />
+                                        </CheckboxStyle> */}
+                                        <CheckboxStyle>
+                                            <Checkbox
+                                                onClick={(e) => e.stopPropagation()}
+                                                value={card.cardId}
+                                                checked={checkedListAlbum[card.cardId] !== undefined ? true : false}
+                                                onChange={(event) => onCheckedElement(event.target.checked, card)}
+                                                {...label}
+                                                defaultChecked
+                                                sx={{
+                                                    color: red[800],
+                                                    '&.Mui-checked': {
+                                                        color: red[600],
+                                                    },
+                                                }}
+                                                // 하트
+                                                // icon={<FavoriteBorder sx={{fontSize:'40px'}}/>}
+                                                // checkedIcon={<Favorite sx={{fontSize:'40px'}} />}
+                                                // 책갈피
+                                                icon={<BookmarkBorderIcon sx={{ fontSize: '40px' }} />}
+                                                checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
                                             />
                                         </CheckboxStyle>
                                         <CardMedia
