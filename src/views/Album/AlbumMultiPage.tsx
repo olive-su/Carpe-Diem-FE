@@ -34,7 +34,7 @@ const albumMultiPage = () => {
     }, [dispatch]);
 
     return (
-        <div style={{ width: '80vw', height: '100vh' }}>
+        <div style={{ width: '80vw', height: '100vh', display: 'block' }}>
             <h2> My Album</h2>
             <Slider {...settings}>
                 {album.cardId?.map((cardId: any) => (
