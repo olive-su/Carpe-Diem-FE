@@ -18,7 +18,9 @@ import config from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import dayjs from 'dayjs';
 import frame from '../../assets/frame.png';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/system';
@@ -30,7 +32,7 @@ const userId = 'test';
 
 const StyleContent = styled.div`
     background-color: #fff;
-    font-family: GangwonEduPowerExtraBoldA;
+    font-family: IBMPlexSansKR-Regular;
     display: flex;
     height: auto;
     text-align: center;
@@ -188,8 +190,9 @@ const AlbumSinglePage = () => {
                     <Sidebar />
 
                     <AlbumSingle>
+                        <h1>My video</h1>
                         <div>
-                            <img src={frame} height="500px" style={{ overflow: 'hideen', width: '600px', position: 'absolute' }}></img>
+                            <img src={frame} height="500px" style={{ width: '600px', position: 'absolute' }}></img>
                             <video
                                 autoPlay
                                 controls
@@ -212,6 +215,7 @@ const AlbumSinglePage = () => {
                                 {emotionType()}
                                 {cardAlbum.expressionLabel}
                             </div>
+
                             <div style={{ textAlign: 'right', padding: '10px' }}>
                                 <button
                                     type="button"
@@ -248,16 +252,19 @@ const AlbumSinglePage = () => {
                                     <button
                                         style={{
                                             outline: 'none',
-                                            borderRadius: '50%',
+                                            borderRadius: '60%',
                                             border: '1.5px solid #221718',
                                             boxShadow: '3px 3px 1px gray',
                                             borderColor: 'black',
                                             backgroundColor: 'white',
                                             color: 'black',
-                                            margin: '10px',
+                                            margin: '2px',
+                                            padding: '2px 4px',
                                         }}
                                     >
-                                        <DownloadIcon />
+                                        <FontAwesomeIcon icon={faCircleDown} size="lg" style={{ color: '#1d1d1d' }} />
+
+                                        {/* <DownloadIcon /> */}
                                     </button>
                                 </a>
                                 <Share img={cardAlbum.thumbnailUrl} comment={cardAlbum.comment} />
@@ -299,6 +306,7 @@ const AlbumSinglePage = () => {
                                                 borderRadius: '30px',
                                                 border: '1.5px solid #221718',
                                                 fontSize: '16px',
+                                                color: 'blue',
                                                 boxShadow: '3px 3px 1px gray',
                                                 paddingLeft: '10px',
                                                 marginBottom: '20px',
@@ -324,9 +332,23 @@ const AlbumSinglePage = () => {
                                     </form>{' '}
                                 </div>
                             ) : (
-                                <div>{cardAlbum.comment}</div>
+                                <div
+                                    style={{
+                                        outline: 'none',
+                                        borderRadius: '10px',
+                                        border: '1.5px solid #221718',
+                                        fontSize: '16px',
+                                        boxShadow: '3px 3px 1px gray',
+                                        paddingLeft: '10px',
+                                        marginBottom: '20px',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    {cardAlbum.comment}
+                                </div>
                             )}
                         </div>
+                        <div>{dayjs(cardAlbum.createdAt).tz('utc').format('YYYY.MM.DD HH:mm:ss')}</div>
                     </AlbumSingle>
                 </StyleContent>
             </div>

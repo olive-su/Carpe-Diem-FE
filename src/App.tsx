@@ -9,7 +9,9 @@ import RemoteCamera from './views/Camera/RemoteCamera';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
-import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
+import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
+import Login from './views/Login/Login';
+import Parallax from './views/Main/\bParallax';
 
 function App() {
     return (
@@ -17,6 +19,8 @@ function App() {
             <Routes>
                 <Route>
                     <Route path="/" element={<CamContent />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/main" element={<Parallax />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/video" element={<VideoContent />} />
