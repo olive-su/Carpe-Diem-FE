@@ -39,15 +39,15 @@ const Send = () => {
         <React.Fragment>
             <Container component="main" maxWidth="sm">
                 <Paper elevation={0} sx={{ my: { xs: 3 }, p: { xs: 2}, color: '#1e319d' }}>
-                    <Typography component="h1" variant="h5" align="left">
+                    <Typography component="h1" variant="h5" align="left" >
                         보낸 친구 요청
                     </Typography>
                     <UserSearch />
-                    <List>
+                    <List sx={{overflow: 'auto', height: '320px', mt: 2}}>
                         {reqList?.map((item: friendData) => (
                             <ListItem key={item.user_id} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
-                                <div style={{ marginLeft: '15px', color: '#65a30d' }}>수락 대기중</div>
+                                <div style={{color: '#65a30d' }}>대기중</div>
                             </ListItem>
                         ))}
                     </List>

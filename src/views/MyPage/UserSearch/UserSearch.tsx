@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 import { Typography } from '@mui/material';
 import config from '../../../config';
+import { List } from '@mui/material';
 
 export function UserSearch() {
     const [searchedFriend, setSearchedFriend] = useState<friendData>();
@@ -54,7 +55,7 @@ export function UserSearch() {
     };
     return (
         <>
-            <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 'auto' }}>
+            <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 'auto', mt: 2 }}>
                 {/* <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder="Search User"

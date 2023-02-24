@@ -19,6 +19,16 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Receive from '../Receive';
 import Send from '../Send';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import styled from 'styled-components';
+
+const TodoItemBlock = styled.div`
+    &:hover {
+        ${'#button'} {
+            display: initial;
+        }
+    }
+`;
 
 const friend: friendData = { user_id: '2312314', nickname: '수개미', email: 'test@gamil.com', profile_img: '' };
 const Friend = () => {
@@ -60,28 +70,22 @@ const Friend = () => {
 
     const searchSpace = (event: any) => {
         const keyword = event.target.value;
-        setSearch(keyword);
         setFriendList(
-            allFriendList?.filter(
-                (data: friendData) => {
-                    if (data.nickname.toLowerCase().includes(search.toLowerCase()) || data.email.toLowerCase().includes(search.toLowerCase())) {
-                        return data;
-                    }
-                },
-                () => {
-                    console.log("dsf");
-                },
-            ),
+            allFriendList?.filter((data: friendData) => {
+                if (data.nickname.toLowerCase().includes(keyword.toLowerCase()) || data.email.toLowerCase().includes(keyword.toLowerCase())) {
+                    return data;
+                }
+            }),
         );
     };
     return (
         <React.Fragment>
-            <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-                <Paper elevation={0} sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, color: '#1e319d' }}>
-                    <Typography component="h1" variant="h4" align="left">
+            <Container maxWidth="sm" component="main">
+                <Paper elevation={0} sx={{ my: { xs: 3 }, p: { xs: 2 }, color: '#1e319d' }}>
+                    <Typography component="h1" variant="h5" align="left">
                         친구 목록
                     </Typography>
-                    <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 'auto', mt: 1 }}>
+                    <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 'auto', mt: 2 }}>
                         <TextField
                             id="outlined-search"
                             label="Search friend"
@@ -91,22 +95,33 @@ const Friend = () => {
                         />
                     </Paper>
                     {friendList.length !== 0 ? (
-                        <List>
-                            <Paper sx={{ my: { xs: 1, md: 2 }, p: { xs: 1, md: 2 }, color: '#1e319d' }}>
+                        <Paper sx={{ my: { xs: 3 }, p: { xs: 2 }, color: '#1e319d' }}>
+                            <List sx={{ overflow: 'auto', height: '600px' }}>
                                 {friendList.map((item: friendData) => (
-                                    <ListItem key={item.user_id} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
-                                        <Button
+                                    <TodoItemBlock key={item.user_id}>
+                                        <ListItem  alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
+                                            {/* <Button
                                             onClick={(e) => ondel(item.email)}
-                                            sx={{ marginLeft: '15px', backgroundColor: '#1e319d', color: 'white' }}
+                                            sx={{ backgroundColor: '#1e319d', color: 'white' }}
                                             size="small"
+                                            variant="contained"
                                         >
-                                            친구 삭제
-                                        </Button>
-                                    </ListItem>
+                                            삭제
+                                        </Button> */}
+                                            <IconButton
+                                                id="button"
+                                                onClick={(e) => ondel(item.email)}
+                                                sx={{ color: '#b91c1c', display: 'none' }}
+                                                component="label"
+                                            >
+                                                <PersonRemoveIcon />
+                                            </IconButton>
+                                        </ListItem>
+                                    </TodoItemBlock>
                                 ))}
-                            </Paper>
-                        </List>
+                            </List>
+                        </Paper>
                     ) : (
                         <div>없습니다.</div>
                     )}

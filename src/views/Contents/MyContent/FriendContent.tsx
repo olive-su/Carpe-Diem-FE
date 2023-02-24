@@ -25,12 +25,12 @@ export default function FriendContent() {
             </span>
             <Center>
                 <Sidebar />
-                <Grid container spacing={3}>
+                <Grid container spacing={1}>
                     <Grid item xs={4}>
-                    <Edit />
+                        <Edit />
                     </Grid>
                     <Grid item xs={4}>
-                    <Friend />
+                        <Friend />
                     </Grid>
                     <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Send />
