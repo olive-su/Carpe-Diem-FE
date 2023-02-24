@@ -240,12 +240,16 @@ const handleClickc = () => {
             onRemoveChecked(item);
         }
     };
-    {
-        console.log(cards);
-    }
-    console.log('cardId는 ', checkedListAlbum);
-    console.log(checkedListAlbum.thumbnail_url);
-    console.log(`${checkedListAlbum.length}개 선택`);
+
+    console.log('cards다', cards); // [{cardId : 779, userId: 1175, albumId: 1, thumbnailUrl: awazone},{cardId : 781, userId: 1175, albumId: 1, thumbnailUrl: awazone},{cardId : 726, userId: 1175, albumId: 1, thumbnailUrl: awazone}] 배열 안에 객체 존재
+
+    console.log('cardId는 ', checkedListAlbum); // {779 : {cardId: 779, userId: 1175, thumbnailUrl: !!!!}, 781: {cardId: 781, userId: 1175, thumbnailUrl: ????}}
+
+    console.log(checkedListAlbum.thumbnailUrl); // undefined
+    console.log('test', Object.keys(checkedListAlbum)); // ['779', '781]
+    console.log('test', Object.keys(checkedListAlbum)[0]); // ['779']
+    console.log(`${checkedListAlbum.length}개 선택`); // undefined
+    // console.log(, '입니다^_^'); // 779
 
     // 체크 해제 데이터 삭제
     const onRemoveChecked = (item: any) => {
@@ -254,7 +258,6 @@ const handleClickc = () => {
     };
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
     const CheckboxStyle = styled.div`
         position: absolute;
         top: 0px;
@@ -322,10 +325,10 @@ const handleClickc = () => {
                                                                     height: '120px',
                                                                 }}
                                                             />
-                                                            {/* <span style={{ display: 'none' }}></span> */}
+                                                            {/* <span style={{ display: 'none' }}>{list}</span> */}
                                                         </div>
                                                         <FontAwesomeIcon
-                                                            onClick={() => onRemoveChecked(list)}
+                                                            onClick={() => onRemoveChecked(checkedListAlbum[list])}
                                                             icon={faTrashAlt}
                                                             size="sm"
                                                             style={{ color: 'grey', cursor: 'pointer' }}
@@ -336,6 +339,7 @@ const handleClickc = () => {
                                         })}
                                     </Typography>
                                 </AccordionDetails>
+
                                 <input
                                     type="text"
                                     style={{
@@ -375,6 +379,7 @@ const handleClickc = () => {
                                             .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
                                                 title: titleInput,
                                                 card_id: Object.keys(checkedListAlbum),
+                                                // thumbnail_url: Object.keys(checkedListAlbum[cards.cardId].thumbnailUrl),
                                             })
                                             .then(function (result) {
                                                 console.log(result);
@@ -382,6 +387,8 @@ const handleClickc = () => {
                                             .catch(function (error) {
                                                 console.log(error);
                                             });
+                                        alert('앨범이 생성되었습니다.');
+                                        window.location.reload();
                                     }}
                                 >
                                     앨범 만들기
@@ -494,6 +501,7 @@ const handleClickc = () => {
                                                 checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
                                             />
                                         </CheckboxStyle>
+
                                         <CardMedia
                                             component="img"
                                             sx={{
