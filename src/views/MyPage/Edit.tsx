@@ -30,50 +30,38 @@ const Profile = styled.img`
     margin-top: 10px;
 `;
 const Edit = () => {
-    const [user, setUser] = useState({
-        nickname: 'test',
-        email: 'test@gamil.com',
-        password: 'test1233',
-    });
-    const [nickname, setNickname] = useState(user.nickname);
-    // const [pwd, setPwd] = useState(user.password);
-    // const [pwd2, setPwd2] = useState('');
-    const [email, setEmail] = useState('test@gmail.com');
+    const [nickname, setNickname] = useState();
+    const [email, setEmail] = useState();
     const [editable, setEditable] = useState(false);
-    const userId = '111026319355272059757';
+
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/user/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/user`,
             method: 'get',
+            withCredentials: true,
         })
             .then(function (result: any) {
-                console.log(result.data);
-                setUser(result.data);
                 setNickname(result.data.nickname);
-                // setPwd(result.data.password);
                 setEmail(result.data.email);
             })
             .catch(function (error: any) {
                 console.error('user 에러발생: ', error);
             });
     }, []);
+
     const sendEdit = () => {
         if (nickname === '') {
             alert('닉네임을 입력해주세요.');
             return;
         }
-        // if (pwd2 === '') {
-        //     alert('비밀번호 확인을 입력해주세요.');
-        //     return;
-        // }
-        // if (pwd != pwd2) {
-        //     alert('비밀번호 확인이 일치하지 않습니다.');
-        //     return;
-        // }
-        axios
-            .put(`http://${config.server.host}:${config.server.port}/user/${userId}`, {
+        axios({
+            method: 'put',
+            url: `http://${config.server.host}:${config.server.port}/user`,
+            withCredentials: true,
+            data: {
                 nickname: nickname,
-            })
+            },
+        })
             .then(function (response) {
                 console.log(response);
             })
@@ -116,11 +104,13 @@ const Edit = () => {
                                 프로필
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sx={{display:'flex', justifyContent: 'center'}}>
+                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Profile src="./imgs/not_found_files.jpg"></Profile>
                         </Grid>
                         <Grid item xs={12}>
-                            <Typography variant="h5" align="center">닉네임</Typography>
+                            <Typography variant="h5" align="center">
+                                닉네임
+                            </Typography>
                             {editable ? (
                                 <Typography variant="h6" mt={2} align="center">
                                     <input type="text" value={nickname} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />
