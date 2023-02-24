@@ -16,36 +16,38 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
 import { req } from '../../types/type';
+import { UserSearch } from './UserSearch/UserSearch';
 
-
-const request: req[] = [{ requestId: 2312314, sendEmail:'test@gamil.com', receiveEmail: 'test@gamil.com', check: 0 }];
+const request: friendData[] = [{ nickname: '수개미', user_id: '2312314', email: 'test@gamil.com', profile_img: '' }];
 const Send = () => {
-    const [reqList, setReqList] = useState(request);
-    // React.useEffect(function () {
-    //     axios({
-    //         method: 'get',
-    //         url: `http://${config.server.host}:${config.server.port}/friend`,
-    //         withCredentials: true,
-    //     })
-    //         .then(function (result) {
-    //             setFriendList(result.data);
-    //         })
-    //         .catch(function (error) {
-    //             console.error('friend 에러발생: ', error);
-    //         });
-    // }, []);
+    const [reqList, setReqList] = useState([]);
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/friend/request`,
+            withCredentials: true,
+        })
+            .then(function (result) {
+                setReqList(result.data);
+                console.log(result.data);
+            })
+            .catch(function (error) {
+                console.error('friend req send 에러발생: ', error);
+            });
+    }, []);
     return (
         <React.Fragment>
-            <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-                <Paper elevation={0} sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, color: '#1e319d' }}>
-                    <Typography component="h1" variant="h4" align="left">
+            <Container component="main" maxWidth="sm">
+                <Paper elevation={0} sx={{ my: { xs: 3 }, p: { xs: 2}, color: '#1e319d' }}>
+                    <Typography component="h1" variant="h5" align="left">
                         보낸 친구 요청
                     </Typography>
+                    <UserSearch />
                     <List>
-                        {reqList.map((item: req) => (
-                            <ListItem key={item.requestId} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
-                                {/* <FriendItem nickname = {item.nickname} email={item.email} /> */}
-                                <div style={{ marginLeft: '15px' }}>{}</div>
+                        {reqList?.map((item: friendData) => (
+                            <ListItem key={item.user_id} alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
+                                <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
+                                <div style={{ marginLeft: '15px', color: '#65a30d' }}>수락 대기중</div>
                             </ListItem>
                         ))}
                     </List>

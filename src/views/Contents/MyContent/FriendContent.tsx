@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import Edit from '../../MyPage/Edit';
+import Send from '../../MyPage/Send';
+import Receive from '../../MyPage/Receive';
+import { Box } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 const Center = styled.div`
     height: 100vh;
@@ -21,8 +25,18 @@ export default function FriendContent() {
             </span>
             <Center>
                 <Sidebar />
-                <Edit />
-                <Friend />
+                <Grid container spacing={3}>
+                    <Grid item xs={4}>
+                    <Edit />
+                    </Grid>
+                    <Grid item xs={4}>
+                    <Friend />
+                    </Grid>
+                    <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Send />
+                        <Receive />
+                    </Grid>
+                </Grid>
             </Center>
             <Footer />
         </div>
