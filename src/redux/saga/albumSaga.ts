@@ -14,10 +14,12 @@ import {
 /** 앨범 리스트 로드 */
 // CHECK userId
 
-const userId = 'test';
-
 const albumListLoadAPI: any = (data: any) => {
-    return axios.get(`http://${config.server.host}:${config.server.port}/album/${userId}`, data);
+    return axios({
+        method: 'get',
+        url: `http://${config.server.host}:${config.server.port}/album`,
+        withCredentials: true,
+    });
 };
 
 function* albumListload(): any {
@@ -41,7 +43,11 @@ function* watchAlbumListLoad() {
 
 /* 앨범 정보 로드 */
 const albumLoadAPI: any = (data: any) => {
-    return axios.get(`http://${config.server.host}:${config.server.port}/album/${userId}/${data}`); // TODO 에러 나면 체크하기
+    return axios({
+        method: 'get',
+        url: `http://${config.server.host}:${config.server.port}/album/${data}`,
+        withCredentials: true,
+    });
 };
 
 function* albumLoad(action: any): any {
