@@ -43,9 +43,8 @@ const Edit = () => {
     const userId = '111026319355272059757';
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/user/`,
+            url: `http://${config.server.host}:${config.server.port}/user/${userId}`,
             method: 'get',
-            withCredentials: true,
         })
             .then(function (result: any) {
                 console.log(result.data);
