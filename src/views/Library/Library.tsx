@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Book from './Book';
+import BookButton from './BookButton';
 import Grow from '@mui/material/Grow';
 import { albumData } from '../../types/type';
 import axios from 'axios';
@@ -59,6 +60,7 @@ const Library = () => {
                                 <NavLink to={`/album/${data.albumId}`} style={{ textDecoration: 'none', color: 'black' }}>
                                     <Book album={data} />
                                 </NavLink>
+                                <BookButton album={data} />
                             </Grid>
                         </Grow>
                     ))}

@@ -13,6 +13,8 @@ import OutletIcon from '@mui/icons-material/Outlet';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
 import SickIcon from '@mui/icons-material/Sick';
+import styled from 'styled-components';
+import { BiLeftArrow } from 'react-icons/bi';
 
 const albumMultiPage = () => {
     const settings = {
@@ -36,6 +38,7 @@ const albumMultiPage = () => {
     return (
         <div style={{ width: '80vw', height: '100vh', display: 'block' }}>
             <h2> My Album</h2>
+
             <Slider {...settings}>
                 {album.cardId?.map((cardId: any) => (
                     <AlbumCarousel key={cardId} cardInfo={cardId} />

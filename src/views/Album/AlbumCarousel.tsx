@@ -25,10 +25,11 @@ export default function AlbumCarousel(props: any) {
             return <SickIcon />;
         }
     };
+
     return (
         <div>
             <h3>{props.cardInfo.cardId}</h3>
-            <div style={{ position: 'relative', margin: '20px' }}>
+            <div style={{ margin: '20px', position: 'relative' }}>
                 <img src={logotitle} style={{ width: '620px', height: '500px', position: 'absolute', top: 0, left: '22%' }}></img>
                 <video
                     controls
