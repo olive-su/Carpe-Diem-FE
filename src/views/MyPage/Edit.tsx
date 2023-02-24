@@ -43,8 +43,9 @@ const Edit = () => {
     const userId = '111026319355272059757';
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/user/${userId}`,
+            url: `http://${config.server.host}:${config.server.port}/user/`,
             method: 'get',
+            withCredentials: true,
         })
             .then(function (result: any) {
                 console.log(result.data);
@@ -116,11 +117,13 @@ const Edit = () => {
                                 프로필
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sx={{display:'flex', justifyContent: 'center'}}>
+                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Profile src="./imgs/not_found_files.jpg"></Profile>
                         </Grid>
                         <Grid item xs={12}>
-                            <Typography variant="h5" align="center">닉네임</Typography>
+                            <Typography variant="h5" align="center">
+                                닉네임
+                            </Typography>
                             {editable ? (
                                 <Typography variant="h6" mt={2} align="center">
                                     <input type="text" value={nickname} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />

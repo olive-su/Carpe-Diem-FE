@@ -30,8 +30,6 @@ const Div = styled('div')`
 `}
 `;
 
-const userId = 'test';
-// const API_URL = ``;
 const Book = (props: any) => {
     return (
         <ThemeProvider theme={theme}>
