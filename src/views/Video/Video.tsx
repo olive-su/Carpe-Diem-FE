@@ -380,12 +380,16 @@ const handleClickc = () => {
                                         textAlign: 'center',
                                     }}
                                     onClick={() => {
-                                        axios
-                                            .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
+                                        axios({
+                                            method: 'post',
+                                            url: `http://${config.server.host}:${config.server.port}/album`,
+                                            withCredentials: true,
+                                            data: {
                                                 title: titleInput,
                                                 card_id: Object.keys(checkedListAlbum),
                                                 cover_img_url: checkedListAlbum[Object.keys(checkedListAlbum)[0]].thumbnailUrl,
-                                            })
+                                            },
+                                        })
                                             .then(function (result) {
                                                 console.log(result);
                                             })

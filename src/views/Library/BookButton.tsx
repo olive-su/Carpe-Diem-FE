@@ -29,8 +29,7 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-const userId = 'test';
-// const API_URL = ``;
+
 const BookButton = (props: any) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -39,17 +38,21 @@ const BookButton = (props: any) => {
     const [text, setText] = useState(props.album.title);
     const [editable, setEditable] = useState(false);
     const sendEdit = () => {
-        axios
-            .put(`http://${config.server.host}:${config.server.port}/album/${props.album.userId}/${props.album.albumId}`, {
+        axios({
+            method: 'put',
+            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
+            withCredentials: true,
+            data: {
                 card_id: props.album.cardId,
                 cover_img_url: props.album.coverImgUrl,
                 title: text,
-            })
+            },
+        })
             .then(function (response) {
                 console.log(response);
             })
             .catch(function (error) {
-                console.log('ssssssss', error);
+                console.log(error);
             });
     };
     const editOn = () => {
@@ -65,10 +68,12 @@ const BookButton = (props: any) => {
         }
     };
     const onClickDelete = () => {
-        axios
-            .delete(`http://${config.server.host}:${config.server.port}/album/${userId}/${props.album.albumId}`, {
-                data: {},
-            })
+        axios({
+            method: 'delete',
+            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
+            withCredentials: true,
+            data: {},
+        })
             .then(function (response: any) {
                 console.log(response.status);
                 window.location.reload();
