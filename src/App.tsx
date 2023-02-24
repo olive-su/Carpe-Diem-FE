@@ -10,7 +10,7 @@ import FriendContent from './views/Contents/MyContent/FriendContent';
 import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
-import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
+import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import Login from './views/Login/Login';
 import Parallax from './views/Main/Parallax';
 

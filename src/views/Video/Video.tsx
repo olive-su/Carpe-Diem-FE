@@ -235,6 +235,7 @@ const handleClickc = () => {
     const onCheckedElement = (checked: boolean, item: any) => {
         if (checked) {
             checkedListAlbum[item.cardId] = item; // CHECK
+            // const thumbnail = (checkedListAlbum[item.thumbnailUrl] = item);
             setCheckedListAlbum({ ...checkedListAlbum });
         } else if (!checked) {
             onRemoveChecked(item);
@@ -245,11 +246,10 @@ const handleClickc = () => {
 
     console.log('cardId는 ', checkedListAlbum); // {779 : {cardId: 779, userId: 1175, thumbnailUrl: !!!!}, 781: {cardId: 781, userId: 1175, thumbnailUrl: ????}}
 
-    console.log(checkedListAlbum.thumbnailUrl); // undefined
-    console.log('test', Object.keys(checkedListAlbum)); // ['779', '781]
-    console.log('test', Object.keys(checkedListAlbum)[0]); // ['779']
-    console.log(`${checkedListAlbum.length}개 선택`); // undefined
-    // console.log(, '입니다^_^'); // 779
+    // console.log(checkedListAlbum.thumbnailUrl); // undefined
+    // console.log('test', Object.keys(checkedListAlbum)); // ['779', '781]
+    // console.log('test', Object.keys(checkedListAlbum)[0]); // ['779']
+    // console.log(`${checkedListAlbum.length}개 선택`); // undefined
 
     // 체크 해제 데이터 삭제
     const onRemoveChecked = (item: any) => {
@@ -314,6 +314,11 @@ const handleClickc = () => {
                                             <div style={{ color: 'grey' }}>{'선택한 비디오가 없습니다'}</div>
                                         )}
                                         {Object.keys(checkedListAlbum).map((list: any) => {
+                                            console.log('asfsa ', checkedListAlbum);
+                                            console.log('222', Object.keys(checkedListAlbum)[0]);
+                                            console.log('222', checkedListAlbum[Object.keys(checkedListAlbum)[0]]);
+                                            console.log('', checkedListAlbum[Object.keys(checkedListAlbum)[0]].thumbnailUrl);
+                                            console.log('1111', checkedListAlbum[list].thumbnailUrl);
                                             return (
                                                 <div key={list}>
                                                     <Card>
@@ -379,7 +384,7 @@ const handleClickc = () => {
                                             .post(`http://${config.server.host}:${config.server.port}/album/${userId}`, {
                                                 title: titleInput,
                                                 card_id: Object.keys(checkedListAlbum),
-                                                // thumbnail_url: Object.keys(checkedListAlbum[cards.cardId].thumbnailUrl),
+                                                cover_img_url: checkedListAlbum[Object.keys(checkedListAlbum)[0]].thumbnailUrl,
                                             })
                                             .then(function (result) {
                                                 console.log(result);
