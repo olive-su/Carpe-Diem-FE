@@ -25,6 +25,7 @@ export default function AlbumCarousel(props: any) {
             return <SickIcon />;
         }
     };
+
     return (
         <div>
             <h3>{props.cardInfo.cardId}</h3>

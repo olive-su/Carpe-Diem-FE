@@ -30,13 +30,10 @@ const Profile = styled.img`
     margin-top: 10px;
 `;
 const Edit = () => {
-    const [user, setUser] = useState({
-        nickname: 'test',
-        email: 'test@gamil.com',
-        password: 'test1233',
-    });
-    const [nickname, setNickname] = useState(user.nickname);
-    const [email, setEmail] = useState('test@gmail.com');
+    const [nickname, setNickname] = useState();
+    const [email, setEmail] = useState();
+    const [editable, setEditable] = useState(false);
+
     React.useEffect(function () {
         axios({
             url: `http://${config.server.host}:${config.server.port}/user`,
@@ -44,10 +41,7 @@ const Edit = () => {
             withCredentials: true,
         })
             .then(function (result: any) {
-                console.log(result.data);
-                setUser(result.data);
                 setNickname(result.data.nickname);
-                // setPwd(result.data.password);
                 setEmail(result.data.email);
             })
             .catch(function (error: any) {
