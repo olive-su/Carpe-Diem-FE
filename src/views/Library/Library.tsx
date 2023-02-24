@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -14,7 +14,6 @@ import axios from 'axios';
 import config from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import { ALBUM_LIST_LOADING_REQUEST } from '../../redux/types';
-import styled from 'styled-components';
 
 const theme = createTheme({
     typography: {
@@ -39,6 +38,7 @@ const Library = () => {
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column' }}>
             <ThemeProvider theme={theme}>
+                <CssBaseline />
                 <Box flex={{ xs: 1 }}>
                     <Box
                         sx={{
@@ -52,7 +52,7 @@ const Library = () => {
                     </Box>
                 </Box>
             </ThemeProvider>
-            <Box style={{ fontFamily: 'IBMPlexSansKR-Regular' }} flex={{ xs: 1 }}>
+            <Box flex={{ xs: 1 }}>
                 <Grid container rowSpacing={0}>
                     {albumList?.map((data: albumData, idx: any) => (
                         <Grow in={true} key={data.albumId} {...{ timeout: 500 }}>

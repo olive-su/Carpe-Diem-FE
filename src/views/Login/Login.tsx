@@ -1,14 +1,17 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
+import config from '../../config';
 
 const LoginStyle = styled.div`
     width: 100wh;
-    height: 100vh;
+    height: 90vh;
     text-align: center;
     font-family: 'IBMPlexSansKR-Regular';
+    margin-bottom: 90px;
 `;
 
 const Left = styled.div`
@@ -19,18 +22,18 @@ const Left = styled.div`
     background-color: #0284c7;
 `;
 
-const Right = styled.div`
-    width: 50%;
-    height: 100vh;
-    padding-top: 130px;
-    float: right;
-`;
+// const Right = styled.div`
+//     width: 50%;
+//     height: 100vh;
+//     padding-top: 130px;
+//     float: right;
+// `;
 
 export default function Login() {
     return (
         <>
             <LoginStyle>
-                <Left>
+                {/* <Left>
                     <h1 style={{ fontSize: '50px', color: 'white', marginBottom: '40px' }}>Contact Us</h1>
                     <div style={{ textAlign: 'left', marginLeft: '200px', marginBottom: '20px' }}>
                         <div style={{ marginTop: '20px' }}>
@@ -46,30 +49,16 @@ export default function Login() {
                             <span style={{ color: 'white', fontSize: '20px' }}>+0100000000</span>
                         </div>
                     </div>
-                </Left>
-                <Right>
-                    <img src="./logo512.png" style={{ width: '200px' }} />
-                    <h1>Welcome to CARPE DIEM</h1>
-                    <h3 style={{ margin: '40px', color: '#71717a' }}>Great to see you again</h3>
-                    <button
-                        style={{
-                            // flexWrap: 'wrap',
-                            outline: 'none',
-                            borderRadius: '1px',
-                            border: '1.5px solid #0284c7',
-                            boxShadow: '3px 3px 1px gray',
-                            backgroundColor: '#0284c7',
-                            color: 'white',
-                            width: '90vw',
-                            maxWidth: '400px',
-                            height: '50px',
-                            fontSize: '16px',
-                            lineHeight: '16px',
-                        }}
-                    >
-                        Google Login
-                    </button>
-                </Right>
+                </Left> */}
+                <div style={{ paddingTop: '200px' }}>
+                    <img src="./imgs/login-page.png" style={{ width: '1300px' }} />
+                    {/* <img src="./logo512.png" style={{ width: '200px' }} /> */}
+                    {/* <h1>Welcome to CARPE DIEM</h1> */}
+                    {/* <h3 style={{ margin: '40px', color: '#71717a' }}>Great to see you again</h3> */}
+                    <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
+                        <img src="./imgs/btn-google-signin-light-normal-web@2x.png" style={{ width: '20vw' }} />
+                    </NavLink>
+                </div>
             </LoginStyle>
         </>
     );
