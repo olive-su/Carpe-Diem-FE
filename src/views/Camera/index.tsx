@@ -75,7 +75,7 @@ function CameraPage(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
 
-    const [camStarted, setCamStarted] = useState(true);
+    const [camStarted, setCamStarted] = useState(false);
     const [modelLoaded, setModelLoaded] = useState(false);
     const [recordStarted, setRecordStarted] = useState(false);
 
@@ -204,8 +204,8 @@ function CameraPage(props: any) {
                     const box = matched.detection.box;
                     // const target = faceMatcher.findBestMatch(matched.descriptor).toString();
                     const label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
-                    // const labelColor = label === userId ? 'red' : 'blue';
-                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: 'red', label: label });
+                    const labelColor = label !== 'unknown' ? 'red' : 'blue';
+                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: labelColor, label: label });
 
                     // if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
                     drawBox.draw(canvas); // 전체 사용자 인식
