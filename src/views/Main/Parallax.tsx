@@ -50,7 +50,7 @@ export default function Parallax() {
                     </a>
                 </div> */}
             </header>
-            <div className="carpe">
+            <div className="carpe" style={{ scrollBehavior: 'smooth' }}>
                 <span className="c1 span">C</span>
                 <span className="c2 span">A</span>
                 <span className="c3 span">R</span>
