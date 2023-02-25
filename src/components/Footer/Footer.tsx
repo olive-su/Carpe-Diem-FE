@@ -9,8 +9,9 @@ const StyleFooter = styled.div`
     background-color: #fff;
     height: 200px;
     font-family: Pretendard-Regular;
-    margin-top: -16px;
+    margin-top: -25px;
     text-align: center;
+    margin-bottom: 30px;
 `;
 
 export default function Footer() {
@@ -18,7 +19,6 @@ export default function Footer() {
         <>
             <StyleFooter>
                 <br />
-                <span style={{ marginBottom: '20px', fontSize: '20px' }}>KDS | KSK | LJY | JSW | HSH</span>
                 <div>
                     <br />
                     <Button>
@@ -28,6 +28,29 @@ export default function Footer() {
                         <YouTubeIcon fontSize="large" sx={{ color: 'red' }} />
                     </Button>
                 </div>
+                <div style={{ marginTop: 10 }}>
+                    <a href="https://github.com/sol2588" target="_blank" rel="noopener noreferrer">
+                        🐱 KDS
+                    </a>{' '}
+                    |
+                    <a href="https://github.com/olive-su" target="_blank" rel="noopener noreferrer">
+                        👑 KSG
+                    </a>{' '}
+                    |
+                    <a href="https://github.com/ljy6712" target="_blank" rel="noopener noreferrer">
+                        👶🏻 LJY
+                    </a>{' '}
+                    |
+                    <a href="https://github.com/nickhealthy" target="_blank" rel="noopener noreferrer">
+                        🧐 JSW
+                    </a>{' '}
+                    |
+                    <a href="https://github.com/XxoSio" target="_blank" rel="noopener noreferrer">
+                        {' '}
+                        ⚡️ HSH
+                    </a>
+                </div>
+
                 <br />
                 <div>Team CARPE DIEM | Privacy Policy</div>
                 <div>@Copyright 2023. All Right Reserved.</div>
