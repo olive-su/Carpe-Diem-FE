@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@mui/material';
+
 import styled from 'styled-components';
 
 import Divider from '@mui/material/Divider';
@@ -28,10 +28,12 @@ export default function FriendItem({ nickname, email, img }: itemProps) {
         <>
             {img ? (
                 <ListItemAvatar>
-                    <Avatar alt="nickname" src="./imgs/not_found_files.jpg" />
+                    <Avatar alt="nickname" src={img} />
                 </ListItemAvatar>
             ) : (
-                {}
+                <ListItemAvatar>
+                    <Avatar alt="nickname" src="./imgs/not_found_files.jpg" />
+                </ListItemAvatar>
             )}
             <ListItemText
                 primary={nickname}
