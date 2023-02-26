@@ -1,13 +1,21 @@
-import { USER_LOADING_REQUEST, USER_LOADING_SUCCESS, USER_LOADING_FAILURE } from '../types';
+import {
+    USER_LOADING_REQUEST,
+    USER_LOADING_SUCCESS,
+    USER_LOADING_FAILURE,
+    USIM_LOADING_REQUEST,
+    USIM_LOADING_SUCCESS,
+    USIM_LOADING_FAILURE,
+} from '../types';
 
 const initialState = {
     isAuthenticated: false,
     isLoading: false,
     errorMsg: '',
     successMsg: '',
+    usim: [],
 };
 
-const authreducer = (state = initialState, action: any) => {
+const authReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case USER_LOADING_REQUEST:
             return {
@@ -36,4 +44,19 @@ const authreducer = (state = initialState, action: any) => {
     }
 };
 
-export default authreducer;
+const usimReducer = (state = initialState, action: any) => {
+    switch (action.type) {
+        case USIM_LOADING_REQUEST:
+        case USIM_LOADING_SUCCESS:
+            return {
+                ...state,
+                usim: action.payload,
+            };
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export { authReducer, usimReducer };
