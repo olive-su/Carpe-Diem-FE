@@ -1,64 +1,46 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
+import useIntersectionObsever from '../../hooks/useIntersectionObsever';
 import config from '../../config';
 
 const LoginStyle = styled.div`
     width: 100wh;
     height: 90vh;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     font-family: 'IBMPlexSansKR-Regular';
-    margin-bottom: 90px;
-`;
+    padding-top: 200px;
 
-const Left = styled.div`
-    width: 50%;
-    height: 100vh;
-    float: left;
-    padding-top: 210px;
-    background-color: #0284c7;
-`;
+    &.animation {
+        animation-name: opacity;
+        animation-duration: 5000ms;
 
-// const Right = styled.div`
-//     width: 50%;
-//     height: 100vh;
-//     padding-top: 130px;
-//     float: right;
-// `;
+        @keyframes opacity {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    }
+`;
 
 export default function Login() {
+    const ref = useRef<HTMLDivElement>(null);
+    const isInViewport = useIntersectionObsever(ref);
+
     return (
         <>
-            <LoginStyle>
-                {/* <Left>
-                    <h1 style={{ fontSize: '50px', color: 'white', marginBottom: '40px' }}>Contact Us</h1>
-                    <div style={{ textAlign: 'left', marginLeft: '200px', marginBottom: '20px' }}>
-                        <div style={{ marginTop: '20px' }}>
-                            <LocationOnIcon fontSize="large" sx={{ color: 'white' }} />
-                            <span style={{ color: 'white', fontSize: '20px' }}>Avenue on carpediem Siheung</span>
-                        </div>
-                        <div style={{ marginTop: '20px' }}>
-                            <EmailIcon fontSize="large" sx={{ color: 'white' }} />
-                            <span style={{ color: 'white', fontSize: '20px' }}> Carpediem@gmail.com</span>
-                        </div>
-                        <div style={{ marginTop: '20px' }}>
-                            <PhoneIcon fontSize="large" sx={{ color: 'white' }} />
-                            <span style={{ color: 'white', fontSize: '20px' }}>+0100000000</span>
-                        </div>
-                    </div>
-                </Left> */}
-                <div style={{ paddingTop: '200px' }}>
-                    <img src="./imgs/login-page.png" style={{ width: '1300px' }} />
-                    {/* <img src="./logo512.png" style={{ width: '200px' }} /> */}
-                    {/* <h1>Welcome to CARPE DIEM</h1> */}
-                    {/* <h3 style={{ margin: '40px', color: '#71717a' }}>Great to see you again</h3> */}
-                    <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
-                        <img src="./imgs/btn-google-signin-light-normal-web@2x.png" style={{ width: '20vw' }} />
-                    </NavLink>
+            <LoginStyle ref={ref} className={isInViewport ? 'animation' : ''}>
+                <div>
+                    <img src="./imgs/login-page.png" style={{ width: '120vh' }} />
                 </div>
+                <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
+                    <img src="./imgs/btn-google-signin-light-normal-web@2x.png" style={{ width: '15vw' }} />
+                </NavLink>
             </LoginStyle>
         </>
     );
