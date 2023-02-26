@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import './styles/App.css';
 import Auth from './views/Auth';
 import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
@@ -8,25 +9,22 @@ import CamContent from './views/Contents/CamContent/CamContent';
 import RemoteCamera from './views/Camera/RemoteCamera';
 import Mobile from './views/Camera/MobileCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
-import './styles/App.css';
-import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
-import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
-import Login from './views/Login/Login';
+import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import Parallax from './views/Main/Parallax';
 import Modal from './views/Login/Modal';
+import PrivateRoute from './views/Auth/PrivateRoute';
 
 function App() {
     return (
-        <Router>
+        <BrowserRouter>
             <Routes>
-                <Route>
+                <Route path="/login" element={<Modal />} />
+                <Route path="/main" element={<Parallax />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route element={<PrivateRoute />}>
                     <Route path="/" element={<CamContent />} />
-                    {/* <Route path="/friend" element={<FriendContent />} /> */}
                     <Route path="/friend" element={<FriendContent />} />
-                    <Route path="/login" element={<Modal />} />
-                    <Route path="/main" element={<Parallax />} />
-                    <Route path="/auth" element={<Auth />} />
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />
                     <Route path="/video" element={<VideoContent />} />
@@ -35,7 +33,7 @@ function App() {
                     <Route path="/album/:albumId" element={<AlbumMultiContent />} />
                 </Route>
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }
 
