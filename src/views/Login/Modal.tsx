@@ -17,6 +17,7 @@ import config from '../../config';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import uploadUserImgs from './uploadUserImgs';
 
 const images = [
     {
@@ -53,7 +54,7 @@ const Modal = () => {
     };
     React.useEffect(() => {
         pictures.map((picture) => {
-            console.log(picture.size);
+            console.log(picture);
         });
     }, [pictures]);
 
@@ -79,7 +80,8 @@ const Modal = () => {
         setOpen(true);
     };
     const submitImg = () => {
-        window.location.replace(`http://${config.client.host}:${config.client.port}/`);
+        uploadUserImgs(pictures);
+        //window.location.replace(`http://${config.client.host}:${config.client.port}/`);
     };
     return (
         <React.Fragment>
