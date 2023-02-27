@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { ALBUM_UPDATE_REQUEST } from '../../redux/types';
+import { ALBUM_UPDATE_REQUEST, ALBUM_DELETE_REQUEST } from '../../redux/types';
 import { Paper, Typography } from '@mui/material';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
@@ -65,19 +65,13 @@ const BookButton = (props: any) => {
         }
     };
     const onClickDelete = () => {
-        axios({
-            method: 'delete',
-            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
-            withCredentials: true,
-            data: {},
-        })
-            .then(function (response: any) {
-                console.log(response.status);
-                window.location.reload();
-            })
-            .catch(function (error: any) {
-                console.log(error);
-            });
+        dispatch({
+            type: ALBUM_DELETE_REQUEST,
+            payload: {
+                album_id: props.album.albumId,
+            },
+        });
+        history.go(0);
     };
 
     return (
