@@ -125,7 +125,7 @@ function CameraPage(props: any) {
     // 라벨링 할 인물 이미지 로컬에서 가져오기
     const loadImage = async () => {
         return Promise.all(
-            usim.map(async (label: any) => {
+            usim.map(async (label: string) => {
                 const images = await faceapi.fetchImage(label);
                 const descriptions = [];
                 const detections = await faceapi.detectSingleFace(images).withFaceLandmarks().withFaceDescriptor();
