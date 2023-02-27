@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
+
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import InteractiveCard from '../../Card/InteractiveCard';
+import Modal from '../../Camera/Modal';
+import { USIM_LOADING_REQUEST } from '../../../redux/types';
 import CameraPage from '../../Camera';
 import RemoteCamera from '../../Camera/RemoteCamera';
 import config from '../../../config';
@@ -93,9 +97,17 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function CamContent() {
+    const dispatch = useDispatch();
+    const { usim } = useSelector((state: any) => state.usim);
     const [videoList, setVideoList] = useState<any[]>([]);
     const [alertClosed, setAlertClosed] = useState<any>('inline-block');
     const [switchChecked, setSwitchChecked] = useState<any>(true);
+
+    useEffect(() => {
+        dispatch({
+            type: USIM_LOADING_REQUEST,
+        });
+    }, [dispatch]);
 
     const videoRenderFlag = () => {
         async function fetchData(): Promise<any> {
@@ -130,10 +142,8 @@ export default function CamContent() {
             </span>
             <StyleContent>
                 <Sidebar />
+                {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
-                    {/* <div style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}>
-                        
-                    </div> */}
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <FormGroup>
                             <FormControlLabel
