@@ -1,5 +1,7 @@
 import { Box } from '@mui/system';
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { ALBUM_UPDATE_REQUEST, ALBUM_DELETE_REQUEST } from '../../redux/types';
 import { Paper, Typography } from '@mui/material';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
@@ -31,6 +33,7 @@ const style = {
 };
 
 const BookButton = (props: any) => {
+    const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -38,22 +41,16 @@ const BookButton = (props: any) => {
     const [text, setText] = useState(props.album.title);
     const [editable, setEditable] = useState(false);
     const sendEdit = () => {
-        axios({
-            method: 'put',
-            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
-            withCredentials: true,
-            data: {
+        dispatch({
+            type: ALBUM_UPDATE_REQUEST,
+            payload: {
+                album_id: props.album.albumId,
                 card_id: props.album.cardId,
                 cover_img_url: props.album.coverImgUrl,
                 title: text,
             },
-        })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        });
+        history.go(0);
     };
     const editOn = () => {
         setEditable(true);
@@ -68,19 +65,13 @@ const BookButton = (props: any) => {
         }
     };
     const onClickDelete = () => {
-        axios({
-            method: 'delete',
-            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
-            withCredentials: true,
-            data: {},
-        })
-            .then(function (response: any) {
-                console.log(response.status);
-                window.location.reload();
-            })
-            .catch(function (error: any) {
-                console.log(error);
-            });
+        dispatch({
+            type: ALBUM_DELETE_REQUEST,
+            payload: {
+                album_id: props.album.albumId,
+            },
+        });
+        history.go(0);
     };
 
     return (
