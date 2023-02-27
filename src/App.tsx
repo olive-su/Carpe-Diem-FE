@@ -10,7 +10,7 @@ import RemoteCamera from './views/Camera/RemoteCamera';
 import Mobile from './views/Camera/MobileCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
-import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
+import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
 import Parallax from './views/Main/Parallax';
 import Modal from './views/Camera/Modal';
 import PrivateRoute from './views/Auth/PrivateRoute';

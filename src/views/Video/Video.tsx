@@ -20,7 +20,6 @@ import Backdrop from '@mui/material/Backdrop';
 
 import dayjs from 'dayjs';
 import axios from 'axios';
-import config from '../../config';
 import styled from 'styled-components';
 
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -30,8 +29,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import CloseIcon from '@mui/icons-material/Close';
 
+import config from '../../config';
+import { ALBUM_CREATE_REQUEST } from '../../redux/types';
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
+import { useDispatch } from 'react-redux';
 
 const CheckboxStyle = styled.div`
     position: absolute;
@@ -54,6 +56,7 @@ const ClearCard = styled.div`
 
 let allCard: any[] = [];
 const Video = () => {
+    const dispatch = useDispatch();
     const [cards, setCards] = useState<any[]>([]);
     React.useEffect(function () {
         axios({
@@ -204,24 +207,14 @@ const Video = () => {
                                 textAlign: 'center',
                             }}
                             onClick={() => {
-                                axios({
-                                    method: 'post',
-                                    url: `http://${config.server.host}:${config.server.port}/album`,
-                                    withCredentials: true,
-                                    data: {
+                                dispatch({
+                                    type: ALBUM_CREATE_REQUEST,
+                                    payload: {
                                         title: titleInput,
                                         card_id: Object.keys(checkedListAlbum),
-                                        // thumbnail_url: Object.keys(checkedListAlbum[cards.cardId].thumbnailUrl),
                                     },
-                                })
-                                    .then(function (result) {
-                                        console.log(result);
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    });
-                                alert('앨범이 생성되었습니다.');
-                                window.location.reload();
+                                });
+                                history.go(0);
                             }}
                         >
                             앨범 만들기
