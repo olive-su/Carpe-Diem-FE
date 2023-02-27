@@ -29,7 +29,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=IBM+Plex+Sans:wght@600&display=swap');
 
 body {
-    background-color: #000;
+    /* background-color: #000; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

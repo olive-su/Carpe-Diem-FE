@@ -9,11 +9,9 @@ import RemoteCamera from './views/Camera/RemoteCamera';
 import Mobile from './views/Camera/MobileCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
 import './styles/App.css';
-import { createGlobalStyle } from 'styled-components';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
-import Login from './views/Login/Login';
-import Parallax from './views/Main/Parallax';
+import Main from './views/Main/main';
 import Modal from './views/Login/Modal';
 
 function App() {
@@ -21,11 +19,11 @@ function App() {
         <Router>
             <Routes>
                 <Route>
+                    <Route path="/main" element={<Main />} />
                     <Route path="/" element={<CamContent />} />
                     {/* <Route path="/friend" element={<FriendContent />} /> */}
                     <Route path="/friend" element={<FriendContent />} />
                     <Route path="/login" element={<Modal />} />
-                    <Route path="/main" element={<Parallax />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />
