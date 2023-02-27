@@ -294,7 +294,7 @@ function CameraPage(props: any) {
         let labels = usim;
 
         return Promise.all(
-            labels.map(async (label) => {
+            labels.map(async (label: string) => {
                 const images = await faceapi.fetchImage(label);
                 const descriptions = [];
                 const detections = await faceapi.detectSingleFace(images).withFaceLandmarks().withFaceDescriptor();
