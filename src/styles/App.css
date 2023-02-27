@@ -28,8 +28,16 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=IBM+Plex+Sans:wght@600&display=swap');
 
+:root {
+    /* --black: #333;
+    --white: #fff; */
+    --black: #fff;
+    --white: #333;
+}
+
 body {
-    background-color: #000;
+    background-color: var(--white);
+    color: var(--black);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
