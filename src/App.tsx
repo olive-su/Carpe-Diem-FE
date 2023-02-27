@@ -11,7 +11,7 @@ import Mobile from './views/Camera/MobileCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
-import Parallax from './views/Main/Parallax';
+import Main from './views/Main/main';
 import Modal from './views/Camera/Modal';
 import PrivateRoute from './views/Auth/PrivateRoute';
 
@@ -20,12 +20,11 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Modal />} />
-                <Route path="/main" element={<Parallax />} />
+                <Route path="/main" element={<Main />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route element={<PrivateRoute />}>
                     <Route path="/" element={<CamContent />} />
-                    <Route path="/friend" element={<FriendContent />} />
-                    <Route path="/remote" element={<RemoteCamera />} />
+                    <Route path="/friend" element={<FriendContent />} /> <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />
                     <Route path="/video" element={<VideoContent />} />
                     <Route path="/video/:cardId" element={<AlbumSinglePage />} />

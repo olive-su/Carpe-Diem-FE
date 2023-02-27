@@ -8,24 +8,11 @@ const LoginStyle = styled.div`
     width: 100wh;
     height: 90vh;
     display: flex;
-    flex-direction: column;
-    text-align: center;
     font-family: 'IBMPlexSansKR-Regular';
-    padding-top: 200px;
-
-    &.animation {
-        animation-name: opacity;
-        animation-duration: 5000ms;
-
-        @keyframes opacity {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-    }
+    padding-top: 650px;
+    padding-right: 30px;
+    position: relative;
+    z-index: 3;
 `;
 
 export default function Login() {
@@ -34,10 +21,7 @@ export default function Login() {
 
     return (
         <>
-            <LoginStyle ref={ref} className={isInViewport ? 'animation' : ''}>
-                <div>
-                    <img src="./imgs/login-page.png" style={{ width: '120vh' }} />
-                </div>
+            <LoginStyle ref={ref}>
                 <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
                     <img src="./imgs/btn-google-signin-light-normal-web@2x.png" style={{ width: '15vw' }} />
                 </NavLink>
