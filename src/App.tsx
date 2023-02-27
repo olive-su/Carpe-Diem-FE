@@ -12,7 +12,7 @@ import FriendContent from './views/Contents/MyContent/FriendContent';
 import AlbumSinglePage from './views/Album/AlbumSinglePage';
 import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import Parallax from './views/Main/Parallax';
-import Modal from './views/Login/Modal';
+import Modal from './views/Camera/Modal';
 import PrivateRoute from './views/Auth/PrivateRoute';
 
 function App() {

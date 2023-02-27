@@ -10,7 +10,7 @@ import Sidebar from '../../../components/Sidebar/Sidebar';
 import Header from '../../../components/Header/Header';
 import Footer from '../../../components/Footer/Footer';
 import InteractiveCard from '../../Card/InteractiveCard';
-import Modal from '../../Login/Modal';
+import Modal from '../../Camera/Modal';
 import { USIM_LOADING_REQUEST } from '../../../redux/types';
 import CameraPage from '../../Camera';
 import RemoteCamera from '../../Camera/RemoteCamera';

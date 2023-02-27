@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import * as faceapi from 'face-api.js';
 import * as io from 'socket.io-client';
 import styled, { keyframes } from 'styled-components';
@@ -77,7 +78,7 @@ const roomName: any = 'test';
 
 // 비디오 사이즈 설정
 function CameraPage(props: any) {
-    console.log('!@@!');
+    const { usim } = useSelector((state: any) => state.usim);
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
     const mobileRef = useRef<any>(null);
@@ -290,25 +291,7 @@ function CameraPage(props: any) {
 
     // 라벨링 할 인물 이미지 로컬에서 가져오기
     const loadImage = async () => {
-        // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
-        const resultUrls: any[] = [];
-        let labels = await axios({
-            url: `http://${config.server.host}:${config.server.port}/camera/usim`,
-            method: 'get',
-            withCredentials: true,
-        })
-            .then(function (result) {
-                result.data.forEach((element: any) => {
-                    console.log(element);
-                    resultUrls.push(element.userImgUrl);
-                });
-                console.log('loadImage', resultUrls);
-                return resultUrls;
-            })
-            .catch(function (error) {
-                console.log('loadImage Error', error);
-                return resultUrls;
-            });
+        let labels = usim;
 
         return Promise.all(
             labels.map(async (label) => {

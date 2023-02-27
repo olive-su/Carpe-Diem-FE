@@ -8,6 +8,9 @@ import {
     USIM_LOADING_REQUEST,
     USIM_LOADING_SUCCESS,
     USIM_LOADING_FAILURE,
+    USIM_CREATE_REQUEST,
+    USIM_CREATE_SUCCESS,
+    USIM_CREATE_FAILURE,
 } from '../types';
 
 // User Loading
@@ -59,10 +62,14 @@ const usimLoadingAPI = (data: any) => {
 function* usimLoading(action: any): any {
     try {
         const result = yield call(usimLoadingAPI, action.payload);
-        console.log('usim 정보 로드', result.data);
+        const usimData: string[] = [];
+        Object.values(result.data).map((value: any) => {
+            usimData.push(`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${value.userImgUrl}`);
+        });
+
         yield put({
             type: USIM_LOADING_SUCCESS,
-            payload: result.data,
+            payload: usimData,
         });
     } catch (e: any) {
         yield put({
@@ -76,12 +83,46 @@ function* watchUsimLoading() {
     yield takeEvery(USIM_LOADING_REQUEST, usimLoading);
 }
 
+// Usim Create
+const usimCreateAPI = (data: any) => {
+    console.log(data);
+    return axios({
+        method: 'post',
+        url: `http://${config.server.host}:${config.server.port}/camera/usim`,
+        withCredentials: true,
+        data: data,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
+
+function* usimCreate(action: any): any {
+    try {
+        const result = yield call(usimCreateAPI, action.payload);
+        console.log('usim 생성', result.data);
+        yield put({
+            type: USIM_CREATE_SUCCESS,
+            payload: result.data,
+        });
+    } catch (e: any) {
+        yield put({
+            type: USIM_CREATE_FAILURE,
+            payload: e.response,
+        });
+    }
+}
+
+function* watchUsimCreate() {
+    yield takeEvery(USIM_CREATE_REQUEST, usimCreate);
+}
+
 function* authSaga() {
     yield all([fork(watchUserLoading)]);
 }
 
 function* usimSaga() {
-    yield all([fork(watchUsimLoading)]);
+    yield all([fork(watchUsimLoading), fork(watchUsimCreate)]);
 }
 
 export { authSaga, usimSaga };

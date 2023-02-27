@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import * as faceapi from 'face-api.js';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
@@ -74,6 +75,7 @@ const userId = 'test';
 function CameraPage(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
+    const { usim } = useSelector((state: any) => state.usim);
 
     const [camStarted, setCamStarted] = useState(false);
     const [modelLoaded, setModelLoaded] = useState(false);
@@ -122,28 +124,8 @@ function CameraPage(props: any) {
 
     // 라벨링 할 인물 이미지 로컬에서 가져오기
     const loadImage = async () => {
-        // 업로드 된 이미지 이름을 배열에 담아 라벨링 합니다.
-        const resultUrls: any[] = [];
-        let labels = await axios({
-            url: `http://${config.server.host}:${config.server.port}/camera/usim`,
-            method: 'get',
-            withCredentials: true,
-        })
-            .then(function (result) {
-                result.data.forEach((element: any) => {
-                    console.log(element);
-                    resultUrls.push(element.userImgUrl);
-                });
-                console.log('loadImage', resultUrls);
-                return resultUrls;
-            })
-            .catch(function (error) {
-                console.log('loadImage Error', error);
-                return resultUrls;
-            });
-
         return Promise.all(
-            labels.map(async (label) => {
+            usim.map(async (label: any) => {
                 const images = await faceapi.fetchImage(label);
                 const descriptions = [];
                 const detections = await faceapi.detectSingleFace(images).withFaceLandmarks().withFaceDescriptor();
@@ -230,8 +212,13 @@ function CameraPage(props: any) {
             const expressions = await faceDetecting(expression);
             // 새로 녹화 시작
             // CHECK
-            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy') {
-                // if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy' && expressions.target === userId) {
+            // if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy') {
+            if (
+                !recordFlag &&
+                expressions.value > constraints.model.emotionValue &&
+                expressions.label === 'happy' &&
+                expressions.target !== 'unknown'
+            ) {
                 recordFlag = true;
                 recordInfo = {
                     userId: userId,
