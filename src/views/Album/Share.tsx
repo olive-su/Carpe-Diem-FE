@@ -1,29 +1,20 @@
 import React, { useEffect } from 'react';
 import IosShareIcon from '@mui/icons-material/IosShare';
-import { Button } from '@mui/material';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
 import styled from 'styled-components';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
-import ShareIcon from '@mui/icons-material/Share';
-
 import CloseIcon from '@mui/icons-material/Close';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import ForumIcon from '@mui/icons-material/Forum';
 import config from '../../config';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface SnackbarMessage {
     message: string;
@@ -133,20 +124,22 @@ const Share = (props: any) => {
     };
     return (
         <div>
-            <a href={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.videoUrl}`} download>
-                <IconButton>
-                    <FontAwesomeIcon
-                        icon={faCircleDown}
-                        style={{
-                            color: '#fff',
-                        }}
-                    />
-                    {/* <DownloadIcon /> */}
-                </IconButton>
-            </a>
-            <IconButton type="button" onClick={handleClick}>
-                <ShareIcon sx={{ color: 'white' }} />
-            </IconButton>
+            <button
+                type="button"
+                onClick={handleClick}
+                style={{
+                    outline: 'none',
+                    borderRadius: '50%',
+                    border: '1.5px solid #221718',
+                    boxShadow: '3px 3px 1px gray',
+                    borderColor: 'black',
+                    backgroundColor: 'white',
+                    color: 'whitesmoke',
+                    margin: '10px',
+                }}
+            >
+                <IosShareIcon sx={{ color: '#1d1d1d' }} />
+            </button>
             <Menu
                 anchorEl={anchorEl}
                 open={open}

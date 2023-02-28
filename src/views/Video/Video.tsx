@@ -56,6 +56,7 @@ const ClearCard = styled.div`
 `;
 
 const Video = () => {
+    const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
     useEffect(() => {
@@ -71,6 +72,7 @@ const Video = () => {
     //     allCards = cardList;
     // }, []);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
     const [checkedListAlbum, setCheckedListAlbum]: any = useState({});
     // 체크시 데이터 저장, 체크 해제시 데이터 삭제
     const onCheckedElement = (checked: boolean, item: any) => {
