@@ -1,12 +1,10 @@
 import { createReducer, createAction, combineReducers } from '@reduxjs/toolkit';
+import { ADD_NOTI, DELETE_NOTI } from '../types';
 
-const ADD_NOTI = 'ADD_NOTI';
-const DELETE_NOTI = 'DELETE_NOTI';
+export const addNoti = (message: any) => ({ type: ADD_NOTI, message });
+export const deleteNoti = (id: any) => ({ type: DELETE_NOTI, id });
 
-export const addNoti = (message) => ({ type: ADD_NOTI, message });
-export const deleteNoti = (id) => ({ type: DELETE_NOTI, id });
-
-const saveNotifications = (notifications) => {
+const saveNotifications = (notifications: any) => {
     localStorage.setItem('notifications', JSON.stringify(notifications));
 };
 const loadNotifications = () => {
@@ -17,7 +15,7 @@ const initialState = {
     notifications: loadNotifications(),
 };
 
-const notiReducer = (state = initialState, action) => {
+const notiReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case ADD_NOTI:
             // eslint-disable-next-line no-case-declarations
@@ -34,7 +32,7 @@ const notiReducer = (state = initialState, action) => {
             };
         case DELETE_NOTI:
             // eslint-disable-next-line no-case-declarations
-            const newNotifications = state.notifications.filter((notification) => notification.id !== action.id);
+            const newNotifications = state.notifications.filter((notification: any) => notification.id !== action.id);
             saveNotifications(newNotifications);
             return {
                 ...state,

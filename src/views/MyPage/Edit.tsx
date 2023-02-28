@@ -49,51 +49,6 @@ const Edit = () => {
             });
     }, []);
 
-    const sendEdit = () => {
-        if (nickname === '') {
-            alert('닉네임을 입력해주세요.');
-            return;
-        }
-        axios({
-            method: 'put',
-            url: `http://${config.server.host}:${config.server.port}/user`,
-            withCredentials: true,
-            data: {
-                nickname: nickname,
-            },
-        })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log('ssssssss', error);
-            });
-    };
-    // const [showPassword, setShowPassword] = React.useState(false);
-    // const [showPassword2, setShowPassword2] = React.useState(false);
-
-    // const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     event.preventDefault();
-    // };
-    // const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
-
-    // const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     event.preventDefault();
-    // };
-    const editOn = () => {
-        setEditable(true);
-    };
-    const handleChange = (e: any) => {
-        setNickname(e.target.value);
-    };
-    const handleKeyDown = (e: any) => {
-        if (e.key === 'Enter') {
-            setEditable(false);
-            sendEdit();
-        }
-    };
     return (
         <React.Fragment>
             <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -111,19 +66,9 @@ const Edit = () => {
                             <Typography variant="h5" align="center">
                                 닉네임
                             </Typography>
-                            {editable ? (
-                                <Typography variant="h6" mt={2} align="center">
-                                    <input type="text" value={nickname} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />
-                                    {/* <Button variant="contained">수정</Button> */}
-                                </Typography>
-                            ) : (
-                                <Typography noWrap={true} variant="h6" mt={2} align="center" color="#64748b">
-                                    {nickname}
-                                    <IconButton size="small" onClick={() => editOn()}>
-                                        <EditIcon />
-                                    </IconButton>
-                                </Typography>
-                            )}
+                            <Typography noWrap={true} variant="h6" mt={2} align="center" color="#64748b">
+                                {nickname}
+                            </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="h5" align="center">
@@ -133,73 +78,6 @@ const Edit = () => {
                                 {email}
                             </Typography>
                         </Grid>
-                        {/* <Grid item xs={12}>
-                            <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <InputLabel htmlFor="pwd">비밀번호</InputLabel>
-                                <OutlinedInput
-                                    sx={{ width: '100%' }}
-                                    id="pwd"
-                                    error={pwd === '' ? true : false}
-                                    value={pwd}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                        setPwd(event.target.value);
-                                    }}
-                                    type={showPassword ? 'text' : 'password'}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="비밀번호"
-                                />
-                                <FormHelperText style={{ color: '#d32f2f', display: pwd === '' ? 'block' : 'none' }}>
-                                    비밀번호를 입력해주세요.
-                                </FormHelperText>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <InputLabel htmlFor="pwd2">비밀번호 확인</InputLabel>
-                                <OutlinedInput
-                                    sx={{ width: '100%' }}
-                                    id="pwd2"
-                                    error={pwd2 === '' || pwd2 !== pwd ? true : false}
-                                    value={pwd2}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                        setPwd2(event.target.value);
-                                    }}
-                                    type={showPassword2 ? 'text' : 'password'}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword2}
-                                                onMouseDown={handleMouseDownPassword2}
-                                                edge="end"
-                                            >
-                                                {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="비밀번호 확인"
-                                />
-                                <FormHelperText style={{ color: '#d32f2f', display: pwd2 === '' || pwd2 !== pwd ? 'block' : 'none' }}>
-                                    {pwd2 === '' ? '비밀번호 확인을 입력해주세요.' : '비밀번호와 일치하지 않습니다.'}
-                                </FormHelperText>
-                            </FormControl>
-                        </Grid> */}
-                        {/* <Grid item xs={12} style={{ display: 'flex', justifyContent: 'right' }}>
-                            <Button onClick={sendEdit} sx={{ backgroundColor: '#1e319d', color: 'white' }}>
-                                수정
-                            </Button>
-                        </Grid> */}
                     </Grid>
                 </Paper>
             </Container>

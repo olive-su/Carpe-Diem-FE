@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logotitle from './images/logotitle.png';
+import MyModal from './MyModal';
 import { Link } from 'react-router-dom';
 
 // 헤더
@@ -57,18 +58,23 @@ export default function Header() {
                 </Link>
             </div>
             <NavMenu>
-                <NavItem
-                    onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
-                    onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
-                >
-                    My Page
-                </NavItem>
-                <NavItem
-                    onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
-                    onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
-                >
-                    Logout
-                </NavItem>
+                <Link style={{ textDecoration: 'none' }} to="/friend">
+                    <NavItem
+                        onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
+                        onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
+                    >
+                        My Page
+                    </NavItem>
+                </Link>
+                <Link style={{ textDecoration: 'none' }} to="/main">
+                    <NavItem
+                        onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
+                        onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
+                    >
+                        Logout
+                    </NavItem>
+                </Link>
+                <MyModal />
             </NavMenu>
         </StyleHeader>
     );

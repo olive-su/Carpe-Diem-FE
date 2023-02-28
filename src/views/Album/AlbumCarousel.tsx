@@ -29,7 +29,7 @@ export default function AlbumCarousel(props: any) {
     return (
         <div>
             <h3>{props.cardInfo.cardId}</h3>
-            <div style={{ margin: '20px', position: 'relative' }}>
+            <div style={{ position: 'relative', margin: '20px' }}>
                 <img src={logotitle} style={{ width: '620px', height: '500px', position: 'absolute', top: 0, left: '22%' }}></img>
                 <video
                     controls

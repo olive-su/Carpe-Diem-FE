@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'IBMPlexSansKR-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
-    font-weight: 900;
+    font-weight: 700;
     font-style: normal;
 }
 
@@ -27,3 +27,16 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=IBM+Plex+Sans:wght@600&display=swap');
+
+:root {
+    /* --black: #333;
+    --white: #fff; */
+    --black: #fff;
+    --white: #333;
+}
+
+body {
+    /* background-color: #000; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
