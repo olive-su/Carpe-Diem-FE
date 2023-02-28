@@ -34,6 +34,7 @@ import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/typ
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
+import IndeterminateCheckbox from './CheckBox';
 
 const CheckboxStyle = styled.div`
     position: absolute;
@@ -54,7 +55,6 @@ const ClearCard = styled.div`
     margin-top: 20px;
 `;
 
-const allCard: any[] = [];
 const Video = () => {
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
@@ -63,7 +63,13 @@ const Video = () => {
             type: CARD_LIST_LOADING_REQUEST,
         });
     }, [dispatch]);
-    console.log(cardList);
+    // useEffect(() => {
+    //     dispatch({
+    //         type: CARD_LIST_LOADING_REQUEST,
+    //     });
+    //     console.log(cardList);
+    //     allCards = cardList;
+    // }, []);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     const [checkedListAlbum, setCheckedListAlbum]: any = useState({});
     // 체크시 데이터 저장, 체크 해제시 데이터 삭제
@@ -212,6 +218,7 @@ const Video = () => {
                     </Box>
                 </Accordion>
             </Box>
+            <IndeterminateCheckbox />
             <Grid container spacing={1} sx={{ mt: '20px' }}>
                 {cardList?.map((card: any) => (
                     <Grid item key={card.cardId} xs={12} sm={4}>

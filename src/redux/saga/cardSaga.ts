@@ -6,6 +6,7 @@ import {
     CARD_LIST_LOADING_REQUEST,
     CARD_LIST_LOADING_SUCCESS,
     CARD_LIST_LOADING_FAILURE,
+    CARD_LIST_FILTER_EXPRESSION,
     CARD_LOADING_REQUEST,
     CARD_LOADING_SUCCESS,
     CARD_LOADING_FAILURE,
@@ -15,6 +16,7 @@ import {
     CARD_DELETE_REQUEST,
     CARD_DELETE_SUCCESS,
     CARD_DELETE_FAILURE,
+    CARD_LIST_FILTER_EXPRESSION_SUCCESS,
 } from '../types';
 
 /* 카드 리스트 로드 */
@@ -41,8 +43,27 @@ function* cardListload(): any {
     }
 }
 
+function* cardListFilterload(): any {
+    try {
+        const result = yield call(cardListLoadAPI);
+        yield put({
+            type: CARD_LIST_FILTER_EXPRESSION_SUCCESS,
+            payload: result.data,
+        });
+    } catch (e: any) {
+        yield put({
+            type: CARD_LIST_LOADING_FAILURE,
+            payload: e.response,
+        });
+    }
+}
+
 function* watchCardListLoad() {
     yield takeEvery(CARD_LIST_LOADING_REQUEST, cardListload);
+}
+
+function* watchCardListFilterLoad() {
+    yield takeEvery(CARD_LIST_FILTER_EXPRESSION, cardListFilterload);
 }
 
 /* 카드 정보 로드 */
@@ -138,7 +159,7 @@ function* watchCardDelete() {
 }
 
 function* cardListSaga() {
-    yield all([fork(watchCardListLoad)]);
+    yield all([fork(watchCardListLoad), fork(watchCardListFilterLoad)]);
 }
 
 function* cardSaga() {
