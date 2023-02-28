@@ -70,28 +70,46 @@ dayjs.extend(timezone);
 // `;
 let allCard: any[] = [];
 const Album = () => {
+    const [offset, setOffset] = useState(0);
+
     const [cards, setCards] = useState<any[]>([]);
-    React.useEffect(function () {
-        axios({
-            method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card`,
-            withCredentials: true,
-        })
-            .then(function (result) {
-                console.log('dafsfasdffsfdsaafsd', result.data);
-                setCards(result.data);
-                allCard = result.data;
+    React.useEffect(
+        function () {
+            axios({
+                method: 'get',
+                url: `http://${config.server.host}:${config.server.port}/card?page=${offset}&size=${8}`,
+                withCredentials: true,
             })
-            .catch(function (error) {
-                console.log(`http://${config.server.host}:${config.server.port}/card`);
-                console.error('card 에러발생: ', error);
-            });
-    }, []);
+                .then(function (result) {
+                    console.log('dafsfasdffsfdsaafsd', result.data);
+                    setCards((pre) => [...pre, ...result.data]);
+                    allCard = result.data;
+                })
+                .catch(function (error) {
+                    console.log(`http://${config.server.host}:${config.server.port}/card`);
+                    console.error('card 에러발생: ', error);
+                });
+        },
+        [offset],
+    );
     const [option, setOption] = React.useState('Newest');
     const [checked, setChecked] = React.useState([true, true, true, true, true, true]);
     if (option == 'Newest') {
         cards.sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)));
     }
+
+    React.useEffect(() => {
+        const handleScroll = (e: any) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
+
+            if (currentHeight + 10 >= scrollHeight) {
+                setOffset(offset + 1);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [offset]);
 
     const handleChange = (event: any) => {
         setOption(event.target.value);
