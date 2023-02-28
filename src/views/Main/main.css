@@ -101,10 +101,10 @@ header .logo {
     mix-blend-mode: multiply;
 }
 
-.main h2 {
+h2 {
     position: relative;
     z-index: 3;
-    font-size: 16vw;
+    font-size: 14vw;
     color: #fff;
     text-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
 }
@@ -112,7 +112,9 @@ header .logo {
 .login {
     z-index: 3;
     position: absolute;
-    left: 40%;
+    /* display: flex;
+    justify-content: center; */
+    left: 50%;
     top: 60%;
 }
 
@@ -154,7 +156,7 @@ header .logo {
     color: var(--white);
 }
 
-.sci {
+/* .sci {
     position: absolute;
     right: 100px;
     bottom: 40px;
@@ -162,15 +164,11 @@ header .logo {
     display: flex;
 }
 
-.sci {
-    list-style: none;
-}
-
-.sci li a {
+.sci a {
     text-decoration: none;
     color: var(--black);
     font-size: 2em;
-}
+} */
 
 /* 모바일 캠 버튼 작업 */
 .cam {

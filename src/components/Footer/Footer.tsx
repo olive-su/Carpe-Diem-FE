@@ -1,23 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaGithub } from 'react-icons/fa';
 import Button from '@mui/material/Button';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
 const StyleFooter = styled.div`
-    font-size: 15px;
+    /* font-size: 15px;
     background-color: #fff;
     height: 200px;
     font-family: Pretendard-Regular;
     margin-top: -25px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 30px; */
+    position: absolute;
+    right: 100px;
+    bottom: 40px;
+    z-index: 4;
+    display: flex;
+`;
+const Icon = styled.a`
+    text-decoration: none;
+    color: var(--black);
+    font-size: 2em;
 `;
 
 export default function Footer() {
     return (
         <>
-            <StyleFooter>
+            {/* <StyleFooter>
                 <br />
                 <div>
                     <br />
@@ -54,6 +65,11 @@ export default function Footer() {
                 <br />
                 <div>Team CARPE DIEM | Privacy Policy</div>
                 <div>@Copyright 2023. All Right Reserved.</div>
+            </StyleFooter> */}
+            <StyleFooter>
+                <Icon href="https://github.com/cd-carpe-diem" rel="noreferrer noopener" target="_blank">
+                    <FaGithub size="30" />
+                </Icon>
             </StyleFooter>
         </>
     );

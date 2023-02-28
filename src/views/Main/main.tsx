@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import './main.css';
+import Footer from '../../components/Footer/Footer';
 import { BiMoon, BiSun, BiMenu, BiExit } from 'react-icons/bi';
 import { FaGithub } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
@@ -113,24 +114,22 @@ function Main() {
                 </span>
             </section>
 
-            <section className="login">
+            {/* <section className="login"></section> */}
+
+            <section className="cam">
                 <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
                     <img src="./btn-google-signin-light-normal-web@2x.png" style={{ width: '300px' }} />
                 </NavLink>
-            </section>
-
-            <section className="cam">
                 <VideoPlayer class="mobile" iconClass="mobile" label="Mobile Cam" videoSrc="video.mp4" onClick={handleCam} />
                 <VideoPlayer2 className="webCam" class="web" iconClass="web" label="Web Cam" videoSrc="video.mp4" onClick={handleCam} />
             </section>
 
-            <ul className="sci">
-                <li>
-                    <a href="#">
-                        <FaGithub size="30" />
-                    </a>
-                </li>
-            </ul>
+            <div className="sci">
+                <a href="https://github.com/cd-carpe-diem" rel="noreferrer noopener" target="_blank">
+                    <FaGithub size="30" />
+                </a>
+            </div>
+            <Footer />
 
             <ul className={`navigation ${isMenuOpen ? 'active' : ''}`}>
                 <li>
