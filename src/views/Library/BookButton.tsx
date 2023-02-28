@@ -1,17 +1,17 @@
-import { Box } from '@mui/system';
 import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { ALBUM_UPDATE_REQUEST, ALBUM_DELETE_REQUEST } from '../../redux/types';
 import { Paper, Typography } from '@mui/material';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { albumData } from '../../types/type';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box } from '@mui/system';
 import { Button } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton } from '@mui/material';
+import styled from 'styled-components';
+
+import { albumData } from '../../types/type';
 import axios from 'axios';
 import config from '../../config';
-import Modal from '@mui/material/Modal';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -33,7 +33,6 @@ const style = {
 };
 
 const BookButton = (props: any) => {
-    const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -41,20 +40,26 @@ const BookButton = (props: any) => {
     const [text, setText] = useState(props.album.title);
     const [editable, setEditable] = useState(false);
     const sendEdit = () => {
-        dispatch({
-            type: ALBUM_UPDATE_REQUEST,
-            payload: {
-                album_id: props.album.albumId,
+        axios({
+            method: 'put',
+            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
+            withCredentials: true,
+            data: {
                 card_id: props.album.cardId,
                 cover_img_url: props.album.coverImgUrl,
                 title: text,
             },
-        });
-        history.go(0);
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
-    const editOn = () => {
-        setEditable(true);
-    };
+    // const editOn = () => {
+    //     setEditable(true);
+    // };
     const handleChange = (e: any) => {
         setText(e.target.value);
     };
@@ -64,38 +69,47 @@ const BookButton = (props: any) => {
             sendEdit();
         }
     };
-    const onClickDelete = () => {
-        dispatch({
-            type: ALBUM_DELETE_REQUEST,
-            payload: {
-                album_id: props.album.albumId,
-            },
-        });
-        history.go(0);
-    };
+
+    // const onClickDelete = () => {
+    //     axios({
+    //         method: 'delete',
+    //         url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
+    //         withCredentials: true,
+    //         data: {},
+    //     })
+    //         .then(function (response: any) {
+    //             console.log(response.status);
+    //             window.location.reload();
+    //         })
+    //         .catch(function (error: any) {
+    //             console.log(error);
+    //         });
+    // };
 
     return (
         <ThemeProvider theme={theme}>
-            {editable ? (
+            {/* {editable ? (
                 <Typography variant="h6" mt={2}>
                     <input type="text" value={text} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />
-                    {/* <Button variant="contained">수정</Button> */}
+                    <Button variant="contained">수정</Button>
                 </Typography>
             ) : (
                 <Typography noWrap={true} variant="h6" mt={2}>
                     {text}
                 </Typography>
-            )}
+            )} */}
+
             <Typography fontSize={15}>{dayjs(props.album.createdAt).tz('utc').format('YYYY.MM.DD HH:mm:ss')}</Typography>
-            <Typography ml={7}>
+
+            {/* <Typography ml={7}>
                 <IconButton size="small" onClick={() => editOn()}>
                     <EditIcon />
                 </IconButton>
                 <IconButton onClick={() => handleOpen()}>
                     <DeleteIcon />
                 </IconButton>
-            </Typography>
-            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            </Typography> */}
+            {/* <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         정말 삭제하시겠습니까?
@@ -108,7 +122,7 @@ const BookButton = (props: any) => {
                         <Button onClick={handleClose}>취소</Button>
                     </Typography>
                 </Box>
-            </Modal>
+            </Modal> */}
         </ThemeProvider>
     );
 };
