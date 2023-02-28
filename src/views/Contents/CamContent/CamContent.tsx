@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Sidebar from '../../../components/Sidebar/Sidebar';
+
 import Header from '../../../components/Header/Header';
-import Footer from '../../../components/Footer/Footer';
+
 import InteractiveCard from '../../Card/InteractiveCard';
 import CameraPage from '../../Camera';
 import config from '../../../config';
@@ -60,7 +60,6 @@ export default function CamContent() {
                 <hr />
             </span>
             <StyleContent>
-                <Sidebar />
                 <WebCamPage>
                     <CameraPage onVideoListRender={videoRenderFlag} />
                 </WebCamPage>
@@ -74,7 +73,6 @@ export default function CamContent() {
             <span>
                 <hr style={{ marginTop: '-1px' }} />
             </span>
-            <Footer />
         </>
     );
 }

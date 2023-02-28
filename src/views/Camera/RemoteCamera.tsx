@@ -4,7 +4,7 @@ import * as io from 'socket.io-client';
 
 import constraints from '../../common/constraints';
 
-const socket = io.connect(`http://${config.server.host}:5000`);
+const socket = io.connect(`http://${config.server.host}:5001`);
 
 function RemoteCamera() {
     const wrapRef = useRef<any>(null);

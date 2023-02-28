@@ -21,13 +21,24 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    typography: {
+        fontFamily: "'IBMPlexSansKR-Regular'",
+    },
+});
 
 const Profile = styled.img`
-    display: flex;
-    width: 150px;
-    height: 150px;
-    border-radius: 100%;
-    margin-top: 10px;
+    position: absolute;
+    left: 29%;
+    top: 10%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    background: #333;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
 `;
 const Edit = () => {
     const [nickname, setNickname] = useState();
@@ -94,46 +105,52 @@ const Edit = () => {
             sendEdit();
         }
     };
+
     return (
         <React.Fragment>
-            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-                <Paper sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, color: '#1e319d' }}>
-                    <Grid container spacing={5}>
-                        <Grid item xs={12}>
-                            <Typography component="h1" variant="h4" align="center">
-                                프로필
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Profile src="./imgs/not_found_files.jpg"></Profile>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="h5" align="center">
-                                닉네임
-                            </Typography>
-                            {editable ? (
-                                <Typography variant="h6" mt={2} align="center">
-                                    <input type="text" value={nickname} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />
-                                    {/* <Button variant="contained">수정</Button> */}
+            <ThemeProvider theme={theme}>
+                <Container
+                    style={{
+                        fontFamily: 'IBMPlexSansKR-Regular',
+                        width: '600px',
+                        height: '1000px',
+                        boxShadow: '0 35px 80px rgba(0, 0, 0, 0.15)',
+                        transition: '0.5s',
+                    }}
+                    component="main"
+                >
+                    <Paper sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, color: '#1e319d', borderRadius: '20px' }}>
+                        <Grid container spacing={20}>
+                            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Profile src="./imgs/not_found_files.jpg"></Profile>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography component="h1" variant="h4" align="center">
+                                    My Profile
                                 </Typography>
-                            ) : (
-                                <Typography noWrap={true} variant="h6" mt={2} align="center" color="#64748b">
-                                    {nickname}
-                                    <IconButton size="small" onClick={() => editOn()}>
-                                        <EditIcon />
-                                    </IconButton>
-                                </Typography>
-                            )}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="h5" align="center">
-                                이메일
-                            </Typography>
-                            <Typography noWrap={true} variant="h6" mt={2} align="center" color="#64748b">
-                                {email}
-                            </Typography>
-                        </Grid>
-                        {/* <Grid item xs={12}>
+                            </Grid>
+
+                            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Typography style={{ marginRight: '10px' }}>닉네임</Typography>
+                                {editable ? (
+                                    <Typography>
+                                        <input type="text" value={nickname} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />
+                                        {/* <Button variant="contained">수정</Button> */}
+                                    </Typography>
+                                ) : (
+                                    <span style={{ display: 'flex' }}>
+                                        <Typography>{nickname}</Typography>
+                                        <IconButton size="small" onClick={() => editOn()}>
+                                            <EditIcon />
+                                        </IconButton>
+                                    </span>
+                                )}
+                            </Grid>
+                            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Typography style={{ marginRight: '10px' }}>Email</Typography>
+                                <Typography>{email}</Typography>
+                            </Grid>
+                            {/* <Grid item xs={12}>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
                                 <InputLabel htmlFor="pwd">비밀번호</InputLabel>
                                 <OutlinedInput
@@ -195,14 +212,15 @@ const Edit = () => {
                                 </FormHelperText>
                             </FormControl>
                         </Grid> */}
-                        {/* <Grid item xs={12} style={{ display: 'flex', justifyContent: 'right' }}>
+                            {/* <Grid item xs={12} style={{ display: 'flex', justifyContent: 'right' }}>
                             <Button onClick={sendEdit} sx={{ backgroundColor: '#1e319d', color: 'white' }}>
                                 수정
                             </Button>
                         </Grid> */}
-                    </Grid>
-                </Paper>
-            </Container>
+                        </Grid>
+                    </Paper>
+                </Container>
+            </ThemeProvider>
         </React.Fragment>
     );
 };
