@@ -1,16 +1,9 @@
 import React from 'react';
-import { Button } from '@mui/material';
 import styled from 'styled-components';
-
-import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { friendData } from '../../../types/type';
-import axios from 'axios';
-import config from '../../../config';
-import { req } from '../../../types/type';
 
 type itemProps = {
     nickname: string;
@@ -28,10 +21,12 @@ export default function FriendItem({ nickname, email, img }: itemProps) {
         <>
             {img ? (
                 <ListItemAvatar>
-                    <Avatar alt="nickname" src="./imgs/not_found_files.jpg" />
+                    <Avatar alt="nickname" src={img} />
                 </ListItemAvatar>
             ) : (
-                {}
+                <ListItemAvatar>
+                    <Avatar alt="nickname" src="./imgs/not_found_files.jpg" />
+                </ListItemAvatar>
             )}
             <ListItemText
                 primary={nickname}

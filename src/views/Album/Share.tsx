@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import IosShareIcon from '@mui/icons-material/IosShare';
-import { Button } from '@mui/material';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import LinkIcon from '@mui/icons-material/Link';
 import styled from 'styled-components';
 import Snackbar from '@mui/material/Snackbar';

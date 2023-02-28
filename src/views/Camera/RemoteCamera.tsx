@@ -1,19 +1,138 @@
-import React, { useState, useEffect, useRef } from 'react';
-import config from '../../config';
+/* eslint-disable */
+import React, { useRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import * as faceapi from 'face-api.js';
 import * as io from 'socket.io-client';
+import styled, { keyframes } from 'styled-components';
+import { TbLoader } from 'react-icons/tb';
 
+import './index.css';
+import Emotion from './Emotion';
+import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
+import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
+import EmotionSetData from './EmotionSetData';
+import config from '../../config';
+import axios from 'axios';
+//import Sparky from 'react-sparkle';
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
-const socket = io.connect(`http://${config.server.host}:5001`);
+const rotate = keyframes`
+  from {
+      transform: rotate(0deg);
+    }
 
-function RemoteCamera() {
+    to { transform: rotate(360deg);
+    }
+    `;
+const Rotate = styled.div`
+    display: inline-block;
+    animation: ${rotate} 2s linear infinite;
+    padding: 2rem 1rem;
+    font-size: 1.2rem;
+`;
+
+const OnButton = styled.button`
+    color: #8a1441;
+    font-size: 1em;
+    width: 80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #8a1441;
+    border-radius: 3px;
+    font-family: IBMPlexSansKR-Regular;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`;
+
+const OffButton = styled.button`
+    color: #2679cc;
+    font-size: 1em;
+    width: 80px;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid #2679cc;
+    font-family: IBMPlexSansKR-Regular;
+    border-radius: 3px;
+    &:active,
+    &:hover,
+    &:focus {
+        background: var(--button-hover-bg-color, white);
+    }
+`;
+
+let recordFlag = false; // 녹화 여부
+let recentRecordTime: number;
+let recordInfo: types.RecordInfo;
+const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
+
+// 서버로 넘어가는 유저 아이디
+const userId = 'test';
+const socket = io.connect(`http://${config.server.host}:5000`);
+let myStream: any;
+let myPeerConnection: any;
+const roomName: any = 'test';
+
+// 비디오 사이즈 설정
+function CameraPage(props: any) {
+    const { usim } = useSelector((state: any) => state.usim);
     const wrapRef = useRef<any>(null);
-    const secondRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
-    let myStream: any;
-    let myPeerConnection: any;
-    const roomName: any = 'test';
+    const mobileRef = useRef<any>(null);
 
+    const [camStarted, setCamStarted] = useState(false);
+    const [modelLoaded, setModelLoaded] = useState(false);
+    const [recordStarted, setRecordStarted] = useState(false);
+
+    const [data, setData] = useState(EmotionSetData(0));
+
+    // 사용자 비디오 가져오기
+    // useEffect(() => {
+    //     navigator.mediaDevices
+    //         .getUserMedia(constraints)
+    //         .then((stream) => {
+    //             if (mobileRef && mobileRef.current) {
+    //                 if (camStarted) {
+    //                     mobileRef.current.srcObject = stream;
+    //                     setModelLoaded(true);
+    //                 } else {
+    //                     setModelLoaded(false);
+    //                     mobileRef.current.srcObject = null;
+    //                 }
+    //             }
+    //         })
+    //         .catch((err) => console.error(err));
+    // }, [camStarted]);
+    useEffect(() => {
+        setCamStarted(true);
+        setModelLoaded(true);
+    }, [mobileRef]);
+
+    useEffect(() => {
+        // 모델 로드
+        const MODEL_URL = '/models';
+
+        if (modelLoaded) {
+            Promise.all([
+                faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+                faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+                faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+                faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+                // 사용자 이미지 Face Detection
+                faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
+                faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
+            ])
+                .then(() => {
+                    console.log('모델 로드 완료');
+                })
+                .catch((err) => console.error(err));
+        }
+    }, [modelLoaded]);
+
+    // socket START
     useEffect(() => {
         handleWelcomeSubmit();
     }, []);
@@ -25,7 +144,6 @@ function RemoteCamera() {
 
     async function handleWelcomeSubmit() {
         await initCall();
-        console.log('152');
         socket.emit('join_room', roomName);
     }
 
@@ -127,7 +245,7 @@ function RemoteCamera() {
         // console.log("got an stream from my peer");
         console.log("Peer's Stream", data.stream);
         console.log('My Stream', myStream);
-        secondRef.current.srcObject = data.stream;
+        mobileRef.current.srcObject = data.stream;
     }
 
     // CHECK 미디어 수신 (peer A 의 방)
@@ -169,10 +287,213 @@ function RemoteCamera() {
         myPeerConnection.addIceCandidate(ice);
     });
 
+    // socket END
+
+    // 라벨링 할 인물 이미지 로컬에서 가져오기
+    const loadImage = async () => {
+        let labels = usim;
+
+        return Promise.all(
+            labels.map(async (label: string) => {
+                const images = await faceapi.fetchImage(label);
+                const descriptions = [];
+                const detections = await faceapi.detectSingleFace(images).withFaceLandmarks().withFaceDescriptor();
+                if (detections) descriptions.push(detections.descriptor);
+
+                return new faceapi.LabeledFaceDescriptors(label, descriptions);
+            }),
+        );
+    };
+
+    // 감정 인식 & 영상 다운로드
+    const onPlay = async () => {
+        // 이미지 정보를 기반으로 canvas 요소 생성
+        const canvas = faceapi.createCanvasFromMedia(mobileRef.current as HTMLVideoElement);
+        if (wrapRef.current !== null) wrapRef.current.append(canvas);
+
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); // 다운로드할 영상 변수 생성
+        const mediaRecorder = new MediaRecorder(mediaStream); // 새로운 영상 객체 생성
+        mediaRecorder.ondataavailable = handleDataAvailable;
+
+        let displaySize = { width: constraints.video.width, height: constraints.video.height };
+
+        if (mobileRef.current) {
+            // 영상 사이즈를 canvas에 맞추기 위한 설정
+            displaySize = {
+                width: mobileRef.current.width,
+                height: mobileRef.current.height,
+            };
+        }
+
+        faceapi.matchDimensions(canvas, displaySize); // canvas 사이즈를 맞춤
+
+        // 로컬 대조 이미지 가져오기
+        const labeledFaceDescriptors = await loadImage();
+
+        // 안면 인식 부분
+        const faceDetecting = async (expression: types.Expression) => {
+            let detections;
+
+            if (mobileRef.current) {
+                detections = await faceapi
+                    .detectAllFaces(mobileRef.current, new faceapi.TinyFaceDetectorOptions())
+                    .withFaceLandmarks()
+                    .withFaceExpressions()
+                    .withAgeAndGender()
+                    .withFaceDescriptors();
+            }
+
+            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+            canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
+
+            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, constraints.model.matchValue);
+
+            if (resizedDetections)
+                resizedDetections.forEach((detection, i) => {
+                    const matched = resizedDetections[i];
+                    const box = matched.detection.box;
+                    // const target = faceMatcher.findBestMatch(matched.descriptor).toString();
+                    const label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
+                    const labelColor = label !== 'unknown' ? 'red' : 'blue';
+                    const drawBox = new faceapi.draw.DrawBox(box, { boxColor: labelColor, label: label });
+
+                    // if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
+                    drawBox.draw(canvas); // 전체 사용자 인식
+
+                    // faceapi.draw.drawFaceExpressions(canvas, resizedDetections); // 감정 수치 표시
+
+                    const { neutral, ...otherDetection }: Record<string, any> = detection.expressions;
+
+                    expression.value = Math.max(...Object.values(otherDetection));
+                    expression.label = Object.keys(otherDetection).find((key) => otherDetection[key] === expression.value) || ''; // 현재 최대 수치 감정 종류 가져오기
+                    expression.target = label;
+                    expression.time = Date.now();
+
+                    // if (expression.target === userId) { // CHECK
+                    setData(EmotionSetData(detection.expressions));
+                    // }
+                });
+            return expression;
+        };
+
+        const loop = async () => {
+            const expressions = await faceDetecting(expression);
+            // 새로 녹화 시작
+            // CHECK
+            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy') {
+                // if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy' && expressions.target === userId) {
+                recordFlag = true;
+                recordInfo = {
+                    userId: userId,
+                    maxValue: expressions.value,
+                    label: expressions.label,
+                    count: 1,
+                    startTime: expressions.time,
+                    maxTime: -32400000,
+                };
+                recentRecordTime = expressions.time; // 최근 감정 갱신 시간
+                mediaRecorder.start();
+                recordVideo(mediaRecorder); // 녹화시작
+                setRecordStarted(true);
+                console.log('녹화 시작');
+            }
+            // 녹화 시간 연장
+            else if (
+                recordFlag &&
+                expressions.value > constraints.model.emotionValue &&
+                expressions.label === recordInfo.label &&
+                expressions.target === userId
+            ) {
+                if (recordInfo.maxValue < expressions.value) {
+                    // 최대 감정 관측 데이터 변경
+                    recordInfo.maxValue = expressions.value;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                }
+                recentRecordTime = expressions.time; // 최근 감정 갱신 시간
+            }
+
+            if (camStarted === true) setTimeout(loop, 0.03);
+        };
+        setTimeout(loop, 0.03);
+    };
+
+    const recordVideo = async (mediaRecorder: MediaRecorder) => {
+        setTimeout(async () => {
+            if (recordInfo.count <= 5 && Date.now() - recentRecordTime < 2000) {
+                // 2초 이내 감정 갱신시, 시간 추가
+                console.log('녹화 연장');
+                recordInfo.count++; // 시간 연장 횟수 (최대 1분까지만 저장되게 구현)
+                recordVideo(mediaRecorder);
+            } else {
+                try {
+                    if (mobileRef.current) {
+                        mediaRecorder.stop();
+                        props.onVideoListRender(new Date());
+                    }
+                    recordFlag = false;
+                    recentRecordTime = 0;
+                    console.log('녹화 중지');
+                    setRecordStarted(false);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        }, 10000);
+    };
+
+    async function handleDataAvailable(event: any) {
+        const recordedChunks: any[] = [];
+        if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+            if (camStarted === true) await uploadToS3Bucket(recordInfo, recordedChunks);
+            recordedChunks.pop();
+        }
+    }
+
+    const onairButton = {
+        backgroundColor: 'black',
+        color: 'red',
+        textDecoration: 'none',
+        marginBottom: 20,
+        fontWeight: 'bold',
+        border: '4px solid red',
+        boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
+        padding: '8px 16px',
+        fontSize: '24px',
+        borderRadius: '20px',
+        transition: 'all 0.6s ease-in-out',
+        // @keyframes sparkle {
+        //     0% {
+        //       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5);
+        //     }
+        //     50% {
+        //       box-shadow: 8px 8px 8px rgba(255, 255, 0, 0.5), -8px -8px 8px rgba(255, 255, 255, 0.5);
+        //     }
+        //     100% {
+        //       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5);
+        //     }
+        //   }
+    };
+
+    const offairButton = {
+        backgroundColor: 'black',
+        color: 'white',
+        textDecoration: 'none',
+        marginBottom: 20,
+        fontWeight: 'bold',
+        border: '2px solid grey',
+        boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
+        padding: '8px 16px',
+        fontSize: '24px',
+        borderRadius: '20px',
+        transition: 'all 0.6s ease-in-out',
+    };
+
     return (
         <>
             <div>
-                {/* {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>} */}
+                {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
                 <div
                     ref={wrapRef}
                     id="wrap"
@@ -183,23 +504,23 @@ function RemoteCamera() {
                     }}
                 >
                     <div>
-                        <video ref={videoRef} autoPlay muted width={constraints.video.width} height={constraints.video.height} />
-                        <video ref={secondRef} autoPlay muted width={constraints.video.width} height={constraints.video.height} />
-                        {/* {camStarted ? (
+                        {camStarted ? (
+                            <video ref={mobileRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
                         ) : (
                             <Rotate>
                                 <TbLoader size="50" style={{ padding: 0 }} />
                             </Rotate>
-                        )} */}
+                        )}
                     </div>
                 </div>
-                <div>
-                    {/* <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton> */}
-                </div>
+                {/* <div>
+                    <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                </div> */}
             </div>
+            <Emotion data={data} />
         </>
     );
 }
 
-export default RemoteCamera;
+export default CameraPage;

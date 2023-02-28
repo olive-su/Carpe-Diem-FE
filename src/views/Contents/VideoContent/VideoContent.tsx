@@ -21,19 +21,22 @@ const VideoContent = styled.section`
 
 export default function CamContent() {
     return (
-        <div>
-            <Header />
-            <span>
-                <hr />
-            </span>
-            <StyleContent>
-                <VideoContent>
-                    <Video />
-                </VideoContent>
-            </StyleContent>
-            <span>
-                <hr style={{ marginTop: '-1px' }} />
-            </span>
-        </div>
+        // <div>
+        //     <Header />
+        //     <span>
+        //         <hr />
+        //     </span>
+        //     <StyleContent>
+        //         <Sidebar />
+        //         <VideoContent>
+        //             <Video />
+        //         </VideoContent>
+        //     </StyleContent>
+        //     <span>
+        //         <hr style={{ marginTop: '-1px' }} />
+        //     </span>
+        //     <Footer />
+        // </div>
+        <Video />
     );
 }
