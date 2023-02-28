@@ -128,7 +128,6 @@ const Video = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    console.log(cards.length);
 
     return (
         <Container maxWidth="lg">
