@@ -80,7 +80,6 @@ const Video = () => {
     const onCheckedElement = (checked: boolean, item: any) => {
         if (checked) {
             checkedListAlbum[item.cardId] = item; // CHECK
-            // const thumbnail = (checkedListAlbum[item.thumbnailUrl] = item);
             setCheckedListAlbum({ ...checkedListAlbum });
         } else if (!checked) {
             onRemoveChecked(item);
@@ -231,158 +230,138 @@ const Video = () => {
                             onMouseOver={() => {
                                 const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
 
-                                            const playPromise = hz.play();
-                                            if (playPromise !== undefined) {
-                                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                                playPromise.then((_: any) => {}).catch((error: any) => {});
-                                            }
-                                        }}
-                                        onMouseOut={() => {
-                                            const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
-                                            hz.load();
-                                        }}
-                                    >
-                                        <CardCover
-                                        // sx={{
-                                        //     background:
-                                        //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                                        // }}
-                                        >
-                                            {/* <video id={String(card)} loop poster="https://source.unsplash.com/random">
+                                const playPromise = hz.play();
+                                if (playPromise !== undefined) {
+                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                    playPromise.then((_: any) => {}).catch((error: any) => {});
+                                }
+                            }}
+                            onMouseOut={() => {
+                                const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
+                                hz.load();
+                            }}
+                            onClick={() => {
+                                setId(card.cardId);
+                                setVideoUrl(card.videoUrl);
+                                setThumbnamilUrl(card.thumbnailUrl);
+                                setOpen(true);
+                                setComment(card.commnet);
+                            }}
+                        >
+                            <CardCover
+                            // sx={{
+                            //     background:
+                            //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
+                            // }}
+                            >
+                                {/* <video id={String(card)} loop poster="https://source.unsplash.com/random">
                                             <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4" />
                                         </video> */}
-                                            <video
-                                                id={String(card.cardId)}
-                                                loop
-                                                muted
-                                                poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
-                                            >
-                                                <source
-                                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.videoUrl}`}
-                                                    type="video/webm"
-                                                />
-                                            </video>
-                                        </CardCover>
-                                        <CardCover
-                                            sx={{
-                                                background:
-                                                    'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 100px), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 200px)',
-                                            }}
-                                        />
-                                        {/* <label>
-                                            <input
-                                                type="checkbox"
-                                                style={{ position: 'absolute', top: '0px', right: '0px' }}
-                                                onClick={(e) => e.stopPropagation()}
-                                                value={card.cardId}
-                                                onChange={(event) => onCheckedElement(event.target.checked, card.cardId)}
-                                                checked={checkedListAlbum.includes(card.cardId) ? true : false}
-                                            />
-                                        </label> */}
-                                        {/* <CheckboxStyle>
-                                            <Checkbox
-                                                onClick={(e) => e.stopPropagation()}
-                                                value={card.cardId}
-                                                onChange={(event) => onCheckedElement(event.target.checked, card.cardId)}
-                                                checked={checkedListAlbum.includes(card.cardId) ? true : false}
-                                                {...label}
-                                                defaultChecked
-                                                sx={{
-                                                    color: red[800],
-                                                    '&.Mui-checked': {
-                                                        color: red[600],
-                                                    },
-                                                }}
-                                                // 하트
-                                                // icon={<FavoriteBorder sx={{fontSize:'40px'}}/>}
-                                                // checkedIcon={<Favorite sx={{fontSize:'40px'}} />}
-                                                // 책갈피
-                                                icon={<BookmarkBorderIcon sx={{ fontSize: '40px' }} />}
-                                                checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
-                                            />
-                                        </CheckboxStyle> */}
-                                        <CheckboxStyle>
-                                            <Checkbox
-                                                onClick={(e) => e.stopPropagation()}
-                                                value={card.cardId}
-                                                checked={checkedListAlbum[card.cardId] !== undefined ? true : false}
-                                                onChange={(event) => onCheckedElement(event.target.checked, card)}
-                                                {...label}
-                                                defaultChecked
-                                                sx={{
-                                                    color: red[800],
-                                                    '&.Mui-checked': {
-                                                        color: red[600],
-                                                    },
-                                                }}
-                                                // 하트
-                                                // icon={<FavoriteBorder sx={{fontSize:'40px'}}/>}
-                                                // checkedIcon={<Favorite sx={{fontSize:'40px'}} />}
-                                                // 책갈피
-                                                icon={<BookmarkBorderIcon sx={{ fontSize: '40px' }} />}
-                                                checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
-                                            />
-                                        </CheckboxStyle>
-
-                                        <CardMedia
-                                            component="img"
-                                            sx={{
-                                                // 16:9
-                                                width: '120',
-                                                height: '250px',
-                                                objectFit: 'fill',
-                                            }}
-                                            image="./imgs/not_found_files.jpg"
-                                            alt="img"
-                                        />
-
-                                        {/* <CardMedia
-                                            component="img"
-                                            sx={{
-                                                // 16:9
-                                                width: '120',
-                                                height: '250px',
-                                                objectFit: 'fill',
-                                            }}
-                                            alt="random"
-                                        /> */}
-                                        {/* <h2>Heading</h2>
-                                    <div>This is a media card. You can use this section to describe the content.</div> */}
-                                        <Box
-                                            sx={{
-                                                bottom: '0%',
-                                                width: '100%',
-                                                textAlign: 'center',
-                                                position: 'absolute',
-                                                color: 'white',
-                                            }}
-                                        >
-                                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                {/* <Typography mt={5} ml={2} fontSize={10} color="#d1d5db">
-                                                2023.02.07
-                                            </Typography> */}
-                                                <Typography mt={5} ml={1} fontSize={10} color="#d1d5db">
-                                                    {dayjs(card.createdAt).tz('utc').format('YYYY.MM.DD HH:mm:ss')}
-                                                </Typography>
-                                                <Typography mr={1} mt={2} variant="h6" component="h2">
-                                                    {card.expressionLabel}
-                                                </Typography>
-                                            </Box>
-                                            {/* <Typography noWrap={true} color="#e5e7eb" mb={2} ml={2} mr={2}>
-                                            This is a media card. You can use this section to describe the content.
-                                        </Typography> */}
-                                            <Typography noWrap={true} color="#e5e7eb" mb={2} ml={2} mr={2}>
-                                                {card.comment}
-                                            </Typography>
-                                        </Box>
-                                    </Card>
-                                </Link>
-                            </Grid>
-                        ))}
+                                <video
+                                    id={String(card.cardId)}
+                                    loop
+                                    muted
+                                    poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
+                                >
+                                    <source
+                                        src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.videoUrl}`}
+                                        type="video/webm"
+                                    />
+                                </video>
+                            </CardCover>
+                            <CardCover
+                                sx={{
+                                    background:
+                                        'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 100px), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 200px)',
+                                }}
+                            />
+                            <CheckboxStyle>
+                                <Checkbox
+                                    onClick={(e) => e.stopPropagation()}
+                                    value={card.cardId}
+                                    checked={checkedListAlbum[card.cardId] !== undefined ? true : false}
+                                    onChange={(event) => onCheckedElement(event.target.checked, card)}
+                                    {...label}
+                                    defaultChecked
+                                    sx={{
+                                        color: '#f42E66',
+                                        '&.Mui-checked': {
+                                            color: '#f42E66',
+                                        },
+                                    }}
+                                    // 하트
+                                    // icon={<FavoriteBorder sx={{fontSize:'40px'}}/>}
+                                    // checkedIcon={<Favorite sx={{fontSize:'40px'}} />}
+                                    // 책갈피
+                                    icon={<BookmarkBorderIcon sx={{ fontSize: '40px' }} />}
+                                    checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
+                                />
+                            </CheckboxStyle>
+                            <CardMedia
+                                component="img"
+                                sx={{
+                                    // 16:9
+                                    width: '120',
+                                    height: '250px',
+                                    objectFit: 'fill',
+                                }}
+                                image="./imgs/not_found_files.jpg"
+                                alt="img"
+                            />
+                            <Box
+                                sx={{
+                                    bottom: '0%',
+                                    width: '100%',
+                                    textAlign: 'center',
+                                    position: 'absolute',
+                                    color: 'white',
+                                }}
+                            >
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <Typography mt={5} ml={1} fontSize={15} color="#d1d5db">
+                                        {dayjs(card.createdAt).tz('utc').format('YYYY.MM.DD HH:mm')}
+                                    </Typography>
+                                    <Typography mr={1} mt={2} variant="h5" component="h2">
+                                        {card.expressionLabel}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Card>
                     </Grid>
-                </Container>
-            </main>
-        </ThemeProvider>
+                ))}
+            </Grid>
+            <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Modal open={open} onClose={handleClose}>
+                    <Box
+                        sx={{
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            position: 'absolute',
+                            outline: 'none',
+                            display: 'flex',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <video
+                            controls
+                            autoPlay
+                            loop
+                            poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${thumbnailUrl}`}
+                        >
+                            <source src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${videoUrl}`} type="video/webm" />
+                        </video>
+                        <Box>
+                            <IconButton type="button" onClick={handleClose}>
+                                <CloseIcon sx={{ color: 'white' }} />
+                            </IconButton>
+                            <Share img={thumbnailUrl} comment={comment} videoUrl={videoUrl} />
+                            <VideoDelete cardId={id} />
+                        </Box>
+                    </Box>
+                </Modal>
+            </Container>
+        </Container>
     );
 };
 

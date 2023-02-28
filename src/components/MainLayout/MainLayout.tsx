@@ -17,7 +17,7 @@ import {
 } from '@mui/icons-material';
 
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+// import Footer from '../Footer/Footer';
 
 declare interface sideBarItemType {
     menu: string;
@@ -184,7 +184,7 @@ export default function MainLayout(props: any) {
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     {props.children}
                 </Box>
-                <Footer />
+                {/* <Footer /> */}
             </div>
         </div>
     );

@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './styles/App.css';
 import Auth from './views/Auth';
-import LibraryContent from './views/Contents/AlbumListContent/AlbumListContent';
+import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
 import CamContent from './views/Contents/CamContent/CamContent';
 import RemoteCamera from './views/Camera/RemoteCamera';
