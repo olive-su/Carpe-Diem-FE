@@ -45,7 +45,7 @@ export function UserSearch() {
             })
                 .then(function (result) {
                     console.log('요청 보내기 성공');
-                    window.location.reload();
+                    history.go(0);
                 })
                 .catch(function (error) {
                     console.error('요청보내기 에러발생: ', error);

@@ -31,8 +31,7 @@ const VideoDelete = (props: any) => {
         })
             .then(function (response) {
                 console.log(response.status);
-                // window.location.replace(`http://${config.client.host}:${config.client.port}/video`);
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error) {
                 console.log(error);

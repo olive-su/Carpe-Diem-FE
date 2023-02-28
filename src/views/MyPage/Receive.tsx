@@ -18,7 +18,6 @@ import ListItem from '@mui/material/ListItem';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 
-
 //const friend: req = { userId: '2312314', nickname: '수개미', email: 'test@gamil.com' };
 const Receive = () => {
     const [friendList, setFriendList] = useState([]);
@@ -45,7 +44,7 @@ const Receive = () => {
         })
             .then(function (result) {
                 console.log('수락 성공!');
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error) {
                 console.error('accept 에러발생: ', error);
@@ -59,7 +58,7 @@ const Receive = () => {
         })
             .then(function (result) {
                 console.log('거절 성공!');
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error) {
                 console.error('refuse 에러발생: ', error);
@@ -69,7 +68,7 @@ const Receive = () => {
     return (
         <React.Fragment>
             <Container maxWidth="sm">
-                <Paper elevation={0} sx={{ my: { xs: 3 },p: { xs: 2}, color: '#1e319d' }}>
+                <Paper elevation={0} sx={{ my: { xs: 3 }, p: { xs: 2 }, color: '#1e319d' }}>
                     <Typography component="h1" variant="h5" align="left">
                         받은 친구요청
                     </Typography>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container } from '@mui/material';
 import axios from 'axios';
 import { friendData } from '../../../types/type';
@@ -19,6 +20,7 @@ const TodoItemBlock = styled.div`
 `;
 
 const Friend = () => {
+    const navigate = useNavigate();
     const [friendList, setFriendList] = useState([]);
     // const [search, setSearch] = useState<string>('');
     const [allFriendList, setAllFriendList] = useState([]);
@@ -47,11 +49,9 @@ const Friend = () => {
         })
             .then(function (response: any) {
                 const friendUserId = response.data[0].userId;
-                console.log('###########', friendUserId);
-                window.location.replace(`http://${config.client.host}:${config.client.port}/friendAlbum/${friendUserId}`);
+                navigate(`/friendAlbum/${friendUserId}`);
             })
             .catch(function (error: any) {
-                console.log('%%%%%%%%%%%%%%%%%%%%');
                 console.log(error);
             });
     };
@@ -65,7 +65,7 @@ const Friend = () => {
         })
             .then(function (response: any) {
                 console.log(response.status);
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error: any) {
                 console.log(error);
