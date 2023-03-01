@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Navigation } from 'react-minimal-side-navigation';
 import { Icon } from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,72 +7,22 @@ import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import '../../styles/List.css';
 import { OpacityRounded } from '@mui/icons-material';
 
-const Area = styled.div`
-    width: 200px;
-    height: auto;
-    font-family: IBMPlexSansKR-Regular;
-    padding-top: 10px;
-    background-color: #e2e8f0;
-`;
-
-export default function Sidebar() {
+export default function Sidebar(props: any) {
     const navigate = useNavigate();
 
-    return (
-        <>
-            <Area>
-                <Navigation
-                    activeItemId="/management/members"
-                    onSelect={({ itemId }) => {
-                        navigate(itemId);
-                    }}
-                    items={[
-                        {
-                            title: 'ON Air - Web Cam',
-                            itemId: '/',
-                            elemBefore: () => <Icon name="record" style={{ fontSize: '1.2rem' }} />,
-                        },
-                        {
-                            title: 'On Air - Remote Cam',
-                            itemId: '/remote',
-                        },
-                        {
-                            title: 'Album',
-                            itemId: '/album',
-                            elemBefore: () => <Icon name="book" />,
-                        },
+    let left;
+    let fade;
+    let zIdx;
 
-                        {
-                            title: 'Video',
-                            itemId: '/video',
-                            elemBefore: () => <Icon name="video play" />,
-                        },
+    if (props.isOpen) {
+        left = '0';
+        zIdx = 3;
+    } else {
+        left = '0';
+        zIdx = 1;
+    }
 
-                        {
-                            title: 'My Album',
-                            itemId: '/myalbum',
-                            elemBefore: () => <Icon name="folder open" />,
-                            subNav: [
-                                {
-                                    title: '1st Album',
-                                    itemId: '/myalbum/1album',
-                                    // Requires v1.9.1+ (https://github.com/abhijithvijayan/react-minimal-side-navigation/issues/13)
-                                },
-                                {
-                                    title: '2nd Album',
-                                    itemId: '/myalbum/2album',
-                                },
-                                {
-                                    title: '3rd Album',
-                                    itemId: '/myalbum/3album',
-                                },
-                            ],
-                        },
-                    ]}
-                />
-            </Area>
-        </>
-    );
+    return <></>;
 }
 
 // import React, { useState } from 'react';

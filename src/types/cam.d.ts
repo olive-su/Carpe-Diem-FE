@@ -1,5 +1,4 @@
 declare interface RecordInfo {
-    userId: string;
     maxValue: number;
     label: string;
     count: number;

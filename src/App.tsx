@@ -5,9 +5,10 @@ import './styles/App.css';
 import Auth from './views/Auth';
 import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
-import CamContent from './views/Contents/CamContent/CamContent';
-import RemoteCamera from './views/Camera/RemoteCamera';
-import Mobile from './views/Camera/MobileCamera';
+import MobileCamContent from './views/Contents/CamContent/WebCamContent';
+import WebCamContent from './views/Contents/CamContent/WebCamContent';
+import RemoteCamera from './views/Camera/MobileCamera';
+import Mobile from './views/Camera/RemoteCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
 import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import SingleVideo from './views/Album/SingleVideo';
@@ -21,11 +22,13 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Main />} />
                 <Route path="/main" element={<Main />} />
                 <Route path="/login" element={<Modal />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route element={<PrivateRoute />}>
-                    <Route path="/" element={<CamContent />} />
+                    <Route path="/camera/web" element={<WebCamContent />} />
+                    <Route path="/camera/mobile" element={<MobileCamContent />} />
                     <Route path="/friend" element={<FriendContent />} />
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />

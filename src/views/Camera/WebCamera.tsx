@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import * as faceapi from 'face-api.js';
@@ -13,7 +12,6 @@ import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
-//import Sparky from 'react-sparkle';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 const rotate = keyframes`
@@ -68,11 +66,8 @@ let recentRecordTime: number;
 let recordInfo: types.RecordInfo;
 const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
-// 서버로 넘어가는 유저 아이디
-const userId = 'test';
-
 // 비디오 사이즈 설정
-function CameraPage(props: any) {
+function WebCamera(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
     const { usim } = useSelector((state: any) => state.usim);
@@ -221,7 +216,6 @@ function CameraPage(props: any) {
             ) {
                 recordFlag = true;
                 recordInfo = {
-                    userId: userId,
                     maxValue: expressions.value,
                     label: expressions.label,
                     count: 1,
@@ -235,12 +229,7 @@ function CameraPage(props: any) {
                 console.log('녹화 시작');
             }
             // 녹화 시간 연장
-            else if (
-                recordFlag &&
-                expressions.value > constraints.model.emotionValue &&
-                expressions.label === recordInfo.label &&
-                expressions.target === userId
-            ) {
+            else if (recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === recordInfo.label) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
@@ -299,17 +288,6 @@ function CameraPage(props: any) {
         fontSize: '24px',
         borderRadius: '20px',
         transition: 'all 0.6s ease-in-out',
-        // @keyframes sparkle {
-        //     0% {
-        //       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5);
-        //     }
-        //     50% {
-        //       box-shadow: 8px 8px 8px rgba(255, 255, 0, 0.5), -8px -8px 8px rgba(255, 255, 255, 0.5);
-        //     }
-        //     100% {
-        //       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5);
-        //     }
-        //   }
     };
 
     const offairButton = {
@@ -343,9 +321,15 @@ function CameraPage(props: any) {
                         {camStarted ? (
                             <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
                         ) : (
-                            <Rotate>
-                                <TbLoader size="50" style={{ padding: 0 }} />
-                            </Rotate>
+                            <video
+                                src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
+                                autoPlay
+                                loop
+                                muted
+                                style={{ objectFit: 'cover' }}
+                                width={constraints.video.width}
+                                height={constraints.video.height}
+                            />
                         )}
                     </div>
                 </div>
@@ -359,4 +343,4 @@ function CameraPage(props: any) {
     );
 }
 
-export default CameraPage;
+export default WebCamera;

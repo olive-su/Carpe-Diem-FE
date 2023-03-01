@@ -6,29 +6,31 @@ import { styled } from '@mui/material/styles';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
 
-import Sidebar from '../../../components/Sidebar/Sidebar';
-import Header from '../../../components/Header/Header';
-import Footer from '../../../components/Footer/Footer';
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
 import { USIM_LOADING_REQUEST } from '../../../redux/types';
-import CameraPage from '../../Camera';
-import RemoteCamera from '../../Camera/RemoteCamera';
+import WebCamera from '../../Camera/WebCamera';
+import MobileCamera from '../../Camera/MobileCamera';
 import config from '../../../config';
+import MainLayout from '../../../components/MainLayout/MainLayoutTmp';
 
 const StyleContent = styledComponents.div`
-    background-color: #fff;
     font-family: IBMPlexSansKR-Regular;
-    height: auto;
+    height: 100%;
+    position: relative;
+    min-width: 100vw;
+    display: flex;
+    justify-content: center;
     display: flex;
     text-align: left;
-    margin-top: -16px;
 `;
 
 const AlignContents = styledComponents.div`
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: rgba(255, 255, 255, 0.5);
 `;
 
 const WebCamPage = styledComponents.section`
@@ -39,7 +41,7 @@ const WebCamPage = styledComponents.section`
     margin-top: 20px;
 `;
 
-const RemoteCamPage = styledComponents.section`
+const MobileCamPage = styledComponents.section`
     display: block;
     flex-direction: row;
     text-align: center;
@@ -136,12 +138,7 @@ export default function CamContent() {
 
     return (
         <>
-            <Header />
-            <span>
-                <hr />
-            </span>
             <StyleContent>
-                <Sidebar />
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -161,7 +158,7 @@ export default function CamContent() {
                         </FormGroup>
                         <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
                             <ArrowCircleLeftRounded sx={{ mx: 1 }} />
-                            카메라를 연결할 기기를 선택해주세요!
+                            카메라를 연결할 기기를 바꿀 수 있어요!
                             <Button
                                 onClick={() => {
                                     setAlertClosed('none');
@@ -173,25 +170,28 @@ export default function CamContent() {
                     </div>
                     {switchChecked === true ? (
                         <WebCamPage>
-                            <CameraPage onVideoListRender={videoRenderFlag} />
+                            <WebCamera onVideoListRender={videoRenderFlag} />
                         </WebCamPage>
                     ) : (
-                        <RemoteCamPage>
-                            <RemoteCamera onVideoListRender={videoRenderFlag} />
-                        </RemoteCamPage>
+                        <MobileCamPage>
+                            <MobileCamera onVideoListRender={videoRenderFlag} />
+                        </MobileCamPage>
                     )}
                 </AlignContents>
-                <div style={{ marginLeft: '20px', marginTop: '20px' }}>
-                    <h2>최근 저장된 영상</h2>
+                <div
+                    style={{
+                        width: '500px',
+                        paddingLeft: '20px',
+                        paddingTop: '50px',
+                        paddingBottom: '50px',
+                    }}
+                >
+                    <h4 style={{ color: 'white' }}>최근 저장된 영상</h4>
                     <div>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
                 </div>
             </StyleContent>
-            <span>
-                <hr style={{ marginTop: '-1px' }} />
-            </span>
-            <Footer />
         </>
     );
 }

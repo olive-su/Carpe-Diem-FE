@@ -5,180 +5,7 @@
     font-family: sans-serif;
 }
 
-:root {
-    --black: #333;
-    --white: #fff;
-    --pointOne: #f42e79;
-    --pointTwo: #6666cc;
-}
-
-.dark {
-    --black: #fff;
-    --white: #333;
-    --pointOne: #ab0545;
-    --pointTwo: #00006b;
-}
-
-header {
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 40px 100px;
-    z-index: 10000;
-}
-
-header .logo {
-    position: relative;
-    display: inline-flex;
-    color: var(--black);
-    text-decoration: none;
-    font-size: 4em;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-header .logo {
-    position: relative;
-    display: inline-flex;
-    width: 10%;
-    height: 10%;
-    color: var(--black);
-    text-decoration: none;
-    font-size: 2em;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.rightSide {
-    display: flex;
-}
-.btns {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-.main {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.main .realMain video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    user-select: none;
-    mix-blend-mode: screen;
-}
-
-.dark .mask {
-    filter: invert(1);
-    mix-blend-mode: multiply;
-}
-
-h2 {
-    position: relative;
-    z-index: 3;
-    font-size: 14vw;
-    color: #fff;
-    text-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-}
-
-.login {
-    z-index: 3;
-    position: absolute;
-    /* display: flex;
-    justify-content: center; */
-    left: 50%;
-    top: 60%;
-}
-
-.navigation {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background: var(--white);
-    z-index: 4;
-    transition: 0.5s;
-}
-
-.navigation.active {
-    left: 0;
-}
-
-.navigation li {
-    list-style: none;
-}
-
-.navigation li a {
-    display: inline-flex;
-    margin: 5px 0;
-    font-size: 1.35em;
-    text-decoration: none;
-    color: var(--black);
-    padding: 5px 20px;
-    border-radius: 40px;
-}
-
-.navigation li a:hover {
-    background: var(--black);
-    color: var(--white);
-}
-
-/* .sci {
-    position: absolute;
-    right: 100px;
-    bottom: 40px;
-    z-index: 4;
-    display: flex;
-}
-
-.sci a {
-    text-decoration: none;
-    color: var(--black);
-    font-size: 2em;
-} */
-
-/* 모바일 캠 버튼 작업 */
-.cam {
-    z-index: 3;
-    display: flex;
-    position: absolute;
-    left: 40%;
-    top: 70%;
-}
-
+/* 웹 캠 버튼 작업 */
 .btn {
     position: relative;
     cursor: pointer;
@@ -187,6 +14,32 @@ h2 {
     align-items: center;
     flex-direction: column;
     gap: 15px;
+    border: none;
+    background-color: inherit;
+    top: 5%;
+}
+
+.btn .web {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-right: 80;
+    background: #6666cc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 15px 25px #5c5cba;
+}
+
+.btn.active .web {
+    box-shadow: 0 0 0 150vh #fff;
+    transition: 0.5s;
+}
+
+.btn .web::before {
+    content: '';
+    position: absolute;
 }
 
 .btn .mobile {
@@ -202,7 +55,7 @@ h2 {
 }
 
 .btn.active .mobile {
-    box-shadow: 0 0 0 150vh var(--white);
+    box-shadow: 0 0 0 150vh #fff;
     transition: 0.5s;
 }
 
@@ -213,7 +66,7 @@ h2 {
 
 .btn p {
     font-weight: 500;
-    font-size: 1em;
+    font-size: 0.8em;
     color: #fff;
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -232,103 +85,22 @@ h2 {
 }
 
 .clip.active {
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.clip video {
-    max-width: 900px;
-    outline: none;
-    border: 10px solid var(--pointOne);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-}
-
-.clip .close {
-    position: absolute;
-    top: -140%;
-    right: -130%;
-    cursor: pointer;
-    font-size: 1.2em;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--black);
-}
-
-/* 웹 캠 버튼 작업 */
-.btn2 {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 15px;
-    border: none;
-    background-color: inherit;
-    top: 5%;
-}
-
-.btn2 .web {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    background: #6666cc;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 15px 25px #5c5cba;
-}
-
-.btn2.active .web {
-    box-shadow: 0 0 0 150vh var(--white);
-    transition: 0.5s;
-}
-
-.btn2 .web::before {
-    content: '';
-    position: absolute;
-}
-
-.btn2 p {
-    font-weight: 500;
-    font-size: 1em;
-    color: #fff;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-}
-
-.clip2 {
-    position: absolute;
-    top: -100%;
-    left: 60%;
-    transform: translate(-50%, -50%) scale(0);
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.clip2.active {
     transform: translate(-50%, -50%) scale(1);
 }
 
-.clip2 video {
+.clip.web video {
     max-width: 900px;
     outline: none;
-    border: 10px solid var(--pointTwo);
+    border: 10px solid #6666cc;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-.clip2 .close2 {
-    position: absolute;
-    top: -140%;
-    right: -130%;
-    cursor: pointer;
-    font-size: 1.2em;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--black);
+.clip.mobile video {
+    max-width: 900px;
+    outline: none;
+    border: 10px solid #f42e79;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 768px) {

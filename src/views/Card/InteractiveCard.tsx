@@ -45,6 +45,7 @@ export default function InteractiveCard(properties: any) {
             variant="outlined"
             orientation="horizontal"
             sx={{
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
                 width: 400,
                 gap: 2,
                 my: 2,
