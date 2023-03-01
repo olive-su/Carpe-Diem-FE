@@ -8,6 +8,7 @@ import Book from './Book';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import { Typography } from '@mui/material';
 import { albumData } from '../../types/type';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -33,8 +34,10 @@ const FriendLibrary = () => {
 
     return (
         <>
-            <h1 style={{ textAlign: 'center' }}> Album</h1>
             <Container sx={{ width: '1200px', py: 2 }}>
+                <Typography sx={{ fontSize: '20px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'var(--white)' }}>
+                    Album
+                </Typography>
                 <Grid container spacing={1}>
                     {friendAlbumList?.map((data: albumData, idx: any) => (
                         <Grid item xs={12} sm={4}>

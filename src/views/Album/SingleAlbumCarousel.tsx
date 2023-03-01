@@ -29,7 +29,6 @@ const style = {
     bgcolor: 'white',
     boxShadow: 24,
     p: 4,
-    display: 'flex',
 };
 
 export default function AlbumCarousel(props: any) {

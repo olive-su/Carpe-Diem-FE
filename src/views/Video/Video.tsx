@@ -5,7 +5,6 @@ import { Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import { red } from '@mui/material/colors';
-
 import Card from '@mui/material/Card';
 import CardCover from '@mui/joy/CardCover';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,20 +14,16 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { Modal } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-
 import Backdrop from '@mui/material/Backdrop';
-
 import dayjs from 'dayjs';
 import axios from 'axios';
 import styled from 'styled-components';
-
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import CloseIcon from '@mui/icons-material/Close';
-
 import config from '../../config';
 import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/types';
 import Share from '../Album/Share';
@@ -36,6 +31,7 @@ import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
 import IndeterminateCheckbox from './CheckBox';
 import MainLayout from '../../components/MainLayout/MainLayout';
+import { Button } from '@mui/material';
 
 const CheckboxStyle = styled.div`
     position: absolute;
@@ -53,6 +49,17 @@ const ClearCard = styled.div`
     text-align: center;
     border-radius: 1rem;
 `;
+
+const ModalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'white',
+    boxShadow: 24,
+    p: 4,
+};
 
 const Video = () => {
     const [offset, setOffset] = useState(0);
@@ -92,11 +99,18 @@ const Video = () => {
         }
     };
 
-    const [titleInput, setTitleInput]: any = useState('');
+    // 앨범 생성 모달창
+    const [createAlbum, setCreateAlbum] = useState(false);
+    const handleOepnModal = () => setCreateAlbum(true);
+    const handleCloseModal = () => setCreateAlbum(false);
+    // 타이틀 확인 모달창
+    const [titleModal, setTitleModal] = useState(false);
+    const closeTitleModal = () => setTitleModal(false);
 
+    const [titleInput, setTitleInput]: any = useState('');
     const onKeyPress = (e: any) => {
         if (e.key == 'Enter') {
-            alert('title이 저장되었습니다.');
+            setTitleModal(true);
         }
     };
 
@@ -238,8 +252,7 @@ const Video = () => {
                                                 cover_img_url: checkedListAlbum[0].thumbnailUrl,
                                             },
                                         });
-                                        alert('앨범이 생성되었습니다.');
-                                        history.go(0);
+                                        handleOepnModal();
                                     }}
                                 >
                                     앨범 만들기
@@ -248,6 +261,38 @@ const Video = () => {
                         </Accordion>
                     </Box>
                 </ClearCard>
+                <Modal open={createAlbum} onClose={handleCloseModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                    <Box sx={ModalStyle}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            앨범이 생성되었습니다.
+                        </Typography>
+                        <Typography fontSize={13} color="#64748b" id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
+                            생성된 앨범은 Album 페이지에서 확인할 수 있습니다.
+                        </Typography>
+                        <Typography align="right">
+                            <Button
+                                onClick={() => {
+                                    setCreateAlbum(false);
+                                    window.location.reload();
+                                }}
+                            >
+                                확인
+                            </Button>
+                        </Typography>
+                    </Box>
+                </Modal>
+
+                <Modal open={titleModal} onClose={closeTitleModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                    <Box sx={ModalStyle}>
+                        <Typography fontSize={15} color="#596678" id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
+                            Title이 저장되었습니다.
+                        </Typography>
+                        <Typography align="right">
+                            <Button onClick={closeTitleModal}>확인</Button>
+                        </Typography>
+                    </Box>
+                </Modal>
+
                 <ClearCard>
                     <IndeterminateCheckbox />
                 </ClearCard>
