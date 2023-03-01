@@ -481,7 +481,7 @@ function MobileCamera(props: any) {
                         height: constraints.video.height,
                     }}
                 >
-                    {/* <QRCodeSVG value="https://reactjs.org/" /> */}
+                    <QRCodeSVG value="https://reactjs.org/" />
                     <div>
                         {mobileRef ? (
                             <video ref={mobileRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />

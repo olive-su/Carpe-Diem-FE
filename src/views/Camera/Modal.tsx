@@ -13,22 +13,22 @@ import 'slick-carousel/slick/slick-theme.css';
 const images = [
     {
         label: 'Upload Usim Modal 01',
-        imgPath: './imgs/upload-usim-modal-01.svg',
+        imgPath: `${process.env.PUBLIC_URL}/imgs/upload-usim-modal-01.svg`,
         text: `<Span style="font-size: 15pt; color: #6666CC;">찰나의 순간</Span>을 기록하지 못해서<br> <Span style="font-size: 15pt; color: #6666CC;">후회</span>하신 적 있지 않으신가요?`,
     },
     {
         label: 'Upload Usim Modal 02',
-        imgPath: './imgs/upload-usim-modal-02.svg',
+        imgPath: `${process.env.PUBLIC_URL}/imgs/upload-usim-modal-02.svg`,
         text: '사용자의 <Span style="font-size: 15pt; color: #6666CC;">얼굴과 표정</span>을 디텍팅하여<br> 의미있는 순간을 <Span style="font-size: 15pt; color: #6666CC;">짧은 비디오</span>로<br> 만들어드립니다.',
     },
     {
         label: 'Upload Usim Modal 03',
-        imgPath: './imgs/upload-usim-modal-03.svg',
+        imgPath: `${process.env.PUBLIC_URL}/imgs/upload-usim-modal-03.svg`,
         text: '원하는 영상을 골라 <br><Span style="font-size: 15pt; color: #6666CC;">여러분만의 앨범</span>을 만들고<br>친구들과 공유하세요.',
     },
     {
         label: 'Upload Usim Modal 04',
-        imgPath: './imgs/upload-usim-modal-04.svg',
+        imgPath: `${process.env.PUBLIC_URL}/imgs/upload-usim-modal-04.svg`,
         text: '정확한 디텍팅을 위해<br> <Span style="font-size: 15pt; color: #6666CC;">얼굴 사진 3장</span>을 업로드하고<br> 지금 바로 시작해보세요!',
     },
 ];

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { BiMenu, BiExit } from 'react-icons/bi';
 import { FaGithub } from 'react-icons/fa';
@@ -7,6 +8,7 @@ import { FaGithub } from 'react-icons/fa';
 export default function Header(props: any | undefined) {
     const { isAuthenticated, isLoading } = useSelector((state: any) => state.auth);
     const [isMenuOpen, setIsMenuOpen] = useState('-100%');
+    const navigate = useNavigate();
     const logoColor = props.dark ? '-dark' : '-white';
     const themeColorDark = props.dark ? '#333' : '#fff';
     const themeColorWhite = props.dark ? '#fff' : '#333';
@@ -18,7 +20,7 @@ export default function Header(props: any | undefined) {
         align-items: center;
         width: 100%;
         padding: 40px 120px;
-        z-index: 10000;
+        z-index: 10001;
     `;
 
     const Logo = styled.img`
@@ -113,19 +115,19 @@ export default function Header(props: any | undefined) {
         align-items: center;
         flex-direction: column;
         background: ${themeColorWhite};
-        z-index: 4;
+        z-index: 10000;
         animation: ${fade} 1s;
     `;
 
     return (
         <>
             <StyleHeader>
-                <a href="/main">
-                    <Logo src={`${process.env.PUBLIC_URL}/imgs/main-logo${logoColor}.png`}></Logo>
-                </a>
+                <div>
+                    <a href="/">
+                        <Logo src={`${process.env.PUBLIC_URL}/imgs/main-logo${logoColor}.png`}></Logo>
+                    </a>
+                </div>
                 <RightSide>
-                    {/* <VideoPlayer class="mobile" iconClass="mobile" label="Mobile Cam" videoSrc="video.mp4" /> */}
-
                     <GithubIcon href="https://github.com/cd-carpe-diem" rel="noreferrer noopener" target="_blank">
                         <FaGithub size="30" />
                     </GithubIcon>
