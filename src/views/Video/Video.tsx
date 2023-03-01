@@ -357,7 +357,6 @@ const Video = () => {
                             loop
                             poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${thumbnailUrl}`}
                         >
-                            ≈
                             <source src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${videoUrl}`} type="video/webm" />
                         </video>
                         <Box>
