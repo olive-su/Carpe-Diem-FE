@@ -11,7 +11,7 @@ import RemoteCamera from './views/Camera/RemoteCamera';
 import Mobile from './views/Camera/RemoteCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
 // import SingleVideo from './views/Album/SingleVideo';
-import AlbumMultiContent from './views/Contents/albumContent/AlbumMutiContent';
+import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import Main from './views/Main/main';
 import Modal from './views/Camera/Modal';
 import PrivateRoute from './views/Auth/PrivateRoute';
