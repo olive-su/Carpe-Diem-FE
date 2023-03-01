@@ -6,7 +6,6 @@ import { friendData } from '../../../types/type';
 import { Button } from '@mui/material';
 import config from '../../../config';
 import styled from 'styled-components';
-import { userInfo } from 'os';
 
 const CardBox = styled.div`
     background-position: center;
@@ -36,9 +35,23 @@ const InputTextField = styled(TextField)({
 });
 
 export function UserSearch() {
-    const [searchedFriend, setSearchedFriend] = useState<friendData>();
     const [users, setUsers] = useState([]);
     const text = useRef<HTMLInputElement>(null);
+    const [email, setEmail] = useState();
+
+    React.useEffect(function () {
+        axios({
+            url: `http://${config.server.host}:${config.server.port}/user`,
+            method: 'get',
+            withCredentials: true,
+        })
+            .then(function (result: any) {
+                setEmail(result.data.email);
+            })
+            .catch(function (error: any) {
+                console.error('user 에러발생: ', error);
+            });
+    }, []);
 
     React.useEffect(function () {
         axios({
@@ -63,6 +76,10 @@ export function UserSearch() {
             }
         });
 
+        if (checkUser && text.current?.value === email) {
+            checkUser = false;
+        }
+
         if (checkUser) {
             axios({
                 method: 'post',
@@ -75,15 +92,15 @@ export function UserSearch() {
             })
                 .then(function (result) {
                     console.log('요청 보내기 성공');
-                    window.location.reload();
+                    // window.location.reload();
                 })
                 .catch(function (error) {
                     console.error('요청보내기 에러발생: ', error);
-                    alert('사용자를 찾지 못했습니다. 정확한 이메일을 입력해주세요.');
+                    alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
                 });
         } else {
             console.error('요청보내기 에러발생: 불명확한 이메일');
-            alert('사용자를 찾지 못했습니다. 정확한 이메일을 입력해주세요.');
+            alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
         }
     };
     return (
