@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import FriendItem from './FriendItem';
 import List from '@mui/material/List';
 import { Container } from '@mui/material';
-import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import { friendData } from '../../../types/type';
@@ -138,7 +137,7 @@ const Friend = () => {
                     {friendList.length !== 0 ? (
                         <div style={{ paddingTop: '2em' }}>
                             <CardBox>
-                                <List sx={{ overflow: 'auto', height: '320px' }}>
+                                <List sx={{ overflow: 'auto', height: '400px' }}>
                                     {friendList.map((item: friendData) => (
                                         <TodoItemBlock key={item.user_id}>
                                             <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center', color: '#fff' }}>
