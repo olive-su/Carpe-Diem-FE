@@ -6,6 +6,7 @@ import Send from '../../MyPage/Send';
 import Receive from '../../MyPage/Receive';
 import Grid from '@mui/material/Grid';
 import MainLayout from '../../../components/MainLayout/MainLayout';
+import { Typography } from '@mui/material';
 
 const Center = styled.div`
     height: 100vh;
@@ -18,6 +19,9 @@ const Center = styled.div`
 export default function FriendContent() {
     return (
         <MainLayout>
+            <Typography sx={{ fontSize: '20px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '-20px', color: 'var(--white)', marginX: '19%' }}>
+                Friend
+            </Typography>
             <Center>
                 <Grid container spacing={1} style={{ display: 'flex', justifyContent: 'center' }}>
                     <Grid item xs={4}>

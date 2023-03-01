@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FriendItem from './Friend/FriendItem';
-import List from '@mui/material/List';
 import { Container } from '@mui/material';
-import { Typography } from '@mui/material';
-import { Paper } from '@mui/material';
 import axios from 'axios';
 import { friendData } from '../../types/type';
 import config from '../../config';
@@ -47,7 +44,7 @@ const Send = () => {
                     <UserSearch />
 
                     <div style={{ paddingTop: '1em' }}>
-                        <CardBox style={{ overflow: 'auto', height: '200px' }}>
+                        <CardBox style={{ overflow: 'auto', height: '255px' }}>
                             {reqList?.map((item: friendData) => (
                                 <div key={item.user_id}>
                                     <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
