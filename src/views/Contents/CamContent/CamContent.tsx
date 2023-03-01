@@ -5,10 +5,6 @@ import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
-
-import Sidebar from '../../../components/Sidebar/Sidebar';
-import Header from '../../../components/Header/Header';
-import Footer from '../../../components/Footer/Footer';
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
 import { USIM_LOADING_REQUEST } from '../../../redux/types';
@@ -136,12 +132,7 @@ export default function CamContent() {
 
     return (
         <>
-            <Header />
-            <span>
-                <hr />
-            </span>
             <StyleContent>
-                <Sidebar />
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -188,10 +179,6 @@ export default function CamContent() {
                     </div>
                 </div>
             </StyleContent>
-            <span>
-                <hr style={{ marginTop: '-1px' }} />
-            </span>
-            <Footer />
         </>
     );
 }

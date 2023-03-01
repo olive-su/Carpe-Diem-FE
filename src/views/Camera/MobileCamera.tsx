@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import config from '../../config';
 import * as io from 'socket.io-client';
 
@@ -188,17 +186,7 @@ export default function MobileCamera() {
     });
     return (
         <div>
-            <Header />
-            <span>
-                <hr />
-            </span>
-            <div>
-                <video ref={videoRef} autoPlay muted width={constraints.video.width} height={constraints.video.height} />
-            </div>
-            <span>
-                <hr style={{ marginTop: '-1px' }} />
-            </span>
-            <Footer />
+            <video ref={videoRef} autoPlay muted width={constraints.video.width} height={constraints.video.height} />
         </div>
     );
 }

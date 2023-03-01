@@ -58,23 +58,18 @@ export default function Header() {
                 </Link>
             </div>
             <NavMenu>
-                <Link style={{ textDecoration: 'none' }} to="/friend">
-                    <NavItem
-                        onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
-                        onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
-                    >
-                        My Page
-                    </NavItem>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} to="/main">
-                    <NavItem
-                        onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
-                        onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
-                    >
-                        Logout
-                    </NavItem>
-                </Link>
-                <MyModal />
+                <NavItem
+                    onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
+                    onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
+                >
+                    My Page
+                </NavItem>
+                <NavItem
+                    onMouseOver={({ target }: { target: any }) => (target.style.color = '#0f382f')}
+                    onMouseOut={({ target }: { target: any }) => (target.style.color = '#7DB2B1')}
+                >
+                    Logout
+                </NavItem>
             </NavMenu>
         </StyleHeader>
     );

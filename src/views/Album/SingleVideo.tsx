@@ -233,8 +233,6 @@ const AlbumSinglePage = () => {
                                 }}
                             >
                                 <FontAwesomeIcon icon={faCircleDown} size="lg" style={{ color: '#1d1d1d' }} />
-
-                                {/* <DownloadIcon /> */}
                             </button>
                         </a>
                         <Share img={cardAlbum.thumbnailUrl} comment={cardAlbum.comment} />
