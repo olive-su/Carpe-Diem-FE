@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { PersonalVideoRounded, PhoneAndroidRounded } from '@mui/icons-material';
 import styled from 'styled-components';
 import './main.css';
 import config from '../../config';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import WebCamContent from '../Contents/CamContent/WebCamContent';
-import MobileCamContent from '../Contents/CamContent/MobileCamContent';
 
 const StyleMain = styled.section`
     position: relative;
@@ -63,6 +61,7 @@ const LoginButton = styled.img`
 
 function Main() {
     const { isAuthenticated } = useSelector((state: any) => state.auth);
+    const navigate = useNavigate();
 
     function CameraBtn(props: any) {
         const [isOpen, setIsOpen] = useState(false);
@@ -73,8 +72,7 @@ function Main() {
                 <button
                     className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
                     onClick={() => {
-                        setIsOpen(!isOpen);
-                        setIsCamPage('web');
+                        navigate('/camera/web');
                     }}
                 >
                     <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
@@ -85,8 +83,7 @@ function Main() {
                 <button
                     className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
                     onClick={() => {
-                        setIsOpen(!isOpen);
-                        setIsCamPage('mobile');
+                        navigate('/camera/mobile');
                     }}
                 >
                     <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
@@ -94,16 +91,6 @@ function Main() {
                     </div>
                     <p>Mobile Camera</p>
                 </button>
-                {isOpen && isCamPage === 'web' && (
-                    <div className={`clip web ${isOpen ? 'active' : ''}`}>
-                        <WebCamContent />
-                    </div>
-                )}
-                {isOpen && isCamPage === 'mobile' && (
-                    <div className={`clip mobile ${isOpen ? 'active' : ''}`}>
-                        <MobileCamContent />
-                    </div>
-                )}
             </div>
         );
     }

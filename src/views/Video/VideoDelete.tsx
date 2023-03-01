@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CARD_DELETE_REQUEST } from '../../redux/types';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -22,6 +23,7 @@ const style = {
 
 const VideoDelete = (props: any) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -33,7 +35,7 @@ const VideoDelete = (props: any) => {
                 card_id: props.cardId,
             },
         });
-        history.go(0);
+        navigate('/video');
     };
     return (
         <>

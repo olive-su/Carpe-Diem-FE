@@ -82,6 +82,21 @@ export function UserSearch() {
     const [email, setEmail] = useState();
     const [friends, setFriends] = useState([]);
     const [reqFriends, setReqFriends] = useState([]);
+    const [receiveFriends, setReceiveFriends] = useState([]);
+
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/friend/receive`,
+            withCredentials: true,
+        })
+            .then(function (result) {
+                setReceiveFriends(result.data);
+            })
+            .catch(function (error) {
+                console.error('friend 에러발생: ', error);
+            });
+    }, []);
 
     React.useEffect(function () {
         axios({
@@ -148,6 +163,8 @@ export function UserSearch() {
         let checkFriend = false;
         // 이미 보낸 요청인 경우
         let checkReqFriend = false;
+        // 이미 받은 요청인 경우
+        let checkReceiveFriend = false;
 
         users.map((user) => {
             if (user['email'] === text.current?.value) {
@@ -174,7 +191,14 @@ export function UserSearch() {
             }
         });
 
-        if (checkUser && !checkMe && !checkFriend && !checkReqFriend) {
+        receiveFriends.map((friend) => {
+            if (friend['email'] === text.current?.value) {
+                checkReceiveFriend = true;
+                return checkReceiveFriend;
+            }
+        });
+
+        if (checkUser && !checkMe && !checkFriend && !checkReqFriend && !checkReceiveFriend) {
             axios({
                 method: 'post',
                 url: `http://${config.server.host}:${config.server.port}/friend/`,
@@ -186,7 +210,7 @@ export function UserSearch() {
             })
                 .then(function (result) {
                     console.log('요청 보내기 성공');
-                    history.go(0);
+                    setInform('성공적으로 친구 요청을 보냈습니다.');
                 })
                 .catch(function (error) {
                     console.error('요청보내기 에러발생: ', error);
@@ -201,6 +225,8 @@ export function UserSearch() {
                 setInform('이미 친구인 사용자에게는 친구 요청을 보낼 수 없습니다.');
             } else if (checkReqFriend) {
                 setInform('이미 요청을 보낸 사용자입니다.');
+            } else if (checkReceiveFriend) {
+                setInform('이미 요청을 받은 사용자입니다.');
             }
         }
     };
@@ -249,6 +275,7 @@ export function UserSearch() {
                         <Button
                             onClick={() => {
                                 setOpen(false);
+                                history.go(0);
                             }}
                         >
                             확인
