@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
 
@@ -12,7 +13,7 @@ import { USIM_LOADING_REQUEST } from '../../../redux/types';
 import WebCamera from '../../Camera/WebCamera';
 import MobileCamera from '../../Camera/MobileCamera';
 import config from '../../../config';
-import MainLayout from '../../../components/MainLayout/MainLayoutTmp';
+import MainLayout from '../../../components/MainLayout/MainLayout';
 
 const StyleContent = styledComponents.div`
     font-family: IBMPlexSansKR-Regular;
@@ -28,8 +29,8 @@ const StyleContent = styledComponents.div`
 const AlignContents = styledComponents.div`
     display: flex;
     flex-direction: column;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 50px;
+    border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.5);
 `;
 
@@ -37,7 +38,6 @@ const WebCamPage = styledComponents.section`
     display: block;
     flex-direction: row;
     text-align: center;
-    margin-left: 30px;
     margin-top: 20px;
 `;
 
@@ -135,7 +135,7 @@ export default function MobileCamContent() {
     }, []);
 
     return (
-        <>
+        <MainLayout>
             <StyleContent>
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
@@ -151,7 +151,7 @@ export default function MobileCamContent() {
                                         }}
                                     />
                                 }
-                                label="Select Device"
+                                label={<Typography sx={{ color: 'white' }}>Select Device</Typography>}
                             />
                         </FormGroup>
                         <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
@@ -190,6 +190,6 @@ export default function MobileCamContent() {
                     </div>
                 </div>
             </StyleContent>
-        </>
+        </MainLayout>
     );
 }

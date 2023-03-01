@@ -7,7 +7,8 @@ import './main.css';
 import config from '../../config';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import CamContent from '../Contents/CamContent/WebCamContent';
+import WebCamContent from '../Contents/CamContent/WebCamContent';
+import MobileCamContent from '../Contents/CamContent/MobileCamContent';
 
 const StyleMain = styled.section`
     position: relative;
@@ -70,7 +71,7 @@ function Main() {
         return (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <button
-                    className={`btn web ${isOpen ? 'active' : ''}`}
+                    className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
                     onClick={() => {
                         setIsOpen(!isOpen);
                         setIsCamPage('web');
@@ -82,7 +83,7 @@ function Main() {
                     <p>Web Camera</p>
                 </button>
                 <button
-                    className={`btn mobile ${isOpen ? 'active' : ''}`}
+                    className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
                     onClick={() => {
                         setIsOpen(!isOpen);
                         setIsCamPage('mobile');
@@ -95,12 +96,12 @@ function Main() {
                 </button>
                 {isOpen && isCamPage === 'web' && (
                     <div className={`clip web ${isOpen ? 'active' : ''}`}>
-                        <CamContent />
+                        <WebCamContent />
                     </div>
                 )}
                 {isOpen && isCamPage === 'mobile' && (
                     <div className={`clip mobile ${isOpen ? 'active' : ''}`}>
-                        <CamContent />
+                        <MobileCamContent />
                     </div>
                 )}
             </div>

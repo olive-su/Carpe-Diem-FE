@@ -103,7 +103,7 @@ export default function Header(props: any | undefined) {
     };
 
     const Sidebar = styled('div')`
-        position: absolute;
+        position: fixed;
         top: 0;
         left: ${isMenuOpen};
         width: 100%;
@@ -151,10 +151,7 @@ export default function Header(props: any | undefined) {
                     <Inner href="/video">Video</Inner>
                 </List>
                 <List>
-                    <Inner href="#">Friend Album</Inner>
-                </List>
-                <List>
-                    <Inner href="/mypage">My page</Inner>
+                    <Inner href="/friend">Friend</Inner>
                 </List>
             </Sidebar>
         </>

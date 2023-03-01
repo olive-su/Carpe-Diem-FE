@@ -4,6 +4,7 @@ import * as faceapi from 'face-api.js';
 import * as io from 'socket.io-client';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
+import { QRCodeSVG } from 'qrcode.react';
 
 import './index.css';
 import Emotion from './Emotion';
@@ -480,6 +481,7 @@ function MobileCamera(props: any) {
                         height: constraints.video.height,
                     }}
                 >
+                    {/* <QRCodeSVG value="https://reactjs.org/" /> */}
                     <div>
                         {mobileRef ? (
                             <video ref={mobileRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />

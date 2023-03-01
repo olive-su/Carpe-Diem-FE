@@ -73,7 +73,7 @@ const Receive = () => {
         <React.Fragment>
             <Container maxWidth="sm">
                 <CardBox>
-                    <h3 style={{ color: '#fff' }}>받은 친구 요청</h3>
+                    <h4 style={{ color: '#fff' }}>받은 친구 요청</h4>
 
                     <CardBox>
                         <List sx={{ overflow: 'auto', height: '250px' }}>

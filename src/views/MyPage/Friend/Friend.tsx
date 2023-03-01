@@ -49,6 +49,18 @@ const InputTextField = styled(TextField)({
     },
 });
 
+const inputSx = {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+        '&.Mui-focused fieldset': {
+            borderColor: '#6666cc',
+        },
+        '&:hover fieldset': {
+            borderColor: '#6666cc',
+        },
+    },
+};
+
 const friend: friendData = { user_id: '2312314', nickname: '수개미', email: 'test@gamil.com', profile_img: '' };
 const Friend = () => {
     const navigate = useNavigate();
@@ -111,21 +123,16 @@ const Friend = () => {
             }),
         );
     };
+
     return (
         <React.Fragment>
             <Container maxWidth="sm" component="main" sx={{ mb: 4, pt: 5 }}>
                 <CardBox>
-                    <h3 style={{ color: '#fff' }}>친구 목록</h3>
+                    <h4 style={{ color: '#fff' }}>친구 목록</h4>
 
                     <div>
                         <CardBox>
-                            <InputTextField
-                                id="outlined-search"
-                                label="Search friend"
-                                type="search"
-                                sx={{ width: '100%' }}
-                                onChange={(e) => searchSpace(e)}
-                            />
+                            <InputTextField id="outlined-search" label="Search friend" type="search" sx={inputSx} onChange={(e) => searchSpace(e)} />
                         </CardBox>
                     </div>
                     {friendList.length !== 0 ? (

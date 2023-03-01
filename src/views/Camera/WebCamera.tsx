@@ -305,7 +305,7 @@ function WebCamera(props: any) {
     };
 
     return (
-        <>
+        <div>
             <div>
                 {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
                 <div
@@ -339,7 +339,7 @@ function WebCamera(props: any) {
                 </div>
             </div>
             <Emotion data={data} />
-        </>
+        </div>
     );
 }
 
