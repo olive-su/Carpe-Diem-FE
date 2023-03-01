@@ -24,14 +24,14 @@ import {
 const albumListLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/album`,
+        url: `http://${config.server.host}:${config.server.port}/album?page=${data}`,
         withCredentials: true,
     });
 };
 
-function* albumListload(): any {
+function* albumListload(action: any): any {
     try {
-        const result = yield call(albumListLoadAPI);
+        const result = yield call(albumListLoadAPI, action.payload);
         yield put({
             type: ALBUM_LIST_LOADING_SUCCESS,
             payload: result.data,

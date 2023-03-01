@@ -25,14 +25,14 @@ import {
 const cardListLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/card`,
+        url: `http://${config.server.host}:${config.server.port}/card?page=${data}`,
         withCredentials: true,
     });
 };
 
-function* cardListload(): any {
+function* cardListload(action: any): any {
     try {
-        const result = yield call(cardListLoadAPI);
+        const result = yield call(cardListLoadAPI, action.payload);
         yield put({
             type: CARD_LIST_LOADING_SUCCESS,
             payload: result.data,
