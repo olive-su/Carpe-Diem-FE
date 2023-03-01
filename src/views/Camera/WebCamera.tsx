@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import * as faceapi from 'face-api.js';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
-import Emotion from './Emotion';
 
 import './index.css';
+import Emotion from './Emotion';
 import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
@@ -71,6 +71,7 @@ function WebCamera(props: any) {
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
     const { usim } = useSelector((state: any) => state.usim);
+    const { nickname } = useSelector((state: any) => state.auth);
 
     const [camStarted, setCamStarted] = useState(false);
     const [modelLoaded, setModelLoaded] = useState(false);
@@ -180,8 +181,9 @@ function WebCamera(props: any) {
                     const matched = resizedDetections[i];
                     const box = matched.detection.box;
                     // const target = faceMatcher.findBestMatch(matched.descriptor).toString();
-                    const label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
+                    let label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
                     const labelColor = label !== 'unknown' ? 'red' : 'blue';
+                    label = labelColor === 'red' ? nickname : '';
                     const drawBox = new faceapi.draw.DrawBox(box, { boxColor: labelColor, label: label });
 
                     // if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
@@ -264,7 +266,7 @@ function WebCamera(props: any) {
                     console.log(err);
                 }
             }
-        }, 10000);
+        }, 15000);
     };
 
     async function handleDataAvailable(event: any) {
@@ -305,41 +307,50 @@ function WebCamera(props: any) {
     };
 
     return (
-        <div>
+        <>
             <div>
-                {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
-                <div
-                    ref={wrapRef}
-                    id="wrap"
-                    style={{
-                        borderStyle: 'none',
-                        width: constraints.video.width,
-                        height: constraints.video.height,
-                    }}
-                >
-                    <div>
-                        {camStarted ? (
-                            <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
-                        ) : (
-                            <video
-                                src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
-                                autoPlay
-                                loop
-                                muted
-                                style={{ objectFit: 'cover' }}
-                                width={constraints.video.width}
-                                height={constraints.video.height}
-                            />
-                        )}
-                    </div>
-                </div>
                 <div>
-                    <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                    {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                    <div
+                        ref={wrapRef}
+                        id="wrap"
+                        style={{
+                            borderStyle: 'none',
+                            width: constraints.video.width,
+                            height: constraints.video.height,
+                        }}
+                    >
+                        <div>
+                            {camStarted ? (
+                                <video
+                                    ref={videoRef}
+                                    autoPlay
+                                    muted
+                                    onPlay={onPlay}
+                                    width={constraints.video.width}
+                                    height={constraints.video.height}
+                                />
+                            ) : (
+                                <video
+                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
+                                    autoPlay
+                                    loop
+                                    muted
+                                    style={{ objectFit: 'cover' }}
+                                    width={constraints.video.width}
+                                    height={constraints.video.height}
+                                />
+                            )}
+                        </div>
+                    </div>
+                    <div>
+                        <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                        <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                    </div>
                 </div>
             </div>
             <Emotion data={data} />
-        </div>
+        </>
     );
 }
 

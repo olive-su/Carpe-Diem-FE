@@ -4,7 +4,7 @@ import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
+import { ArrowCircleLeftRounded, ClearRounded, TimerRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
@@ -21,7 +21,6 @@ const StyleContent = styledComponents.div`
     min-width: 100vw;
     display: flex;
     justify-content: center;
-    display: flex;
     text-align: left;
 `;
 
@@ -44,7 +43,6 @@ const MobileCamPage = styledComponents.section`
     display: block;
     flex-direction: row;
     text-align: center;
-    margin-left: 30px;
     margin-top: 20px;
 `;
 
@@ -185,7 +183,10 @@ export default function CamContent() {
                         paddingBottom: '50px',
                     }}
                 >
-                    <h4 style={{ color: 'white' }}>최근 저장된 영상</h4>
+                    <h4 style={{ color: 'white' }}>
+                        <TimerRounded sx={{ marginRight: '10px' }} />
+                        최근 저장된 영상
+                    </h4>
                     <div>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>

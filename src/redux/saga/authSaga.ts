@@ -5,6 +5,9 @@ import {
     USER_LOADING_REQUEST,
     USER_LOADING_SUCCESS,
     USER_LOADING_FAILURE,
+    USER_LOGOUT_REQUEST,
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAILURE,
     USIM_LOADING_REQUEST,
     USIM_LOADING_SUCCESS,
     USIM_LOADING_FAILURE,
@@ -45,6 +48,37 @@ function* userLoading(action: any): any {
 
 function* watchUserLoading() {
     yield takeEvery(USER_LOADING_REQUEST, userLoading);
+}
+
+// User Logout
+const userLogoutAPI = (token: any) => {
+    return axios({
+        method: 'get',
+        url: `http://${config.server.host}:${config.server.port}/auth/signout`,
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+};
+
+function* userLogout(action: any): any {
+    try {
+        const result = yield call(userLogoutAPI, action.payload);
+        yield put({
+            type: USER_LOGOUT_SUCCESS,
+            payload: result.data,
+        });
+    } catch (e: any) {
+        yield put({
+            type: USER_LOGOUT_FAILURE,
+            payload: e.response,
+        });
+    }
+}
+
+function* watchUserLogout() {
+    yield takeEvery(USER_LOGOUT_REQUEST, userLogout);
 }
 
 // Usim Loading
@@ -118,7 +152,7 @@ function* watchUsimCreate() {
 }
 
 function* authSaga() {
-    yield all([fork(watchUserLoading)]);
+    yield all([fork(watchUserLoading), fork(watchUserLogout)]);
 }
 
 function* usimSaga() {
