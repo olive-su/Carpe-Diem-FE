@@ -34,7 +34,6 @@ const Send = () => {
         })
             .then(function (result) {
                 setReqList(result.data);
-                console.log(result.data);
             })
             .catch(function (error) {
                 console.error('friend req send 에러발생: ', error);

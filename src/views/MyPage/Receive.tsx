@@ -26,7 +26,7 @@ const CardBox = styled.div`
 
 const Receive = () => {
     const [friendList, setFriendList] = useState([]);
-    const [searchedFriend, setSearchedFriend] = useState<friendData>();
+
     React.useEffect(function () {
         axios({
             method: 'get',
