@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
+import FriendItem from './FriendItem';
+import List from '@mui/material/List';
 import { Container } from '@mui/material';
+import { Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import { friendData } from '../../../types/type';
 import config from '../../../config';
-import { Paper } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
+import TextField from '@mui/material/TextField';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
-import './Friend.css';
-import { BsPersonDash } from 'react-icons/bs';
 import { BiLibrary } from 'react-icons/bi';
-import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 
 const TodoItemBlock = styled.div`
     &:hover {
@@ -18,9 +21,38 @@ const TodoItemBlock = styled.div`
     }
 `;
 
+const CardBox = styled.div`
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-radius: 1rem;
+    padding: 1rem;
+`;
+
+const InputTextField = styled(TextField)({
+    '& label': {
+        color: '#fff',
+    },
+    '& label.Mui-focused': {
+        color: '#fff',
+    },
+    '& .MuiOutlinedInput-root': {
+        color: '#fff',
+        '& fieldset': {
+            borderColor: '#fff',
+        },
+    },
+});
+
+const friend: friendData = { user_id: '2312314', nickname: '수개미', email: 'test@gamil.com', profile_img: '' };
 const Friend = () => {
     const [friendList, setFriendList] = useState([]);
-    // const [search, setSearch] = useState<string>('');
+    const [value, setValue] = useState('');
+    const [search, setSearch] = useState<string>('');
     const [allFriendList, setAllFriendList] = useState([]);
     React.useEffect(function () {
         axios({
@@ -47,11 +79,9 @@ const Friend = () => {
         })
             .then(function (response: any) {
                 const friendUserId = response.data[0].userId;
-                console.log('###########', friendUserId);
                 window.location.replace(`http://${config.client.host}:${config.client.port}/friendAlbum/${friendUserId}`);
             })
             .catch(function (error: any) {
-                console.log('%%%%%%%%%%%%%%%%%%%%');
                 console.log(error);
             });
     };
@@ -72,54 +102,74 @@ const Friend = () => {
             });
     };
 
-    // const searchSpace = (event: any) => {
-    //     const keyword = event.target.value;
-    //     setFriendList(
-    //         allFriendList?.filter((data: friendData) => {
-    //             if (data.nickname.toLowerCase().includes(keyword.toLowerCase()) || data.email.toLowerCase().includes(keyword.toLowerCase())) {
-    //                 return data;
-    //             }
-    //         }),
-    //     );
-    // };
-
+    const searchSpace = (event: any) => {
+        const keyword = event.target.value;
+        setFriendList(
+            allFriendList?.filter((data: friendData) => {
+                if (data.nickname.toLowerCase().includes(keyword.toLowerCase()) || data.email.toLowerCase().includes(keyword.toLowerCase())) {
+                    return data;
+                }
+            }),
+        );
+    };
     return (
-        <Container component="main">
-            {friendList.length !== 0 ? (
-                <Paper sx={{ my: { xs: 3 }, p: { xs: 2 }, color: '#1e319d' }}>
-                    <h3>친구 목록</h3>
-                    {friendList.map((item: friendData) => (
-                        <section key={item.user_id}>
-                            <div className="box">
-                                <div className="list">
-                                    <div className="imgBx">
-                                        {item.profile_img ? (
-                                            <img src={item.profile_img} alt="noImg" />
-                                        ) : (
-                                            <img src="./imgs/not_found_files.jpg" alt="noImg" />
-                                        )}
-                                    </div>
-                                    <div className="content">
-                                        <h2 className="rank">
-                                            <button className="library" onClick={(e) => onLibrary(item.email)}>
-                                                <BiLibrary size="27" />
-                                            </button>
-                                            <button className="person">
-                                                <BsPersonDash size="27" onClick={(e) => onDel(item.email)} />
-                                            </button>
-                                        </h2>
-                                        <h4>{item.nickname}</h4>
-                                        <p>{item.email}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    ))}
-                </Paper>
-            ) : (
-                <div>없습니다.</div>
-            )}
-        </Container>
+        <React.Fragment>
+            <Container maxWidth="sm" component="main" sx={{ mb: 4, pt: 5 }}>
+                <CardBox>
+                    <h3 style={{ color: '#fff' }}>친구 목록</h3>
+
+                    <div>
+                        <CardBox>
+                            <InputTextField
+                                id="outlined-search"
+                                label="Search friend"
+                                type="search"
+                                sx={{ width: '100%' }}
+                                onChange={(e) => searchSpace(e)}
+                            />
+                        </CardBox>
+                    </div>
+                    {friendList.length !== 0 ? (
+                        <div style={{ paddingTop: '2em' }}>
+                            <CardBox>
+                                <List sx={{ overflow: 'auto', height: '320px' }}>
+                                    {friendList.map((item: friendData) => (
+                                        <TodoItemBlock key={item.user_id}>
+                                            <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center', color: '#fff' }}>
+                                                <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
+                                                <IconButton
+                                                    id="button"
+                                                    onClick={(e) => onLibrary(item.email)}
+                                                    sx={{ color: '#fff', display: 'none' }}
+                                                    component="label"
+                                                >
+                                                    <BiLibrary />
+                                                </IconButton>
+                                                <IconButton
+                                                    id="button"
+                                                    onClick={(e) => onDel(item.email)}
+                                                    sx={{ color: '#b91c1c', display: 'none' }}
+                                                    component="label"
+                                                >
+                                                    <PersonRemoveIcon />
+                                                </IconButton>
+                                            </ListItem>
+                                            <hr></hr>
+                                        </TodoItemBlock>
+                                    ))}
+                                </List>
+                            </CardBox>
+                        </div>
+                    ) : (
+                        <div style={{ paddingTop: '2em' }}>
+                            <CardBox>
+                                <div style={{ color: '#fff' }}>친구 목록이 비었습니다.</div>
+                            </CardBox>
+                        </div>
+                    )}
+                </CardBox>
+            </Container>
+        </React.Fragment>
     );
 };
 
