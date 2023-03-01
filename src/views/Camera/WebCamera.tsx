@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import * as faceapi from 'face-api.js';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
-import Emotion from './Emotion';
 
 import './index.css';
+import Emotion from './Emotion';
 import * as types from '../../types/cam';
 import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
@@ -305,41 +305,50 @@ function WebCamera(props: any) {
     };
 
     return (
-        <div>
+        <>
             <div>
-                {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
-                <div
-                    ref={wrapRef}
-                    id="wrap"
-                    style={{
-                        borderStyle: 'none',
-                        width: constraints.video.width,
-                        height: constraints.video.height,
-                    }}
-                >
-                    <div>
-                        {camStarted ? (
-                            <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
-                        ) : (
-                            <video
-                                src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
-                                autoPlay
-                                loop
-                                muted
-                                style={{ objectFit: 'cover' }}
-                                width={constraints.video.width}
-                                height={constraints.video.height}
-                            />
-                        )}
-                    </div>
-                </div>
                 <div>
-                    <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                    {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                    <div
+                        ref={wrapRef}
+                        id="wrap"
+                        style={{
+                            borderStyle: 'none',
+                            width: constraints.video.width,
+                            height: constraints.video.height,
+                        }}
+                    >
+                        <div>
+                            {camStarted ? (
+                                <video
+                                    ref={videoRef}
+                                    autoPlay
+                                    muted
+                                    onPlay={onPlay}
+                                    width={constraints.video.width}
+                                    height={constraints.video.height}
+                                />
+                            ) : (
+                                <video
+                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
+                                    autoPlay
+                                    loop
+                                    muted
+                                    style={{ objectFit: 'cover' }}
+                                    width={constraints.video.width}
+                                    height={constraints.video.height}
+                                />
+                            )}
+                        </div>
+                    </div>
+                    <div>
+                        <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                        <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                    </div>
                 </div>
             </div>
             <Emotion data={data} />
-        </div>
+        </>
     );
 }
 

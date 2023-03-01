@@ -33,12 +33,13 @@ export default function InteractiveCard(properties: any) {
 
     const expressionLabel = videoList.properties.expressionLabel;
     let emotionIcon;
-    if (expressionLabel === 'happy') emotionIcon = <InsertEmoticon color="primary" sx={{ marginRight: 1 }} />;
-    else if (expressionLabel === 'sad') emotionIcon = <SentimentDissatisfied color="primary" sx={{ marginRight: 1 }} />;
-    else if (expressionLabel === 'angry') emotionIcon = <LocalFireDepartment color="primary" sx={{ marginRight: 1 }} />;
-    else if (expressionLabel === 'disgusted') emotionIcon = <Sick color="primary" sx={{ marginRight: 1 }} />;
-    else if (expressionLabel === 'fearful') emotionIcon = <SentimentVeryDissatisfiedRounded color="primary" sx={{ marginRight: 1 }} />;
-    else emotionIcon = <Outlet color="primary" sx={{ marginRight: 1 }} />;
+    if (expressionLabel === 'happy') emotionIcon = <InsertEmoticon color="primary" sx={{ marginRight: 1, color: '#6666cc' }} />;
+    else if (expressionLabel === 'sad') emotionIcon = <SentimentDissatisfied color="primary" sx={{ marginRight: 1, color: '#6666cc' }} />;
+    else if (expressionLabel === 'angry') emotionIcon = <LocalFireDepartment color="primary" sx={{ marginRight: 1, color: '#6666cc' }} />;
+    else if (expressionLabel === 'disgusted') emotionIcon = <Sick color="primary" sx={{ marginRight: 1, color: '#6666cc' }} />;
+    else if (expressionLabel === 'fearful')
+        emotionIcon = <SentimentVeryDissatisfiedRounded color="primary" sx={{ marginRight: 1, color: '#6666cc' }} />;
+    else emotionIcon = <Outlet sx={{ marginRight: 1, color: '#6666cc' }} />;
 
     return (
         <Card
@@ -63,7 +64,7 @@ export default function InteractiveCard(properties: any) {
                 <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
                     {getTimeDiff(dayjs(videoList.properties.createdAt))}
                 </Typography>
-                <Chip variant="outlined" color="primary" size="md" sx={{ pointerEvents: 'none', mt: 2 }}>
+                <Chip variant="outlined" size="md" sx={{ pointerEvents: 'none', mt: 2 }}>
                     {emotionIcon}
                     {videoList.properties.expressionLabel}
                 </Chip>
