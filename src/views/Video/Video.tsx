@@ -59,18 +59,27 @@ const Video = () => {
     const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
+
     useEffect(() => {
         dispatch({
             type: CARD_LIST_LOADING_REQUEST,
+            payload: offset,
         });
-    }, [dispatch]);
-    // useEffect(() => {
-    //     dispatch({
-    //         type: CARD_LIST_LOADING_REQUEST,
-    //     });
-    //     console.log(cardList);
-    //     allCards = cardList;
-    // }, []);
+    }, [dispatch, offset]);
+
+    useEffect(() => {
+        const handleScroll = (e: any) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
+
+            if (currentHeight + 1 >= scrollHeight) {
+                setOffset(offset + 1);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [offset]);
+
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
     const [checkedListAlbum, setCheckedListAlbum]: any = useState({});
