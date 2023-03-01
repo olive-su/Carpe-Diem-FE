@@ -39,6 +39,21 @@ export function UserSearch() {
     const [users, setUsers] = useState([]);
     const [email, setEmail] = useState();
     const [friends, setFriends] = useState([]);
+    const [reqFriends, setReqFriends] = useState([]);
+
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/friend/request`,
+            withCredentials: true,
+        })
+            .then(function (result) {
+                setReqFriends(result.data);
+            })
+            .catch(function (error) {
+                console.error('friend req send 에러발생: ', error);
+            });
+    }, []);
 
     React.useEffect(function () {
         axios({
@@ -47,7 +62,6 @@ export function UserSearch() {
             withCredentials: true,
         })
             .then(function (result: any) {
-                console.log('!!!!!!!!!!!!!', result.data);
                 setFriends(result.data);
             })
             .catch(function (error: any) {
@@ -90,6 +104,8 @@ export function UserSearch() {
         let checkMe = false;
         // 이미 친구인지 확인
         let checkFriend = false;
+        // 이미 보낸 요청인 경우
+        let checkReqFriend = false;
 
         users.map((user) => {
             if (user['email'] === text.current?.value) {
@@ -105,12 +121,18 @@ export function UserSearch() {
         friends.map((friend) => {
             if (friend['email'] === text.current?.value) {
                 checkFriend = true;
-                console.log(checkFriend);
                 return checkFriend;
             }
         });
 
-        if (checkUser && !checkMe && !checkFriend) {
+        reqFriends.map((friend) => {
+            if (friend['email'] === text.current?.value) {
+                checkReqFriend = true;
+                return checkReqFriend;
+            }
+        });
+
+        if (checkUser && !checkMe && !checkFriend && !checkReqFriend) {
             axios({
                 method: 'post',
                 url: `http://${config.server.host}:${config.server.port}/friend/`,
@@ -122,16 +144,17 @@ export function UserSearch() {
             })
                 .then(function (result) {
                     console.log('요청 보내기 성공');
-                    // window.location.reload();
+                    window.location.reload();
                 })
                 .catch(function (error) {
                     console.error('요청보내기 에러발생: ', error);
                     alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
                 });
         } else {
-            if (!checkUser) alert('사용자가 아닌 경우 친구 요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
+            if (!checkUser) alert('서비스 사용자가 아닌 경우 친구 요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
             else if (checkMe) alert('본인에게는 친구 요청을 보낼 수 없습니다.');
             else if (checkFriend) alert('이미 친구인 사용자에게는 친구 요청을 보낼 수 없습니다.');
+            else if (checkReqFriend) alert('이미 요청을 보낸 사용자입니다.');
         }
     };
     return (
