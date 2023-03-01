@@ -17,6 +17,8 @@ import {
     CARD_DELETE_SUCCESS,
     CARD_DELETE_FAILURE,
     CARD_LIST_FILTER_EXPRESSION_SUCCESS,
+    CARD_LIST_FILTER_DATE,
+    CARD_LIST_FILTER_DATE_SUCCESS,
 } from '../types';
 
 /* 카드 리스트 로드 */
@@ -43,12 +45,12 @@ function* cardListload(): any {
     }
 }
 
-function* cardListFilterload(): any {
+function* cardListFilterload(action: any): any {
     try {
         const result = yield call(cardListLoadAPI);
         yield put({
             type: CARD_LIST_FILTER_EXPRESSION_SUCCESS,
-            payload: result.data,
+            payload: { result: result.data, checked: action.payload.checked },
         });
     } catch (e: any) {
         yield put({
@@ -64,6 +66,24 @@ function* watchCardListLoad() {
 
 function* watchCardListFilterLoad() {
     yield takeEvery(CARD_LIST_FILTER_EXPRESSION, cardListFilterload);
+}
+
+function* cardListDateload(action: any): any {
+    try {
+        const result = yield call(cardListLoadAPI);
+        yield put({
+            type: CARD_LIST_FILTER_DATE_SUCCESS,
+            payload: { result: result.data, option: action.payload.option },
+        });
+    } catch (e: any) {
+        yield put({
+            type: CARD_LIST_LOADING_FAILURE,
+            payload: e.response,
+        });
+    }
+}
+function* watchCardListDateLoad() {
+    yield takeEvery(CARD_LIST_FILTER_DATE, cardListDateload);
 }
 
 /* 카드 정보 로드 */
@@ -159,7 +179,7 @@ function* watchCardDelete() {
 }
 
 function* cardListSaga() {
-    yield all([fork(watchCardListLoad), fork(watchCardListFilterLoad)]);
+    yield all([fork(watchCardListLoad), fork(watchCardListFilterLoad), fork(watchCardListDateLoad)]);
 }
 
 function* cardSaga() {
