@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { USER_LOGOUT_REQUEST } from '../../redux/types';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { BiMenu, BiExit } from 'react-icons/bi';
 import { FaGithub } from 'react-icons/fa';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 export default function Header(props: any | undefined) {
     const { isAuthenticated, isLoading } = useSelector((state: any) => state.auth);
     const [isMenuOpen, setIsMenuOpen] = useState('-100%');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const logoColor = props.dark ? '-dark' : '-white';
     const themeColorDark = props.dark ? '#333' : '#fff';
     const themeColorWhite = props.dark ? '#fff' : '#333';
@@ -77,6 +80,24 @@ export default function Header(props: any | undefined) {
         text-decoration: none;
         color: ${themeColorDark};
         padding: 5px 20px;
+        border-radius: 40px;
+
+        &:hover {
+            background: ${themeColorDark};
+            color: ${themeColorWhite};
+        }
+    `;
+
+    const SignOutBtn = styled.button`
+        display: inline-flex;
+        margin: 5px 0;
+        font-size: 1.35em;
+        text-decoration: none;
+        color: ${themeColorDark};
+        padding: 5px 20px;
+        border: 0;
+        background: 0;
+
         border-radius: 40px;
 
         &:hover {
@@ -154,6 +175,19 @@ export default function Header(props: any | undefined) {
                 </List>
                 <List>
                     <Inner href="/friend">Friend</Inner>
+                </List>
+                <List style={{ marginTop: 70 }}>
+                    <SignOutBtn
+                        onClick={() => {
+                            dispatch({
+                                type: USER_LOGOUT_REQUEST,
+                            });
+                            history.go(0);
+                        }}
+                    >
+                        <MeetingRoomIcon style={{ marginTop: '5px', marginRight: '10px' }} />
+                        Logout
+                    </SignOutBtn>
                 </List>
             </Sidebar>
         </>

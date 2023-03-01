@@ -2,6 +2,9 @@ import {
     USER_LOADING_REQUEST,
     USER_LOADING_SUCCESS,
     USER_LOADING_FAILURE,
+    USER_LOGOUT_REQUEST,
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAILURE,
     USIM_LOADING_REQUEST,
     USIM_LOADING_SUCCESS,
     USIM_LOADING_FAILURE,
@@ -32,6 +35,8 @@ const authReducer = (state = initialState, action: any) => {
                 isLoading: false,
             };
 
+        case USER_LOGOUT_REQUEST:
+        case USER_LOGOUT_SUCCESS:
         case USER_LOADING_FAILURE:
             return {
                 ...state,
