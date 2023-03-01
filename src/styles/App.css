@@ -29,10 +29,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=IBM+Plex+Sans:wght@600&display=swap');
 
 :root {
-    /* --black: #333;
-    --white: #fff; */
-    --black: #fff;
-    --white: #333;
+    --black: #333;
+    --white: #fff;
+    /* --black: #fff;
+    --white: #333; */
 }
 
 body {

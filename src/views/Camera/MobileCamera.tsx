@@ -68,7 +68,7 @@ let recordInfo: types.RecordInfo;
 const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
-const socket = io.connect(`http://${config.server.host}:5000`);
+const socket = io.connect(`http://${config.server.host}:4001`);
 let myStream: any;
 let myPeerConnection: any;
 const roomName: any = 'test';
@@ -288,10 +288,8 @@ function CameraPage(props: any) {
 
     // 라벨링 할 인물 이미지 로컬에서 가져오기
     const loadImage = async () => {
-        let labels = usim;
-
         return Promise.all(
-            labels.map(async (label: string) => {
+            usim.map(async (label: string) => {
                 const images = await faceapi.fetchImage(label);
                 const descriptions = [];
                 const detections = await faceapi.detectSingleFace(images).withFaceLandmarks().withFaceDescriptor();

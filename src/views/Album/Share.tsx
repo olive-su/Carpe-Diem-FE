@@ -15,6 +15,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import ForumIcon from '@mui/icons-material/Forum';
 import config from '../../config';
+import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ShareIcon from '@mui/icons-material/Share';
 
 export interface SnackbarMessage {
     message: string;
@@ -124,22 +127,20 @@ const Share = (props: any) => {
     };
     return (
         <div>
-            <button
-                type="button"
-                onClick={handleClick}
-                style={{
-                    outline: 'none',
-                    borderRadius: '50%',
-                    border: '1.5px solid #221718',
-                    boxShadow: '3px 3px 1px gray',
-                    borderColor: 'black',
-                    backgroundColor: 'white',
-                    color: 'whitesmoke',
-                    margin: '10px',
-                }}
-            >
-                <IosShareIcon sx={{ color: '#1d1d1d' }} />
-            </button>
+            <a href={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.videoUrl}`} download>
+                <IconButton>
+                    <FontAwesomeIcon
+                        icon={faCircleDown}
+                        style={{
+                            color: '#fff',
+                        }}
+                    />
+                    {/* <DownloadIcon /> */}
+                </IconButton>
+            </a>
+            <IconButton type="button" onClick={handleClick}>
+                <ShareIcon sx={{ color: 'white' }} />
+            </IconButton>
             <Menu
                 anchorEl={anchorEl}
                 open={open}
