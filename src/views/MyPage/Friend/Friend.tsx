@@ -94,7 +94,6 @@ const Friend = () => {
             withCredentials: true,
         })
             .then(function (response: any) {
-                console.log(response.status);
                 window.location.reload();
             })
             .catch(function (error: any) {

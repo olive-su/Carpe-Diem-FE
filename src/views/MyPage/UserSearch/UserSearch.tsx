@@ -6,6 +6,7 @@ import { friendData } from '../../../types/type';
 import { Button } from '@mui/material';
 import config from '../../../config';
 import styled from 'styled-components';
+import { userInfo } from 'os';
 
 const CardBox = styled.div`
     background-position: center;
@@ -46,20 +47,28 @@ export function UserSearch() {
             withCredentials: true,
         })
             .then(function (result) {
-                console.log(result.data);
                 setUsers(result.data);
             })
             .catch(function (error) {
                 console.error('allUser 에러발생: ', error);
             });
     }, []);
+
     const onsend = () => {
-        if (text.current) {
+        let checkUser = false;
+        users.map((user) => {
+            if (user['email'] === text.current?.value) {
+                checkUser = true;
+                return checkUser;
+            }
+        });
+
+        if (checkUser) {
             axios({
                 method: 'post',
                 url: `http://${config.server.host}:${config.server.port}/friend/`,
                 data: {
-                    receive_email: text.current.value,
+                    receive_email: text.current?.value,
                     check: 0,
                 },
                 withCredentials: true,
@@ -72,6 +81,9 @@ export function UserSearch() {
                     console.error('요청보내기 에러발생: ', error);
                     alert('사용자를 찾지 못했습니다. 정확한 이메일을 입력해주세요.');
                 });
+        } else {
+            console.error('요청보내기 에러발생: 불명확한 이메일');
+            alert('사용자를 찾지 못했습니다. 정확한 이메일을 입력해주세요.');
         }
     };
     return (
