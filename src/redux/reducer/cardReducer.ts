@@ -24,12 +24,16 @@ const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised
 
 const cardListReducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case CARD_LIST_LOADING_REQUEST:
+        /**
+         * 카드 리스트 조회 시 해당 case를 같이 써주게 되면 cardList 변수의 타입 변경으로(number) 카드 리스트가 보이지 않게되는 이슈가 있음
+         * 해당 case를 주석 처리해도 현재는 카드 리스트를 불러오는데 혹시 몰라서 주석으로 처리해놓았습니다.
+         * case CARD_LIST_LOADING_REQUEST:
+         */
         case CARD_LIST_LOADING_SUCCESS:
         case CARD_LIST_FILTER_EXPRESSION_SUCCESS:
             return {
                 ...state,
-                cardList: action.payload,
+                cardList: [...state.cardList, ...action.payload],
             };
         case CARD_LIST_FILTER_EXPRESSION:
             console.log('cardReducer', action.payload);
