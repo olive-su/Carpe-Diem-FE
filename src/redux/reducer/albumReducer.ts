@@ -23,11 +23,10 @@ const initialState = {
 
 const albumListReducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case ALBUM_LIST_LOADING_REQUEST:
         case ALBUM_LIST_LOADING_SUCCESS:
             return {
                 ...state,
-                albumList: action.payload,
+                albumList: [...state.albumList, ...action.payload],
             };
         default:
             return {

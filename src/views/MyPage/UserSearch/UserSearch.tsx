@@ -1,22 +1,87 @@
 import React, { useState, useRef } from 'react';
-import { Paper } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { friendData } from '../../../types/type';
 import { Button } from '@mui/material';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ListItem from '@mui/material/ListItem';
-import { Typography } from '@mui/material';
 import config from '../../../config';
-import { List } from '@mui/material';
+import styled from 'styled-components';
+
+const CardBox = styled.div`
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+`;
+
+const InputTextField = styled(TextField)({
+    '& label': {
+        color: '#fff',
+    },
+    '& label.Mui-focused': {
+        color: '#fff',
+    },
+    '& .MuiOutlinedInput-root': {
+        color: '#fff',
+        '& fieldset': {
+            borderColor: '#fff',
+        },
+    },
+});
 
 export function UserSearch() {
-    const [searchedFriend, setSearchedFriend] = useState<friendData>();
-    const [users, setUsers] = useState([]);
     const text = useRef<HTMLInputElement>(null);
+    const [users, setUsers] = useState([]);
+    const [email, setEmail] = useState();
+    const [friends, setFriends] = useState([]);
+    const [reqFriends, setReqFriends] = useState([]);
+
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/friend/request`,
+            withCredentials: true,
+        })
+            .then(function (result) {
+                setReqFriends(result.data);
+            })
+            .catch(function (error) {
+                console.error('friend req send 에러발생: ', error);
+            });
+    }, []);
+
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/friend`,
+            withCredentials: true,
+        })
+            .then(function (result: any) {
+                setFriends(result.data);
+            })
+            .catch(function (error: any) {
+                console.error('friend 에러발생: ', error);
+            });
+    }, []);
+
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/user`,
+            withCredentials: true,
+        })
+            .then(function (result: any) {
+                setEmail(result.data.email);
+            })
+            .catch(function (error: any) {
+                console.error('user 에러발생: ', error);
+            });
+    }, []);
 
     React.useEffect(function () {
         axios({
@@ -24,21 +89,55 @@ export function UserSearch() {
             url: `http://${config.server.host}:${config.server.port}/user/all`,
             withCredentials: true,
         })
-            .then(function (result) {
-                console.log(result.data);
+            .then(function (result: any) {
                 setUsers(result.data);
             })
-            .catch(function (error) {
+            .catch(function (error: any) {
                 console.error('allUser 에러발생: ', error);
             });
     }, []);
+
     const onsend = () => {
-        if (text.current) {
+        // 친구 요청 이메일이 유저인지 확인
+        let checkUser = false;
+        // 친구 요청 이메일이 본인인지 확인
+        let checkMe = false;
+        // 이미 친구인지 확인
+        let checkFriend = false;
+        // 이미 보낸 요청인 경우
+        let checkReqFriend = false;
+
+        users.map((user) => {
+            if (user['email'] === text.current?.value) {
+                checkUser = true;
+                return checkUser;
+            }
+        });
+
+        if (checkUser && text.current?.value === email) {
+            checkMe = true;
+        }
+
+        friends.map((friend) => {
+            if (friend['email'] === text.current?.value) {
+                checkFriend = true;
+                return checkFriend;
+            }
+        });
+
+        reqFriends.map((friend) => {
+            if (friend['email'] === text.current?.value) {
+                checkReqFriend = true;
+                return checkReqFriend;
+            }
+        });
+
+        if (checkUser && !checkMe && !checkFriend && !checkReqFriend) {
             axios({
                 method: 'post',
                 url: `http://${config.server.host}:${config.server.port}/friend/`,
                 data: {
-                    receive_email: text.current.value,
+                    receive_email: text.current?.value,
                     check: 0,
                 },
                 withCredentials: true,
@@ -49,79 +148,44 @@ export function UserSearch() {
                 })
                 .catch(function (error) {
                     console.error('요청보내기 에러발생: ', error);
-                    alert('사용자를 찾지 못했습니다. 정확한 이메일을 입력해주세요.');
+                    alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
                 });
+        } else {
+            if (!checkUser) alert('서비스 사용자가 아닌 경우 친구 요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
+            else if (checkMe) alert('본인에게는 친구 요청을 보낼 수 없습니다.');
+            else if (checkFriend) alert('이미 친구인 사용자에게는 친구 요청을 보낼 수 없습니다.');
+            else if (checkReqFriend) alert('이미 요청을 보낸 사용자입니다.');
         }
     };
     return (
-        <>
-            <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 'auto', mt: 2 }}>
-                {/* <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search User"
-        inputProps={{ 'aria-label': 'search google maps' }}
-        onChange={(e) => setValue(e.target.value)}
-    /> */}
-                <Autocomplete
-                    freeSolo
-                    sx={{ ml: 1, flex: 1 }}
-                    id="free-solo-2-demo"
-                    disableClearable
-                    options={users?.map((option: friendData) => option.email)}
-                    renderInput={(params: any) => (
-                        <TextField
-                            inputRef={text}
-                            {...params}
-                            label="search user"
-                            InputProps={{
-                                ...params.InputProps,
-                                type: 'search',
-                            }}
-                        />
-                    )}
-                />
-                {/* <Autocomplete
-        id="free-solo-demo"
-        freeSolo
-        options={users?.map((option) => option.email)}
-        renderInput={(params) => <TextField {...params} label="freeSolo" />}
-    />
-    {/* <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={(e) => onsearch(value)}>
-        <SearchIcon />
-    </IconButton> */}
-                <Button
-                    sx={{ marginLeft: '15px', backgroundColor: '#1e319d', color: 'white' }}
-                    onClick={() => {
-                        onsend();
-                    }}
-                    size="large"
-                    variant="contained"
-                >
-                    친구 요청
-                </Button>
-            </Paper>
-            {searchedFriend ? (
-                <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
-                    <ListItemAvatar>
-                        <Avatar alt="nickname" src="./imgs/not_found_files.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={searchedFriend.nickname}
-                        secondary={
-                            <React.Fragment>
-                                <Typography sx={{ display: 'inline', color: '#cbd5e1' }} component="span" variant="body2" color="text.primary">
-                                    {searchedFriend.email}
-                                </Typography>
-                            </React.Fragment>
-                        }
+        <CardBox>
+            <Autocomplete
+                freeSolo
+                id="free-solo-2-demo"
+                disableClearable
+                sx={{ width: '65%' }}
+                options={users?.map((option: friendData) => option.email)}
+                renderInput={(params: any) => (
+                    <InputTextField
+                        inputRef={text}
+                        {...params}
+                        label="search user"
+                        InputProps={{
+                            ...params.InputProps,
+                            type: 'search',
+                        }}
                     />
-                    <Button sx={{ marginLeft: '15px', backgroundColor: '#1e319d', color: 'white' }} size="large" variant="contained">
-                        친구 추가
-                    </Button>
-                </ListItem>
-            ) : (
-                []
-            )}
-        </>
+                )}
+            />
+            <Button
+                sx={{ marginLeft: '10px', background: '#6666cc', color: 'white', width: '35%' }}
+                onClick={() => {
+                    onsend();
+                }}
+                variant="contained"
+            >
+                친구 요청 보내기
+            </Button>
+        </CardBox>
     );
 }

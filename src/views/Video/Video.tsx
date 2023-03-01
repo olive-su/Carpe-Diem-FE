@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from '@mui/system';
 import { Typography } from '@mui/material';
 import { Grid } from '@mui/material';
@@ -31,10 +31,11 @@ import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import CloseIcon from '@mui/icons-material/Close';
 
 import config from '../../config';
-import { ALBUM_CREATE_REQUEST } from '../../redux/types';
+import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/types';
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import IndeterminateCheckbox from './CheckBox';
 
 const CheckboxStyle = styled.div`
     position: absolute;
@@ -55,27 +56,33 @@ const ClearCard = styled.div`
     margin-top: 20px;
 `;
 
-let allCard: any[] = [];
 const Video = () => {
+    const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
-    const [cards, setCards] = useState<any[]>([]);
-    React.useEffect(function () {
-        axios({
-            method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card`,
-            withCredentials: true,
-        })
-            .then(function (result) {
-                console.log('dafsfasdffsfdsaafsd', result.data);
-                setCards(result.data);
-                allCard = result.data;
-            })
-            .catch(function (error) {
-                console.log(`http://${config.server.host}:${config.server.port}/card`);
-                console.error('card 에러발생: ', error);
-            });
-    }, []);
+    const { cardList } = useSelector((state: any) => state.cardList);
+
+    useEffect(() => {
+        dispatch({
+            type: CARD_LIST_LOADING_REQUEST,
+            payload: offset,
+        });
+    }, [dispatch, offset]);
+
+    useEffect(() => {
+        const handleScroll = (e: any) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
+
+            if (currentHeight + 1 >= scrollHeight) {
+                setOffset(offset + 1);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [offset]);
+
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
     const [checkedListAlbum, setCheckedListAlbum]: any = useState({});
     // 체크시 데이터 저장, 체크 해제시 데이터 삭제
     const onCheckedElement = (checked: boolean, item: any) => {
@@ -100,8 +107,8 @@ const Video = () => {
         delete checkedListAlbum[item.cardId];
         setCheckedListAlbum({ ...checkedListAlbum });
     };
-
     const [id, setId] = useState('');
+
     const [thumbnailUrl, setThumbnamilUrl] = useState('');
     const [videoUrl, setVideoUrl] = useState('');
     const [open, setOpen] = React.useState(false);
@@ -135,16 +142,68 @@ const Video = () => {
                         <AccordionDetails>
                             <Typography
                                 style={{
-                                    backgroundColor: '#e5e7eb',
+                                    backgroundColor: '#e5e7eb'}}></Typography>
 
-                                    borderRadius: '3px',
-                                    display: 'flex',
-                                    margin: '0 auto',
-                                    paddingTop: '10px',
-                                    overflow: 'scroll',
-                                    flexDirection: 'row',
-                                    position: 'relative',
-                                }}
+                        <button
+                            type="button"
+                            style={{
+                                outline: 'none',
+                                borderRadius: '3px',
+                                border: '0.1px thin black',
+                                fontSize: '16px',
+                                boxShadow: '3px 3px 1px lightgray',
+                                paddingLeft: '10px',
+                                marginBottom: '20px',
+                                textAlign: 'center',
+                            }}
+                            onClick={() => {
+                                dispatch({
+                                    type: ALBUM_CREATE_REQUEST,
+                                    payload: {
+                                        title: titleInput,
+                                        card_id: Object.keys(checkedListAlbum),
+                                    },
+                                });
+                                history.go(0);
+                            }}
+                        >
+                            앨범 만들기
+                        </button>
+                    </Box>
+                </Accordion>
+            </Box>
+            <IndeterminateCheckbox />
+            <Grid container spacing={1} sx={{ mt: '20px' }}>
+                {cardList?.map((card: any) => (
+                    <Grid item key={card.cardId} xs={12} sm={4}>
+                        <Card
+                            sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', borderRadius: '0px' }}
+                            onMouseOver={() => {
+                                const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
+
+                                const playPromise = hz.play();
+                                if (playPromise !== undefined) {
+                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                    playPromise.then((_: any) => {}).catch((error: any) => {});
+                                }
+                            }}
+                            onMouseOut={() => {
+                                const hz: HTMLVideoElement = document.getElementById(String(card.cardId)) as HTMLVideoElement;
+                                hz.load();
+                            }}
+                            onClick={() => {
+                                setId(card.cardId);
+                                setVideoUrl(card.videoUrl);
+                                setThumbnamilUrl(card.thumbnailUrl);
+                                setOpen(true);
+                                setComment(card.commnet);
+                            }}
+                        >
+                            <CardCover
+                            // sx={{
+                            //     background:
+                            //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
+                            // }}
                             >
                                 {Object.keys(checkedListAlbum).length === 0 && <div style={{ color: 'grey' }}>{'선택한 비디오가 없습니다'}</div>}
                                 {Object.keys(checkedListAlbum).map((list: any) => {

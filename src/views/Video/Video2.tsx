@@ -19,7 +19,7 @@ import Link from '@mui/material/Link';
 import Chip from '@mui/material/Chip';
 import { ToggleButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import IndeterminateCheckbox from './Checkbox';
+import IndeterminateCheckbox from './CheckBox';
 import axios from 'axios';
 import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../redux/reducer/albumsReducer';

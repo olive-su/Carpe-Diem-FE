@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ALBUM_LIST_LOADING_REQUEST } from '../../redux/types';
 import { NavLink } from 'react-router-dom';
@@ -11,14 +11,29 @@ import Container from '@mui/material/Container';
 import { albumData } from '../../types/type';
 
 const Library = () => {
+    const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
     const { albumList } = useSelector((state: any) => state.albumList);
 
     useEffect(() => {
         dispatch({
             type: ALBUM_LIST_LOADING_REQUEST,
+            payload: offset,
         });
-    }, [dispatch]);
+    }, [dispatch, offset]);
+
+    useEffect(() => {
+        const handleScroll = (e: any) => {
+            const scrollHeight = e.target.documentElement.scrollHeight;
+            const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
+
+            if (currentHeight + 1 >= scrollHeight) {
+                setOffset(offset + 1);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [offset]);
 
     return (
         <>
