@@ -1,6 +1,10 @@
 import React from 'react';
-import Library from '../../../views/Library/Library';
+import Library from '../../Library/Library';
 
-export default function PageContent() {
-    return <Library />;
+export default function LibraryContent() {
+    return (
+        <div>
+            <Library />
+        </div>
+    );
 }

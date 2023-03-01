@@ -5,7 +5,6 @@ import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
-
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
 import { USIM_LOADING_REQUEST } from '../../../redux/types';

@@ -74,7 +74,7 @@ let myPeerConnection: any;
 const roomName: any = 'test';
 
 // 비디오 사이즈 설정
-function CameraPage(props: any) {
+function MobileCamera(props: any) {
     const { usim } = useSelector((state: any) => state.usim);
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
@@ -181,8 +181,7 @@ function CameraPage(props: any) {
             myStream = await navigator.mediaDevices.getUserMedia(
                 deviceId ? cameraConstraints : initialConstraints, // deviceId 를 받은 경우 실행하는 func, 안받은 경우 실행하는 func를 다르게 둠
             );
-            console.log('!!!');
-            videoRef.current.srcObject = myStream;
+            if (videoRef && videoRef.current) videoRef.current.srcObject = myStream;
             if (!deviceId) {
                 await getCameras(); // select에 카메라 리스트 띄움 -> 맨처음에 카메라 정보가 없을 때 최초 한번만 실헹
             }
@@ -242,7 +241,7 @@ function CameraPage(props: any) {
         // console.log("got an stream from my peer");
         console.log("Peer's Stream", data.stream);
         console.log('My Stream', myStream);
-        mobileRef.current.srcObject = data.stream;
+        if (mobileRef && mobileRef.current) mobileRef.current.srcObject = data.stream;
     }
 
     // CHECK 미디어 수신 (peer A 의 방)
@@ -503,4 +502,4 @@ function CameraPage(props: any) {
     );
 }
 
-export default CameraPage;
+export default MobileCamera;

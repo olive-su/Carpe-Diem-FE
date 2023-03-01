@@ -5,13 +5,13 @@ import './styles/App.css';
 import Auth from './views/Auth';
 import LibraryContent from './views/Contents/LibraryContent/LibraryContent';
 import VideoContent from './views/Contents/VideoContent/VideoContent';
-import MobileCamContent from './views/Contents/CamContent/WebCamContent';
+import MobileCamContent from './views/Contents/CamContent/MobileCamContent';
 import WebCamContent from './views/Contents/CamContent/WebCamContent';
-import RemoteCamera from './views/Camera/MobileCamera';
+import RemoteCamera from './views/Camera/RemoteCamera';
 import Mobile from './views/Camera/RemoteCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
+// import SingleVideo from './views/Album/SingleVideo';
 import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
-import SingleVideo from './views/Album/SingleVideo';
 import Main from './views/Main/main';
 import Modal from './views/Camera/Modal';
 import PrivateRoute from './views/Auth/PrivateRoute';
@@ -33,7 +33,7 @@ function App() {
                     <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />
                     <Route path="/video" element={<VideoContent />} />
-                    <Route path="/video/:cardId" element={<SingleVideo />} />
+                    {/* <Route path="/video/:cardId" element={<SingleVideo />} /> */}
                     <Route path="/album" element={<LibraryContent />} />
                     <Route path="/album/:albumId" element={<AlbumMultiContent />} />
                     <Route path="friendAlbum/:userId" element={<FriendLibraryContent />} />

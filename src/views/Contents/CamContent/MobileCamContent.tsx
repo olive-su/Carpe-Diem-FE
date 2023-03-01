@@ -96,12 +96,12 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
-export default function CamContent() {
+export default function MobileCamContent() {
     const dispatch = useDispatch();
     const { usim } = useSelector((state: any) => state.usim);
     const [videoList, setVideoList] = useState<any[]>([]);
     const [alertClosed, setAlertClosed] = useState<any>('inline-block');
-    const [switchChecked, setSwitchChecked] = useState<any>(true);
+    const [switchChecked, setSwitchChecked] = useState<any>(false);
 
     useEffect(() => {
         dispatch({
