@@ -15,6 +15,9 @@ const initialState = {
     isLoading: false,
     errorMsg: '',
     successMsg: '',
+    userId: '',
+    email: '',
+    nickname: '',
     usim: [],
 };
 
@@ -33,6 +36,9 @@ const authReducer = (state = initialState, action: any) => {
                 ...action.payload,
                 isAuthenticated: true,
                 isLoading: false,
+                userId: action.payload.user_id,
+                email: action.payload.email,
+                nickname: action.payload.nickname,
             };
 
         case USER_LOGOUT_REQUEST:
