@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import './StyleAlbum.css';
 import axios from 'axios';
 import { albumData } from '../../types/type';
+import { MdClose } from 'react-icons/md';
 
 const SingleComponent = styled.div`
     font-family: IBMPlexSansKR-Regular;
@@ -48,6 +49,13 @@ const SingleAlbum = () => {
 
     return (
         <SingleComponent>
+            <MdClose
+                size="27"
+                onClick={() => {
+                    window.location.replace(`/friendAlbum/${userId}`);
+                }}
+                style={{ cursor: 'pointer', position: 'absolute', top: '4%', right: '2%' }}
+            />
             <Swiper
                 className="mySwiper"
                 effect={'coverflow'}
