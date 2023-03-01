@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FriendItem from './FriendItem';
 import List from '@mui/material/List';
 import { Container } from '@mui/material';
@@ -48,11 +49,22 @@ const InputTextField = styled(TextField)({
     },
 });
 
+const inputSx = {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+        '&.Mui-focused fieldset': {
+            borderColor: '#6666cc',
+        },
+        '&:hover fieldset': {
+            borderColor: '#6666cc',
+        },
+    },
+};
+
 const friend: friendData = { user_id: '2312314', nickname: '수개미', email: 'test@gamil.com', profile_img: '' };
 const Friend = () => {
+    const navigate = useNavigate();
     const [friendList, setFriendList] = useState([]);
-    const [value, setValue] = useState('');
-    const [search, setSearch] = useState<string>('');
     const [allFriendList, setAllFriendList] = useState([]);
     React.useEffect(function () {
         axios({
@@ -61,7 +73,6 @@ const Friend = () => {
             withCredentials: true,
         })
             .then(function (result) {
-                console.log(result.data);
                 setFriendList(result.data);
                 setAllFriendList(result.data);
             })
@@ -79,7 +90,7 @@ const Friend = () => {
         })
             .then(function (response: any) {
                 const friendUserId = response.data[0].userId;
-                window.location.replace(`http://${config.client.host}:${config.client.port}/friendAlbum/${friendUserId}`);
+                navigate(`/friendAlbum/${friendUserId}`);
             })
             .catch(function (error: any) {
                 console.log(error);
@@ -95,7 +106,7 @@ const Friend = () => {
         })
             .then(function (response: any) {
                 console.log(response.status);
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error: any) {
                 console.log(error);
@@ -112,21 +123,16 @@ const Friend = () => {
             }),
         );
     };
+
     return (
         <React.Fragment>
             <Container maxWidth="sm" component="main" sx={{ mb: 4, pt: 5 }}>
                 <CardBox>
-                    <h3 style={{ color: '#fff' }}>친구 목록</h3>
+                    <h4 style={{ color: '#fff' }}>친구 목록</h4>
 
                     <div>
                         <CardBox>
-                            <InputTextField
-                                id="outlined-search"
-                                label="Search friend"
-                                type="search"
-                                sx={{ width: '100%' }}
-                                onChange={(e) => searchSpace(e)}
-                            />
+                            <InputTextField id="outlined-search" label="Search friend" type="search" sx={inputSx} onChange={(e) => searchSpace(e)} />
                         </CardBox>
                     </div>
                     {friendList.length !== 0 ? (

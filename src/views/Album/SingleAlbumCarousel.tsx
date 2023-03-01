@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import config from '../../config';
 import dayjs from 'dayjs';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
@@ -8,11 +7,18 @@ import OutletIcon from '@mui/icons-material/Outlet';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
 import SickIcon from '@mui/icons-material/Sick';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/system';
 import { Typography, Button } from '@mui/material';
+import { CiEdit, CiTrash } from 'react-icons/ci';
+import { useDispatch, useSelector } from 'react-redux';
+import { CARD_UPDATE_REQUEST, CARD_DELETE_REQUEST } from '../../redux/types';
+import styled from 'styled-components';
+
+const InputBox = styled.div`
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+`;
 
 const style = {
     position: 'absolute',
@@ -23,6 +29,7 @@ const style = {
     bgcolor: 'white',
     boxShadow: 24,
     p: 4,
+    display: 'flex',
 };
 
 export default function AlbumCarousel(props: any) {
@@ -43,6 +50,15 @@ export default function AlbumCarousel(props: any) {
         }
     };
 
+    const dispatch = useDispatch();
+    const { card } = useSelector((state: any) => state.card);
+    useEffect(() => {
+        dispatch({
+            type: CARD_UPDATE_REQUEST,
+            CARD_DELETE_REQUEST,
+        });
+    }, [dispatch]);
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -50,7 +66,6 @@ export default function AlbumCarousel(props: any) {
     const ref: any = useRef(null);
     const [text, setText] = useState(props.cardInfo.comment);
     const [editable, setEditable] = useState(false);
-
     const editOn = () => {
         setEditable(true);
         setText(props.cardInfo.comment);
@@ -60,6 +75,26 @@ export default function AlbumCarousel(props: any) {
         setText(e.target.value);
     };
 
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            setEditable(false);
+            props.cardInfo.comment = text;
+
+            dispatch({
+                type: CARD_UPDATE_REQUEST,
+                payload: {
+                    card_id: props.cardInfo.cardId,
+                    user_id: props.cardInfo.userId,
+                    album_id: props.cardInfo.albumId,
+                    expression_label: props.cardInfo.expressionLabel,
+                    comment: text,
+                    thumbnail_url: props.cardInfo.thumbnailUrl,
+                    video_url: props.cardInfo.videoUrl,
+                },
+            });
+        }
+    };
+
     const handleClickOutside = (e: any) => {
         if (editable === true && !ref.current.contains(e.target)) setEditable(false);
     };
@@ -67,15 +102,14 @@ export default function AlbumCarousel(props: any) {
         window.addEventListener('click', handleClickOutside, true);
     });
 
-    const handleKeyDown = (e: any) => {
-        if (e.key === 'Enter') {
-            setEditable(false);
-            props.cardInfo.comment = text;
-        }
-    };
-
     const onClickDelete = () => {
-        console.log();
+        dispatch({
+            type: CARD_DELETE_REQUEST,
+            payload: {
+                card_id: props.cardInfo.cardId,
+            },
+        });
+        window.location.reload();
     };
     return (
         <div>
@@ -92,60 +126,45 @@ export default function AlbumCarousel(props: any) {
                     height="380px"
                 ></video>
             </div>
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ textAlign: 'center', marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
                 <span style={{ marginRight: '10px' }}>
                     {emotionType()}
                     {props.cardInfo.expressionLabel}
                 </span>
+
                 <span>
                     {editable ? (
                         <span>
                             <form>
-                                <input type="text" maxLength={25} value={text} onChange={(e) => handleChange(e)} onKeyDown={handleKeyDown} />
-                            </form>{' '}
+                                <input
+                                    type="text"
+                                    maxLength={25}
+                                    value={text}
+                                    onChange={(e) => handleChange(e)}
+                                    onKeyDown={handleKeyDown}
+                                    style={{ backgroundColor: 'transparent', borderColor: '#fff', color: '#fff', borderRadius: '5px' }}
+                                />
+                            </form>
                         </span>
                     ) : (
-                        <span>{props.cardInfo.comment}</span>
+                        <span style={{ display: 'flex' }}>{props.cardInfo.comment}</span>
                     )}
                 </span>
-                <button
-                    type="button"
-                    onClick={editOn}
-                    style={{
-                        borderRadius: '50%',
-                        border: '1.5px solid #333',
-                        boxShadow: '3px 3px 1px gray',
-                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                        marginLeft: '10px',
-                    }}
-                >
-                    <FontAwesomeIcon icon={faEdit} size="lg" style={{ color: '#1d1d1d' }} />
-                </button>
 
-                <button
-                    onClick={handleOpen}
-                    style={{
-                        borderRadius: '50%',
-                        border: '1.5px solid #333',
-                        boxShadow: '3px 3px 1px gray',
-                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                        marginLeft: '10px',
-                    }}
-                >
-                    <FontAwesomeIcon icon={faTrashAlt} size="lg" />
-                </button>
+                <CiEdit size="21" onClick={editOn} style={{ cursor: 'pointer', color: '#fe2e79', marginLeft: '10px', marginRight: '5px' }} />
+
+                <CiTrash size="20" onClick={handleOpen} style={{ cursor: 'pointer', color: '#fe2e79' }} />
+
                 <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                     <Box sx={style}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             정말 삭제하시겠습니까?
                         </Typography>
                         <Typography fontSize={13} color="#64748b" id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
-                            삭제된 앨범의 영상은 Video 탭에서 계속 볼 수 있습니다.
+                            삭제된 앨범의 영상은 더 이상 확인할 수 없습니다.
                         </Typography>
                         <Typography align="right">
-                            <Link to="/album">
-                                <Button onClick={onClickDelete}>확인</Button>
-                            </Link>
+                            <Button onClick={onClickDelete}>확인</Button>
                             <Button onClick={handleClose}>취소</Button>
                         </Typography>
                     </Box>

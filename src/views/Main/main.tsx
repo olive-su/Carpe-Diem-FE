@@ -1,159 +1,138 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { PersonalVideoRounded, PhoneAndroidRounded } from '@mui/icons-material';
 import styled from 'styled-components';
 import './main.css';
-import { BiMoon, BiSun, BiMenu, BiExit } from 'react-icons/bi';
-import { FaGithub } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
 import config from '../../config';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import WebCamContent from '../Contents/CamContent/WebCamContent';
+import MobileCamContent from '../Contents/CamContent/MobileCamContent';
 
-const Btns = styled.div`
-    .btns span {
-        color: var(--black);
-    }
+const StyleMain = styled.section`
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
-function VideoPlayer(props: any) {
-    const [isPlaying, setIsPlaying] = useState(false);
+const Title = styled.h2`
+    position: relative;
+    z-index: 3;
+    font-size: 14vw;
+    color: #fff;
+    text-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+`;
 
-    function handlePlay() {
-        setIsPlaying(true);
-    }
+const MainVideo = styled.video`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
 
-    function handleStop() {
-        setIsPlaying(false);
-    }
+const Mask = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    user-select: none;
+    mix-blend-mode: screen;
+`;
 
-    return (
-        <div>
-            <button className={`btn ${props.class} ${isPlaying ? 'active' : ''}`} onClick={handlePlay}>
-                <div className={props.iconClass}></div>
-                <p>{props.label}</p>
-            </button>
-            {isPlaying && (
-                <div className={`clip ${props.class} ${isPlaying ? 'active' : ''}`}>
-                    <video src={props.videoSrc} autoPlay controls></video>
-                    <b className={`close ${props.class}`} onClick={handleStop}>
-                        Close
-                    </b>
-                </div>
-            )}
-        </div>
-    );
-}
+const BtnSection = styled.div`
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    gap: 50%;
+    top: 67%;
+`;
 
-function VideoPlayer2(props: any) {
-    const [isPlaying, setIsPlaying] = useState(false);
-
-    function handlePlay() {
-        setIsPlaying(true);
-    }
-
-    function handleStop() {
-        setIsPlaying(false);
-    }
-
-    return (
-        <div>
-            <button className={`btn2 ${props.class} ${isPlaying ? 'active' : ''}`} onClick={handlePlay}>
-                <div className={props.iconClass}></div>
-                <p>{props.label}</p>
-            </button>
-            {isPlaying && (
-                <div className={`clip2 ${props.class} ${isPlaying ? 'active' : ''}`}>
-                    <video src={props.videoSrc} autoPlay controls></video>
-                    <b className={`close2 ${props.class}`} onClick={handleStop}>
-                        Close
-                    </b>
-                </div>
-            )}
-        </div>
-    );
-}
+const LoginButton = styled.img`
+    width: 300px;
+`;
 
 function Main() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isCam, setIsCam] = useState(false);
+    const { isAuthenticated } = useSelector((state: any) => state.auth);
 
-    const handleDarkModeToggle = () => {
-        setIsDarkMode(!isDarkMode);
-    };
+    function CameraBtn(props: any) {
+        const [isOpen, setIsOpen] = useState(false);
+        const [isCamPage, setIsCamPage] = useState('');
 
-    const handleMenuToggle = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
-    const handleCam = () => {
-        setIsCam(!isCam);
-    };
+        return (
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <button
+                    className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
+                    onClick={() => {
+                        setIsOpen(!isOpen);
+                        setIsCamPage('web');
+                    }}
+                >
+                    <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
+                        <PersonalVideoRounded sx={{ color: 'white', fontSize: 40 }} />
+                    </div>
+                    <p>Web Camera</p>
+                </button>
+                <button
+                    className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
+                    onClick={() => {
+                        setIsOpen(!isOpen);
+                        setIsCamPage('mobile');
+                    }}
+                >
+                    <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
+                        <PhoneAndroidRounded sx={{ color: 'white', fontSize: 40 }} />
+                    </div>
+                    <p>Mobile Camera</p>
+                </button>
+                {isOpen && isCamPage === 'web' && (
+                    <div className={`clip web ${isOpen ? 'active' : ''}`}>
+                        <WebCamContent />
+                    </div>
+                )}
+                {isOpen && isCamPage === 'mobile' && (
+                    <div className={`clip mobile ${isOpen ? 'active' : ''}`}>
+                        <MobileCamContent />
+                    </div>
+                )}
+            </div>
+        );
+    }
 
     return (
-        <div className={`app ${isDarkMode ? 'dark' : ''}`}>
-            <header>
-                <a href="#" className="logo">
-                    Logo
-                </a>
-                <Btns>
-                    <div className="rightSide">
-                        <div className="btns dayNight" onClick={handleDarkModeToggle}>
-                            <span>{isDarkMode ? <BiSun size="30" name="sunny-outline" /> : <BiMoon size="30" name="moon-outline" />}</span>
-                        </div>
-                        <div className="btns menuToggle" onClick={handleMenuToggle}>
-                            <span>{isMenuOpen ? <BiExit size="30" name="close-outline" /> : <BiMenu size="30" name="menu-outline" />}</span>
-                        </div>
-                    </div>
-                </Btns>
-            </header>
+        <>
+            <Header dark={true} />
+            <StyleMain>
+                <MainVideo
+                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/main-video.mp4`}
+                    autoPlay
+                    loop
+                    muted
+                />
+                <Mask src={`${process.env.PUBLIC_URL}/imgs/mask.jpg`} alt="" />
+                <Title>CarpeDiem</Title>
+            </StyleMain>
 
-            <section className="main">
-                <span className="realMain">
-                    <video src="https://carpe-diem-contents.s3.ap-northeast-2.amazonaws.com/video.mp4" autoPlay loop muted />
-                    <img src="./mask.jpg" className="mask" alt="" />
-                    <h2>CarpeDiem</h2>
-                </span>
-            </section>
-
-            <section className="login">
-                <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
-                    <img src="./btn-google-signin-light-normal-web@2x.png" style={{ width: '300px' }} />
-                </NavLink>
-            </section>
-
-            <section className="cam">
-                <VideoPlayer class="mobile" iconClass="mobile" label="Mobile Cam" videoSrc="video.mp4" onClick={handleCam} />
-                <VideoPlayer2 className="webCam" class="web" iconClass="web" label="Web Cam" videoSrc="video.mp4" onClick={handleCam} />
-            </section>
-
-            <ul className="sci">
-                <li>
-                    <a href="#">
-                        <FaGithub size="30" />
-                    </a>
-                </li>
-            </ul>
-
-            <ul className={`navigation ${isMenuOpen ? 'active' : ''}`}>
-                <li>
-                    <a href="#">Mobile Cam</a>
-                    <a href="#">Web Cam</a>
-                </li>
-                <li>
-                    <a href="#">Home</a>
-                </li>
-                <li>
-                    <a href="#">Album</a>
-                </li>
-                <li>
-                    <a href="#">Video</a>
-                </li>
-                <li>
-                    <a href="#">Friend Album</a>
-                </li>
-                <li>
-                    <a href="#">My page</a>
-                </li>
-            </ul>
-        </div>
+            <BtnSection>
+                {!isAuthenticated ? (
+                    <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
+                        <LoginButton src={`${process.env.PUBLIC_URL}/imgs/btn-google-signin-light-normal-web@2x.png`} />
+                    </NavLink>
+                ) : (
+                    <CameraBtn />
+                )}
+            </BtnSection>
+            <Footer dark={true} />
+        </>
     );
 }
 

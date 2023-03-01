@@ -5,6 +5,7 @@ import Edit from '../../MyPage/Edit';
 import Send from '../../MyPage/Send';
 import Receive from '../../MyPage/Receive';
 import Grid from '@mui/material/Grid';
+import MainLayout from '../../../components/MainLayout/MainLayout';
 
 const Center = styled.div`
     height: 100vh;
@@ -16,7 +17,7 @@ const Center = styled.div`
 
 export default function FriendContent() {
     return (
-        <div>
+        <MainLayout>
             <Center>
                 <Grid container spacing={1} style={{ display: 'flex', justifyContent: 'center' }}>
                     <Grid item xs={4}>
@@ -29,6 +30,6 @@ export default function FriendContent() {
                     </Grid>
                 </Grid>
             </Center>
-        </div>
+        </MainLayout>
     );
 }

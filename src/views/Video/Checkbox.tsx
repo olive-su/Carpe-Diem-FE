@@ -112,7 +112,7 @@ export default function IndeterminateCheckbox(props: any) {
                     onChange={handleChange}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
-                    sx={{ border: 1, borderColor: '#60a5fa' }}
+                    sx={{ border: 1, borderColor: 'white', color: 'white' }}
                 >
                     <MenuItem value={'Newest'}>Newest</MenuItem>
                     <MenuItem value={'Oldest'}>Oldest</MenuItem>
@@ -121,7 +121,13 @@ export default function IndeterminateCheckbox(props: any) {
             <FormControlLabel
                 label="ALL"
                 control={
-                    <Checkbox checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]} onChange={handleChange1} />
+                    <Checkbox
+                        checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]}
+                        style={{
+                            color: 'white',
+                        }}
+                        onChange={handleChange1}
+                    />
                 }
                 sx={{ mt: 3, ml: 3, paddingRight: '20px', border: '1px solid lightgrey', borderRadius: '2px' }}
             />

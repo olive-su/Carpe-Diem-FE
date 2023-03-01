@@ -23,7 +23,6 @@ const CardBox = styled.div`
     padding: 1rem;
 `;
 
-const request: friendData[] = [{ nickname: '수개미', user_id: '2312314', email: 'test@gamil.com', profile_img: '' }];
 const Send = () => {
     const [reqList, setReqList] = useState([]);
     React.useEffect(function () {
@@ -34,7 +33,6 @@ const Send = () => {
         })
             .then(function (result) {
                 setReqList(result.data);
-                console.log(result.data);
             })
             .catch(function (error) {
                 console.error('friend req send 에러발생: ', error);
@@ -44,7 +42,7 @@ const Send = () => {
         <React.Fragment>
             <Container component="main" maxWidth="sm" sx={{ mb: 4, pt: 5 }}>
                 <CardBox>
-                    <h3 style={{ color: '#fff' }}>보낸 친구 요청</h3>
+                    <h4 style={{ color: '#fff' }}>보낸 친구 요청</h4>
 
                     <UserSearch />
 

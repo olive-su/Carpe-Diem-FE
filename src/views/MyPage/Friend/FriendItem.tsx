@@ -29,7 +29,7 @@ export default function FriendItem({ nickname, email, img }: itemProps) {
                 </ListItemAvatar>
             )}
             <ListItemText
-                primary={nickname}
+                primary={<Typography sx={{ color: 'white' }}>{nickname}</Typography>}
                 secondary={
                     <React.Fragment>
                         <Typography sx={{ display: 'inline', color: '#cbd5e1' }} component="span" variant="body2" color="text.primary">
