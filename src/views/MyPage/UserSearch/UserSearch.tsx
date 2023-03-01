@@ -69,10 +69,10 @@ export function UserSearch() {
             url: `http://${config.server.host}:${config.server.port}/friend/request`,
             withCredentials: true,
         })
-            .then(function (result) {
+            .then(function (result: any) {
                 setReqFriends(result.data);
             })
-            .catch(function (error) {
+            .catch(function (error: any) {
                 console.error('friend req send 에러발생: ', error);
             });
     }, []);
