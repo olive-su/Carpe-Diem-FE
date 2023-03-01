@@ -48,6 +48,52 @@ const Edit = () => {
             });
     }, []);
 
+    const sendEdit = () => {
+        if (nickname === '') {
+            alert('닉네임을 입력해주세요.');
+            return;
+        }
+        axios({
+            method: 'put',
+            url: `http://${config.server.host}:${config.server.port}/user`,
+            withCredentials: true,
+            data: {
+                nickname: nickname,
+            },
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log('ssssssss', error);
+            });
+    };
+    // const [showPassword, setShowPassword] = React.useState(false);
+    // const [showPassword2, setShowPassword2] = React.useState(false);
+
+    // const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     event.preventDefault();
+    // };
+    // const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
+
+    // const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     event.preventDefault();
+    // };
+    const editOn = () => {
+        setEditable(true);
+    };
+    const handleChange = (e: any) => {
+        setNickname(e.target.value);
+    };
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            setEditable(false);
+            sendEdit();
+        }
+    };
+
     return (
         <React.Fragment>
             <Container component="main" maxWidth="sm" sx={{ pt: 5 }}>

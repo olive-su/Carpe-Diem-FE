@@ -34,6 +34,28 @@ const InputTextField = styled(TextField)({
     },
 });
 
+const buttonSx = {
+    marginLeft: '10px',
+    background: '#6666cc',
+    color: 'white',
+    width: '35%',
+    '&:hover': {
+        backgroundColor: '#333',
+        color: 'white',
+    },
+};
+
+const inputSx = {
+    '& .MuiOutlinedInput-root': {
+        '&.Mui-focused fieldset': {
+            borderColor: '#6666cc',
+        },
+        '&:hover fieldset': {
+            borderColor: '#6666cc',
+        },
+    },
+};
+
 export function UserSearch() {
     const text = useRef<HTMLInputElement>(null);
     const [users, setUsers] = useState([]);
@@ -144,7 +166,7 @@ export function UserSearch() {
             })
                 .then(function (result) {
                     console.log('요청 보내기 성공');
-                    window.location.reload();
+                    history.go(0);
                 })
                 .catch(function (error) {
                     console.error('요청보내기 에러발생: ', error);
@@ -157,6 +179,7 @@ export function UserSearch() {
             else if (checkReqFriend) alert('이미 요청을 보낸 사용자입니다.');
         }
     };
+
     return (
         <CardBox>
             <Autocomplete
@@ -174,11 +197,12 @@ export function UserSearch() {
                             ...params.InputProps,
                             type: 'search',
                         }}
+                        sx={inputSx}
                     />
                 )}
             />
             <Button
-                sx={{ marginLeft: '10px', background: '#6666cc', color: 'white', width: '35%' }}
+                sx={buttonSx}
                 onClick={() => {
                     onsend();
                 }}

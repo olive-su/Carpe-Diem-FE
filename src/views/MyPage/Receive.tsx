@@ -48,7 +48,7 @@ const Receive = () => {
         })
             .then(function (result) {
                 console.log('수락 성공!');
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error) {
                 console.error('accept 에러발생: ', error);
@@ -62,7 +62,7 @@ const Receive = () => {
         })
             .then(function (result) {
                 console.log('거절 성공!');
-                window.location.reload();
+                history.go(0);
             })
             .catch(function (error) {
                 console.error('refuse 에러발생: ', error);
@@ -73,7 +73,7 @@ const Receive = () => {
         <React.Fragment>
             <Container maxWidth="sm">
                 <CardBox>
-                    <h3 style={{ color: '#fff' }}>받은 친구 요청</h3>
+                    <h4 style={{ color: '#fff' }}>받은 친구 요청</h4>
 
                     <CardBox>
                         <List sx={{ overflow: 'auto', height: '250px' }}>

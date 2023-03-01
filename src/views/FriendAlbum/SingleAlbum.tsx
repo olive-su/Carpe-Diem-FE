@@ -30,6 +30,7 @@ const SingleAlbum = () => {
     const { userId, albumId } = useParams();
     //const { album } = useSelector((state: any) => state.album);
     const [album, setAlbum] = useState<albumData>(dummy);
+    console.log('teststtt', albumId);
     React.useEffect(function () {
         axios({
             method: 'get',
