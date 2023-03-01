@@ -51,8 +51,6 @@ const InputTextField = styled(TextField)({
 const friend: friendData = { user_id: '2312314', nickname: '수개미', email: 'test@gamil.com', profile_img: '' };
 const Friend = () => {
     const [friendList, setFriendList] = useState([]);
-    const [value, setValue] = useState('');
-    const [search, setSearch] = useState<string>('');
     const [allFriendList, setAllFriendList] = useState([]);
     React.useEffect(function () {
         axios({
@@ -61,7 +59,6 @@ const Friend = () => {
             withCredentials: true,
         })
             .then(function (result) {
-                console.log(result.data);
                 setFriendList(result.data);
                 setAllFriendList(result.data);
             })

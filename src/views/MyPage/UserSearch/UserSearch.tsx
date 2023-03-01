@@ -35,14 +35,30 @@ const InputTextField = styled(TextField)({
 });
 
 export function UserSearch() {
-    const [users, setUsers] = useState([]);
     const text = useRef<HTMLInputElement>(null);
+    const [users, setUsers] = useState([]);
     const [email, setEmail] = useState();
+    const [friends, setFriends] = useState([]);
 
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/user`,
             method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/friend`,
+            withCredentials: true,
+        })
+            .then(function (result: any) {
+                console.log('!!!!!!!!!!!!!', result.data);
+                setFriends(result.data);
+            })
+            .catch(function (error: any) {
+                console.error('friend 에러발생: ', error);
+            });
+    }, []);
+
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `http://${config.server.host}:${config.server.port}/user`,
             withCredentials: true,
         })
             .then(function (result: any) {
@@ -59,16 +75,22 @@ export function UserSearch() {
             url: `http://${config.server.host}:${config.server.port}/user/all`,
             withCredentials: true,
         })
-            .then(function (result) {
+            .then(function (result: any) {
                 setUsers(result.data);
             })
-            .catch(function (error) {
+            .catch(function (error: any) {
                 console.error('allUser 에러발생: ', error);
             });
     }, []);
 
     const onsend = () => {
+        // 친구 요청 이메일이 유저인지 확인
         let checkUser = false;
+        // 친구 요청 이메일이 본인인지 확인
+        let checkMe = false;
+        // 이미 친구인지 확인
+        let checkFriend = false;
+
         users.map((user) => {
             if (user['email'] === text.current?.value) {
                 checkUser = true;
@@ -77,10 +99,18 @@ export function UserSearch() {
         });
 
         if (checkUser && text.current?.value === email) {
-            checkUser = false;
+            checkMe = true;
         }
 
-        if (checkUser) {
+        friends.map((friend) => {
+            if (friend['email'] === text.current?.value) {
+                checkFriend = true;
+                console.log(checkFriend);
+                return checkFriend;
+            }
+        });
+
+        if (checkUser && !checkMe && !checkFriend) {
             axios({
                 method: 'post',
                 url: `http://${config.server.host}:${config.server.port}/friend/`,
@@ -99,8 +129,9 @@ export function UserSearch() {
                     alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
                 });
         } else {
-            console.error('요청보내기 에러발생: 불명확한 이메일');
-            alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
+            if (!checkUser) alert('사용자가 아닌 경우 친구 요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
+            else if (checkMe) alert('본인에게는 친구 요청을 보낼 수 없습니다.');
+            else if (checkFriend) alert('이미 친구인 사용자에게는 친구 요청을 보낼 수 없습니다.');
         }
     };
     return (
