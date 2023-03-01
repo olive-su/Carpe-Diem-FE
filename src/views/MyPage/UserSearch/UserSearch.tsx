@@ -6,6 +6,9 @@ import { friendData } from '../../../types/type';
 import { Button } from '@mui/material';
 import config from '../../../config';
 import styled from 'styled-components';
+import { Modal } from '@mui/material';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const CardBox = styled.div`
     background-position: center;
@@ -56,7 +59,24 @@ const inputSx = {
     },
 };
 
+const ModalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'white',
+    boxShadow: 24,
+    p: 4,
+};
+
 export function UserSearch() {
+    // 모달 infromation
+    const [inform, setInform] = useState('');
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => useState(true);
+    const handleClose = () => useState(false);
+
     const text = useRef<HTMLInputElement>(null);
     const [users, setUsers] = useState([]);
     const [email, setEmail] = useState();
@@ -69,10 +89,10 @@ export function UserSearch() {
             url: `http://${config.server.host}:${config.server.port}/friend/request`,
             withCredentials: true,
         })
-            .then(function (result) {
+            .then(function (result: any) {
                 setReqFriends(result.data);
             })
-            .catch(function (error) {
+            .catch(function (error: any) {
                 console.error('friend req send 에러발생: ', error);
             });
     }, []);
@@ -173,43 +193,69 @@ export function UserSearch() {
                     alert('요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
                 });
         } else {
-            if (!checkUser) alert('서비스 사용자가 아닌 경우 친구 요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
-            else if (checkMe) alert('본인에게는 친구 요청을 보낼 수 없습니다.');
-            else if (checkFriend) alert('이미 친구인 사용자에게는 친구 요청을 보낼 수 없습니다.');
-            else if (checkReqFriend) alert('이미 요청을 보낸 사용자입니다.');
+            if (!checkUser) {
+                setInform('서비스 사용자가 아닌 경우 친구 요청을 보낼 수 없습니다. 정확한 이메일을 입력해주세요.');
+            } else if (checkMe) {
+                setInform('본인에게는 친구 요청을 보낼 수 없습니다.');
+            } else if (checkFriend) {
+                setInform('이미 친구인 사용자에게는 친구 요청을 보낼 수 없습니다.');
+            } else if (checkReqFriend) {
+                setInform('이미 요청을 보낸 사용자입니다.');
+            }
         }
     };
+    console.log(inform);
 
     return (
-        <CardBox>
-            <Autocomplete
-                freeSolo
-                id="free-solo-2-demo"
-                disableClearable
-                sx={{ width: '65%' }}
-                options={users?.map((option: friendData) => option.email)}
-                renderInput={(params: any) => (
-                    <InputTextField
-                        inputRef={text}
-                        {...params}
-                        label="search user"
-                        InputProps={{
-                            ...params.InputProps,
-                            type: 'search',
-                        }}
-                        sx={inputSx}
-                    />
-                )}
-            />
-            <Button
-                sx={buttonSx}
-                onClick={() => {
-                    onsend();
-                }}
-                variant="contained"
-            >
-                친구 요청 보내기
-            </Button>
-        </CardBox>
+        <>
+            <CardBox>
+                <Autocomplete
+                    freeSolo
+                    id="free-solo-2-demo"
+                    disableClearable
+                    sx={{ width: '65%' }}
+                    options={users?.map((option: friendData) => option.email)}
+                    renderInput={(params: any) => (
+                        <InputTextField
+                            inputRef={text}
+                            {...params}
+                            label="search user"
+                            InputProps={{
+                                ...params.InputProps,
+                                type: 'search',
+                            }}
+                            sx={inputSx}
+                        />
+                    )}
+                />
+                <Button
+                    sx={buttonSx}
+                    onClick={() => {
+                        onsend();
+                        setOpen(true);
+                    }}
+                    variant="contained"
+                >
+                    친구 요청 보내기
+                </Button>
+            </CardBox>
+            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                <Box sx={ModalStyle}>
+                    <Typography fontSize={15} color="#596678" id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
+                        {inform}
+                    </Typography>
+
+                    <Typography align="right">
+                        <Button
+                            onClick={() => {
+                                setOpen(false);
+                            }}
+                        >
+                            확인
+                        </Button>
+                    </Typography>
+                </Box>
+            </Modal>
+        </>
     );
 }

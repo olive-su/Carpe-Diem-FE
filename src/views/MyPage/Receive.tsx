@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import FriendItem from './Friend/FriendItem';
 import List from '@mui/material/List';
 import { Container } from '@mui/material';
-import { Typography } from '@mui/material';
-import { Paper } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import { friendData } from '../../types/type';
@@ -76,7 +74,7 @@ const Receive = () => {
                     <h4 style={{ color: '#fff' }}>받은 친구 요청</h4>
 
                     <CardBox>
-                        <List sx={{ overflow: 'auto', height: '250px' }}>
+                        <List sx={{ overflow: 'auto', height: '282px' }}>
                             {friendList?.map((item: friendData) => (
                                 <div key={item.user_id}>
                                     <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>

@@ -17,6 +17,7 @@ import Modal from './views/Camera/Modal';
 import PrivateRoute from './views/Auth/PrivateRoute';
 import FriendLibraryContent from './views/Contents/FriendLibraryContent/FriendLibraryContent';
 import SingleAlbum from './views/FriendAlbum/SingleAlbum';
+import VideoDetail from './views/Video/VideoDetail';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/main" element={<Main />} />
                 <Route path="/login" element={<Modal />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/video/:cardId" element={<VideoDetail />} />
                 <Route element={<PrivateRoute />}>
                     <Route path="/camera/web" element={<WebCamContent />} />
                     <Route path="/camera/mobile" element={<MobileCamContent />} />
