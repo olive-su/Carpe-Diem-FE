@@ -10,17 +10,17 @@ const Center = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: row;
+    background: #333;
+    justify-content: center;
 `;
 
 export default function FriendContent() {
     return (
         <div>
             <Center>
-                <Grid container spacing={1}>
+                <Grid container spacing={1} style={{ display: 'flex', justifyContent: 'center' }}>
                     <Grid item xs={4}>
                         <Edit />
-                    </Grid>
-                    <Grid item xs={4}>
                         <Friend />
                     </Grid>
                     <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column' }}>

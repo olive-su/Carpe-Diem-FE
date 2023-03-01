@@ -1,17 +1,38 @@
 import React, { useState, useRef } from 'react';
-import { Paper } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { friendData } from '../../../types/type';
 import { Button } from '@mui/material';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ListItem from '@mui/material/ListItem';
-import { Typography } from '@mui/material';
 import config from '../../../config';
-import { List } from '@mui/material';
+import styled from 'styled-components';
+
+const CardBox = styled.div`
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+`;
+
+const InputTextField = styled(TextField)({
+    '& label': {
+        color: '#fff',
+    },
+    '& label.Mui-focused': {
+        color: '#fff',
+    },
+    '& .MuiOutlinedInput-root': {
+        color: '#fff',
+        '& fieldset': {
+            borderColor: '#fff',
+        },
+    },
+});
 
 export function UserSearch() {
     const [searchedFriend, setSearchedFriend] = useState<friendData>();
@@ -54,74 +75,34 @@ export function UserSearch() {
         }
     };
     return (
-        <>
-            <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 'auto', mt: 2 }}>
-                {/* <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search User"
-        inputProps={{ 'aria-label': 'search google maps' }}
-        onChange={(e) => setValue(e.target.value)}
-    /> */}
-                <Autocomplete
-                    freeSolo
-                    sx={{ ml: 1, flex: 1 }}
-                    id="free-solo-2-demo"
-                    disableClearable
-                    options={users?.map((option: friendData) => option.email)}
-                    renderInput={(params: any) => (
-                        <TextField
-                            inputRef={text}
-                            {...params}
-                            label="search user"
-                            InputProps={{
-                                ...params.InputProps,
-                                type: 'search',
-                            }}
-                        />
-                    )}
-                />
-                {/* <Autocomplete
-        id="free-solo-demo"
-        freeSolo
-        options={users?.map((option) => option.email)}
-        renderInput={(params) => <TextField {...params} label="freeSolo" />}
-    />
-    {/* <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={(e) => onsearch(value)}>
-        <SearchIcon />
-    </IconButton> */}
-                <Button
-                    sx={{ marginLeft: '15px', backgroundColor: '#1e319d', color: 'white' }}
-                    onClick={() => {
-                        onsend();
-                    }}
-                    size="large"
-                    variant="contained"
-                >
-                    친구 요청
-                </Button>
-            </Paper>
-            {searchedFriend ? (
-                <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center' }}>
-                    <ListItemAvatar>
-                        <Avatar alt="nickname" src="./imgs/not_found_files.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={searchedFriend.nickname}
-                        secondary={
-                            <React.Fragment>
-                                <Typography sx={{ display: 'inline', color: '#cbd5e1' }} component="span" variant="body2" color="text.primary">
-                                    {searchedFriend.email}
-                                </Typography>
-                            </React.Fragment>
-                        }
+        <CardBox>
+            <Autocomplete
+                freeSolo
+                id="free-solo-2-demo"
+                disableClearable
+                sx={{ width: '65%' }}
+                options={users?.map((option: friendData) => option.email)}
+                renderInput={(params: any) => (
+                    <InputTextField
+                        inputRef={text}
+                        {...params}
+                        label="search user"
+                        InputProps={{
+                            ...params.InputProps,
+                            type: 'search',
+                        }}
                     />
-                    <Button sx={{ marginLeft: '15px', backgroundColor: '#1e319d', color: 'white' }} size="large" variant="contained">
-                        친구 추가
-                    </Button>
-                </ListItem>
-            ) : (
-                []
-            )}
-        </>
+                )}
+            />
+            <Button
+                sx={{ marginLeft: '10px', background: '#6666cc', color: 'white', width: '35%' }}
+                onClick={() => {
+                    onsend();
+                }}
+                variant="contained"
+            >
+                친구 요청 보내기
+            </Button>
+        </CardBox>
     );
 }
