@@ -14,6 +14,7 @@ import WebCamera from '../../Camera/WebCamera';
 import MobileCamera from '../../Camera/MobileCamera';
 import config from '../../../config';
 import MainLayout from '../../../components/MainLayout/MainLayout';
+import iphone from '../../../assets/iphone.png';
 
 const StyleContent = styledComponents.div`
     font-family: IBMPlexSansKR-Regular;
@@ -30,7 +31,10 @@ const AlignContents = styledComponents.div`
     display: flex;
     flex-direction: column;
     padding: 50px;
-    border-radius: 25px;
+    border-radius: 45px;
+    border-width: 30px;
+    border-style: solid;
+    border-color: black;
     background-color: rgba(255, 255, 255, 0.5);
 `;
 
@@ -139,6 +143,9 @@ export default function MobileCamContent() {
             <StyleContent>
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
+                    <div style={{ textAlign: 'center', top: '-10px' }}>
+                        <img src={iphone} style={{ width: '200px', position: 'relative', top: '-50px' }}></img>
+                    </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <FormGroup>
                             <FormControlLabel
