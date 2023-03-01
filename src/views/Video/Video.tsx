@@ -28,13 +28,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckBox from './CheckBox';
 
 import config from '../../config';
 import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/types';
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
-import IndeterminateCheckbox from './CheckBox';
+// import IndeterminateCheckbox from './CheckBox';
 
 const CheckboxStyle = styled.div`
     position: absolute;
@@ -68,7 +69,7 @@ const Video = () => {
     //     dispatch({
     //         type: CARD_LIST_LOADING_REQUEST,
     //     });
-    //     console.log(cardList);
+    console.log('121', cardList);
     //     allCards = cardList;
     // }, []);
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -220,7 +221,8 @@ const Video = () => {
                     </Box>
                 </Accordion>
             </Box>
-            <IndeterminateCheckbox />
+            <CheckBox />
+            {/* <IndeterminateCheckbox /> */}
             <Grid container spacing={1} sx={{ mt: '20px' }}>
                 {cardList?.map((card: any) => (
                     <Grid item key={card.cardId} xs={12} sm={4}>

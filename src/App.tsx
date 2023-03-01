@@ -9,7 +9,7 @@ import CamContent from './views/Contents/CamContent/CamContent';
 import RemoteCamera from './views/Camera/RemoteCamera';
 import Mobile from './views/Camera/MobileCamera';
 import FriendContent from './views/Contents/MyContent/FriendContent';
-import SingleVideo from './views/Album/SingleVideo';
+// import SingleVideo from './views/Album/SingleVideo';
 import AlbumMultiContent from './views/Contents/AlbumContent/AlbumMutiContent';
 import Main from './views/Main/main';
 import Modal from './views/Camera/Modal';
@@ -29,7 +29,7 @@ function App() {
                     <Route path="/friend" element={<FriendContent />} /> <Route path="/remote" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />
                     <Route path="/video" element={<VideoContent />} />
-                    <Route path="/video/:cardId" element={<SingleVideo />} />
+                    {/* <Route path="/video/:cardId" element={<SingleVideo />} /> */}
                     <Route path="/album" element={<LibraryContent />} />
                     <Route path="/album/:albumId" element={<AlbumMultiContent />} />
                     <Route path="friendAlbum/:userId" element={<FriendLibraryContent />} />

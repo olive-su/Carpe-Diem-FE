@@ -46,6 +46,7 @@ export default function AlbumCarousel(props: any) {
                     {emotionType()}
                     {props.cardInfo.expressionLabel}
                 </span>
+                <span>{props.cardInfo.comment}</span>
             </div>
         </div>
     );

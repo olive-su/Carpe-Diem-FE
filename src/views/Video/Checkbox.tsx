@@ -16,6 +16,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { CARD_LIST_FILTER_EXPRESSION } from '../../redux/types';
+import { styled } from '@mui/material/styles';
+
+const ToggleButtonss = styled(ToggleButton)(() => ({
+    '&.Mui-selected, &.Mui-selected:hover': {
+        color: 'white',
+        backgroundColor: '#00abc0',
+    },
+}));
 
 export default function IndeterminateCheckbox(props: any) {
     const dispatch = useDispatch();
@@ -116,28 +124,30 @@ const handleClickc = () => {
                 }
                 sx={{ mt: 3, ml: 3, paddingRight: '20px', border: '1px solid lightgrey', borderRadius: '2px' }}
             />
-            <ToggleButton value="check" selected={checked[0]} onChange={handleChange2}>
+            <ToggleButtonss value="check" selected={checked[0]} onChange={handleChange2}>
                 <InsertEmoticonIcon /> Happy
-            </ToggleButton>
-            <ToggleButton value="check" selected={checked[1]} onChange={handleChange3}>
+            </ToggleButtonss>
+
+            <ToggleButtonss value="check" selected={checked[1]} onChange={handleChange3}>
                 <SentimentDissatisfiedIcon />
                 Sad
-            </ToggleButton>
-            <ToggleButton value="check" selected={checked[2]} onChange={handleChange4}>
+            </ToggleButtonss>
+
+            <ToggleButtonss value="check" selected={checked[2]} onChange={handleChange4}>
                 <LocalFireDepartmentIcon /> Angry
-            </ToggleButton>
-            <ToggleButton value="check" selected={checked[3]} onChange={handleChange5}>
+            </ToggleButtonss>
+            <ToggleButtonss value="check" selected={checked[3]} onChange={handleChange5}>
                 <SickIcon />
                 Disgusted
-            </ToggleButton>
-            <ToggleButton value="check" selected={checked[4]} onChange={handleChange6}>
+            </ToggleButtonss>
+            <ToggleButtonss value="check" selected={checked[4]} onChange={handleChange6}>
                 <SentimentVeryDissatisfiedRoundedIcon />
                 Fearful
-            </ToggleButton>
-            <ToggleButton value="check" selected={checked[5]} onChange={handleChange7}>
+            </ToggleButtonss>
+            <ToggleButtonss value="check" selected={checked[5]} onChange={handleChange7}>
                 <OutletIcon />
                 Surprised
-            </ToggleButton>
+            </ToggleButtonss>
         </Stack>
     );
 

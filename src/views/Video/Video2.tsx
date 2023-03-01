@@ -19,7 +19,7 @@ import Link from '@mui/material/Link';
 import Chip from '@mui/material/Chip';
 import { ToggleButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import IndeterminateCheckbox from './CheckBox';
+// import IndeterminateCheckbox from './CheckBox';
 import axios from 'axios';
 import { connect } from 'react-redux';
 // import { setCard, filterOn, filterOut } from '../../redux/reducer/albumsReducer';
@@ -76,7 +76,7 @@ const Album = (filteredCards: any) => {
                             Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not
                             too short so folks don&apos;t simply skip over it entirely.
                         </Typography> */}
-                        <IndeterminateCheckbox />
+                        {/* <IndeterminateCheckbox /> */}
                     </Container>
                 </Box>
                 <Container sx={{ py: 2 }}>
