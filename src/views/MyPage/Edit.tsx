@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { color, Container } from '@mui/system';
+import { color, Container, display } from '@mui/system';
 import axios from 'axios';
 import config from '../../config';
 import styled from 'styled-components';
@@ -81,7 +81,7 @@ const Edit = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sx={{ display: 'flex' }}>
                             <Grid xs={12}>{img ? <Profile src={img}></Profile> : <Profile src="./imgs/not_found_files.jpg"></Profile>}</Grid>
-                            <Grid>
+                            <Grid sx={{ marginRight: '7%' }}>
                                 <Typography variant="h6" mt={4} color="#fff" style={{ textAlign: 'left' }}>
                                     {nickname}
                                 </Typography>
@@ -90,11 +90,7 @@ const Edit = () => {
                                 </Typography>
                                 <Typography variant="h6" mt={1} color="#fff">
                                     내 얼굴 이미지 수정
-                                    <CiEdit
-                                        size="25"
-                                        onClick={editOn}
-                                        style={{ color: '#fff', cursor: 'pointer', marginLeft: '10px', marginRight: '40px' }}
-                                    />
+                                    <CiEdit size="25" onClick={editOn} style={{ color: '#fff', cursor: 'pointer', marginRight: '15px' }} />
                                 </Typography>
                             </Grid>
                         </Grid>

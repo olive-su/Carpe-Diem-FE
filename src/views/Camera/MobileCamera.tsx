@@ -77,6 +77,7 @@ const roomName: any = 'test';
 // 비디오 사이즈 설정
 function MobileCamera(props: any) {
     const { usim } = useSelector((state: any) => state.usim);
+    const { nickname } = useSelector((state: any) => state.auth);
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
     const mobileRef = useRef<any>(null);
@@ -349,8 +350,9 @@ function MobileCamera(props: any) {
                     const matched = resizedDetections[i];
                     const box = matched.detection.box;
                     // const target = faceMatcher.findBestMatch(matched.descriptor).toString();
-                    const label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
+                    let label = faceMatcher.findBestMatch(matched.descriptor).label; // Face Detection
                     const labelColor = label !== 'unknown' ? 'red' : 'blue';
+                    label = labelColor === 'red' ? nickname : '';
                     const drawBox = new faceapi.draw.DrawBox(box, { boxColor: labelColor, label: label });
 
                     // if (label === userId) drawBox.draw(canvas); // 특정 사용자가 감지됐을 때만 바운딩 박스 표시
@@ -481,7 +483,7 @@ function MobileCamera(props: any) {
                         height: constraints.video.height,
                     }}
                 >
-                    {/* <QRCodeSVG value="https://reactjs.org/" /> */}
+                    <QRCodeSVG value="https://reactjs.org/" />
                     <div>
                         {mobileRef ? (
                             <video ref={mobileRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />

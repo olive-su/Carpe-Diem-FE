@@ -4,7 +4,7 @@ import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { ArrowCircleDownRounded, ClearRounded } from '@mui/icons-material';
+import { ArrowCircleLeftRounded, ClearRounded, TimerRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
@@ -23,7 +23,6 @@ const StyleContent = styledComponents.div`
     min-width: 100vw;
     display: flex;
     justify-content: center;
-    display: flex;
     text-align: left;
 `;
 
@@ -49,7 +48,6 @@ const MobileCamPage = styledComponents.section`
     display: block;
     flex-direction: row;
     text-align: center;
-    margin-left: 30px;
     margin-top: 20px;
 `;
 

@@ -5,7 +5,7 @@ import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { ArrowCircleLeftRounded, ClearRounded } from '@mui/icons-material';
+import { ArrowCircleLeftRounded, ClearRounded, TimerRounded } from '@mui/icons-material';
 
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
@@ -184,7 +184,11 @@ export default function MobileCamContent() {
                         paddingBottom: '50px',
                     }}
                 >
-                    <h4 style={{ color: 'white' }}>최근 저장된 영상</h4>
+                    <h4 style={{ color: 'white' }}>
+                        {' '}
+                        <TimerRounded sx={{ marginRight: '10px' }} />
+                        최근 저장된 영상
+                    </h4>
                     <div>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
