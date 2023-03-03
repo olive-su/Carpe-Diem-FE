@@ -7,7 +7,7 @@ export default function SignIn() {
     return (
         <Button
             onClick={() => {
-                window.location.replace(`http://${config.server.host}:${config.server.port}/auth/google`);
+                window.location.replace(`${config.server.protocol}://${config.server.host}:${config.server.port}/auth/google`);
             }}
         >
             Google Login

@@ -21,7 +21,7 @@ const FriendLibrary = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friendAlbum/${userId}`,
+            url: `/friendAlbum/${userId}`,
             withCredentials: true,
         })
             .then(function (result) {

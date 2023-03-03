@@ -25,7 +25,7 @@ const Send = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/request`,
+            url: `/friend/request`,
             withCredentials: true,
         })
             .then(function (result) {

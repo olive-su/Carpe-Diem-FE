@@ -46,7 +46,7 @@ const Album = (filteredCards: any) => {
     const [cards, setCards] = React.useState([]);
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/card/${userId}`,
+            url: `/card/${userId}`,
             method: 'get',
         })
             .then(function (result) {

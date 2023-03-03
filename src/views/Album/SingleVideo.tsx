@@ -96,7 +96,7 @@ const AlbumSinglePage = () => {
 
             axios({
                 method: 'put',
-                url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+                url: `/card/${cardId}`,
                 withCredentials: true,
                 data: {
                     card_id: cardAlbum.cardId,
@@ -130,7 +130,7 @@ const AlbumSinglePage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+            url: `/card/${cardId}`,
             withCredentials: true,
         })
             .then(function (result) {
@@ -146,7 +146,7 @@ const AlbumSinglePage = () => {
     const onClickDelete = () => {
         axios({
             method: 'delete',
-            url: `http://${config.server.host}:${config.server.port}/card/${cardId}`,
+            url: `/card/${cardId}`,
             withCredentials: true,
         })
             .then(function (response) {

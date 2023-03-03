@@ -69,7 +69,7 @@ let recordInfo: types.RecordInfo;
 const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
-const socket = io.connect(`http://${config.server.host}:4001`);
+const socket = io.connect(`${config.server.protocol}://${config.server.host}:4001`);
 let myStream: any;
 let myPeerConnection: any;
 const roomName: any = 'test';
@@ -386,7 +386,7 @@ function MobileCamera(props: any) {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: -32400000,
+                    maxTime: 0,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -399,7 +399,7 @@ function MobileCamera(props: any) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
-                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime;
                 }
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }
