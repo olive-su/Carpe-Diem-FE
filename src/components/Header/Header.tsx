@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { BiMenu, BiExit } from 'react-icons/bi';
 import { FaGithub } from 'react-icons/fa';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import { MeetingRoom, AssessmentOutlined, NotificationsNoneOutlined } from '@mui/icons-material';
 
 export default function Header(props: any | undefined) {
     const { isAuthenticated, isLoading } = useSelector((state: any) => state.auth);
@@ -46,6 +46,16 @@ export default function Header(props: any | undefined) {
         text-decoration: none;
         color: ${themeColorDark};
         font-size: 1.5em;
+        margin-right: 10px;
+        &:hover {
+            text-decoration: none;
+            color: #6666cc;
+        }
+    `;
+
+    const EmotionIcon = styled.a`
+        text-decoration: none;
+        color: ${themeColorDark};
         &:hover {
             text-decoration: none;
             color: #6666cc;
@@ -60,7 +70,6 @@ export default function Header(props: any | undefined) {
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        margin-left: 10px;
         color: ${themeColorDark};
 
         &:hover {
@@ -149,9 +158,21 @@ export default function Header(props: any | undefined) {
                     </a>
                 </div>
                 <RightSide>
-                    <GithubIcon href="https://github.com/cd-carpe-diem" rel="noreferrer noopener" target="_blank">
-                        <FaGithub size="30" />
-                    </GithubIcon>
+                    {props.dark && (
+                        <GithubIcon href="https://github.com/cd-carpe-diem" rel="noreferrer noopener" target="_blank">
+                            <FaGithub />
+                        </GithubIcon>
+                    )}
+                    {!props.dark && (
+                        <>
+                            <EmotionIcon href="/report">
+                                <AssessmentOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
+                            </EmotionIcon>
+                            <EmotionIcon>
+                                <NotificationsNoneOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
+                            </EmotionIcon>
+                        </>
+                    )}
                     {isAuthenticated && (
                         <MenuButton onClick={handleMenuToggle}>
                             {isMenuOpen === '0' ? <BiExit size="30" name="close-outline" /> : <BiMenu size="30" name="menu-outline" />}
@@ -185,7 +206,7 @@ export default function Header(props: any | undefined) {
                             history.go(0);
                         }}
                     >
-                        <MeetingRoomIcon style={{ marginTop: '5px', marginRight: '10px' }} />
+                        <MeetingRoom style={{ marginTop: '5px', marginRight: '10px' }} />
                         Logout
                     </SignOutBtn>
                 </List>
