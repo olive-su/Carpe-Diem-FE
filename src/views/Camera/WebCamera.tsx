@@ -15,8 +15,8 @@ import axios from 'axios';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 const rotate = keyframes`
-  from {
-      transform: rotate(0deg);
+    from {
+        transform: rotate(0deg);
     }
 
     to { transform: rotate(360deg);
