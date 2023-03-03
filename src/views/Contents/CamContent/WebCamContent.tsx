@@ -144,7 +144,7 @@ export default function CamContent() {
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
                     <div style={{ position: 'absolute', top: '30px' }}>
-                        <FormGroup>
+                        {/* <FormGroup>
                             <FormControlLabel
                                 control={
                                     <MaterialUISwitch
@@ -157,7 +157,7 @@ export default function CamContent() {
                                 }
                                 label={<Typography sx={{ color: 'white' }}>Select Device</Typography>}
                             />
-                        </FormGroup>
+                        </FormGroup> */}
                         {/* <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
                             <ArrowCircleDownRounded sx={{ mx: 1 }} />
                             카메라를 연결할 기기를 바꿀 수 있어요!
@@ -170,20 +170,14 @@ export default function CamContent() {
                             </Button>
                         </Alert> */}
                     </div>
-                    {switchChecked === true ? (
-                        <WebCamPage>
-                            <WebCamera onVideoListRender={videoRenderFlag} />
-                        </WebCamPage>
-                    ) : (
-                        <MobileCamPage>
-                            <MobileCamera onVideoListRender={videoRenderFlag} />
-                        </MobileCamPage>
-                    )}
+                    <WebCamPage>
+                        <WebCamera onVideoListRender={videoRenderFlag} />
+                    </WebCamPage>
                 </AlignContents>
                 <div
                     style={{
                         width: '500px',
-                        height: '730px',
+                        height: '780px',
                         paddingTop: '100px',
                         backgroundImage: `url('${process.env.PUBLIC_URL}/imgs/browser-frame.png')`,
                         backgroundRepeat: 'no-repeat',
@@ -197,7 +191,10 @@ export default function CamContent() {
                         src={`${process.env.PUBLIC_URL}/imgs/browser.png`}
                         style={{ position: 'relative', height: '880px', width: '500px', borderRadius: '6px', zIndex: '0' }}
                     /> */}
-                    <h4 style={{ color: 'black', paddingLeft: '50px' }}>최근 저장된 영상</h4>
+                    <h4 style={{ color: 'black', paddingLeft: '50px' }}>
+                        <TimerRounded sx={{ marginRight: '10px' }} />
+                        최근 저장된 영상
+                    </h4>
                     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
