@@ -71,7 +71,10 @@ const Modal = () => {
             type: USIM_CREATE_REQUEST,
             payload: formData,
         });
-        history.go(0);
+
+        setTimeout(() => {
+            history.go(0);
+        }, 500);
     };
     return (
         <React.Fragment>
