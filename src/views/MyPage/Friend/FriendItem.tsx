@@ -17,6 +17,7 @@ const Profile = styled.img`
 `;
 
 export default function FriendItem({ nickname, email, img }: itemProps) {
+    console.log('d', nickname);
     return (
         <>
             {img ? (

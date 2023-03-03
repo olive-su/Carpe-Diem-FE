@@ -26,7 +26,7 @@ const Div = styled('div')`
             justify-content: center;
             text-align: center;
             top: 50%;
-            left: 20%;
+            left: 10%;
         }
         .image {
             opacity: 0.5;
@@ -35,9 +35,10 @@ const Div = styled('div')`
     .title {
         display: none;
         position: absolute;
-        color: #fff;
-        font-size: 14px;
+        color: #f42e79;
+        font-size: 18px;
         font-family: IBMPlexSansKR-Regular;
+        font-weight: bold;
     }
 `;
 
@@ -51,7 +52,7 @@ const Book = (props: any) => {
             />
             <div className="title">
                 <div>
-                    {dayjs(props.album.createdAt).tz('utc').format('YYYY.MM.DD.')} {props.album.title}
+                    {dayjs(props.album.createdAt).tz('utc').format('YYYY년 MM월 DD일')} {props.album.title}
                 </div>
             </div>
         </Div>

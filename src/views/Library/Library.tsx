@@ -39,8 +39,17 @@ const Library = () => {
     return (
         <>
             <Container sx={{ width: '1200px', py: 2 }}>
-                <Typography sx={{ fontSize: '20px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'var(--white)' }}>
-                    Album
+                <Typography
+                    sx={{
+                        fontSize: '40px',
+                        fontWeight: 'bold',
+                        p: '4px 0px',
+                        mt: '20px',
+                        mb: '20px',
+                        color: 'var(--white)',
+                    }}
+                >
+                    내 앨범
                 </Typography>
                 <Grid container spacing={1}>
                     {albumList?.map((data: albumData, idx: any) => (

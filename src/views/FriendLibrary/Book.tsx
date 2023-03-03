@@ -35,9 +35,10 @@ const Div = styled('div')`
     .title {
         display: none;
         position: absolute;
-        color: #fff;
-        font-size: 14px;
+        color: #333;
+        font-size: 18px;
         font-family: IBMPlexSansKR-Regular;
+        font-weight: bold;
     }
 `;
 
