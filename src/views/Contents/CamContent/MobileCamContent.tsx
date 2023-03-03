@@ -146,7 +146,7 @@ export default function MobileCamContent() {
                     <div style={{ textAlign: 'center', top: '-10px' }}>
                         <img src={iphone} style={{ width: '200px', position: 'relative', top: '-50px' }}></img>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <FormGroup>
                             <FormControlLabel
                                 control={
@@ -172,7 +172,7 @@ export default function MobileCamContent() {
                                 <ClearRounded />
                             </Button>
                         </Alert>
-                    </div>
+                    </div> */}
                     {switchChecked === true ? (
                         <WebCamPage>
                             <WebCamera onVideoListRender={videoRenderFlag} />
