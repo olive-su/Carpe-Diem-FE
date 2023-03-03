@@ -13,6 +13,8 @@ import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
 
 const rotate = keyframes`
   from {
@@ -305,41 +307,83 @@ function WebCamera(props: any) {
     };
 
     return (
-        <div>
+        <>
             <div>
-                {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
-                <div
-                    ref={wrapRef}
-                    id="wrap"
-                    style={{
-                        borderStyle: 'none',
-                        width: constraints.video.width,
-                        height: constraints.video.height,
-                    }}
-                >
-                    <div>
-                        {camStarted ? (
-                            <video ref={videoRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
-                        ) : (
-                            <video
-                                src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
-                                autoPlay
-                                loop
-                                muted
-                                style={{ objectFit: 'cover' }}
-                                width={constraints.video.width}
-                                height={constraints.video.height}
-                            />
-                        )}
-                    </div>
-                </div>
                 <div>
-                    <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                    <div style={{ paddingBottom: '20px' }}>
+                        {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                        {/* <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton> */}
+
+                        {/* {camStarted ? (
+                        <AwesomeButton onPressed={() => setCamStarted(false)} type="danger">
+                            OFF
+                        </AwesomeButton>
+                    ) : (
+                        <AwesomeButton onPressed={() => setCamStarted(true)} type="primary" className="aws-btn">
+                            ON
+                        </AwesomeButton>
+                    )} */}
+                        {/* <ButtonOnOff /> */}
+                    </div>
+                    <div
+                        ref={wrapRef}
+                        id="wrap"
+                        style={{
+                            borderStyle: 'none',
+                            width: constraints.video.width,
+                            height: constraints.video.height,
+                        }}
+                    >
+                        <div>
+                            {/* <img
+                            src={`${process.env.PUBLIC_URL}/imgs/frame.png`}
+                            style={{ position: 'absolute', left: '-130px', bottom: '-165px' }}
+                            width={constraints.video.width + 260}
+                            height={constraints.video.height + 200}
+                        /> */}
+                            <img
+                                src={`${process.env.PUBLIC_URL}/imgs/imac-frame.png`}
+                                style={{ position: 'absolute', left: '-35px', bottom: '-275px' }}
+                                width={constraints.video.width + 58}
+                                height={constraints.video.height + 315}
+                            />
+                            {camStarted ? (
+                                <video
+                                    ref={videoRef}
+                                    autoPlay
+                                    muted
+                                    onPlay={onPlay}
+                                    width={constraints.video.width}
+                                    height={constraints.video.height}
+                                />
+                            ) : (
+                                <video
+                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
+                                    autoPlay
+                                    loop
+                                    muted
+                                    style={{ objectFit: 'cover' }}
+                                    width={constraints.video.width}
+                                    height={constraints.video.height}
+                                />
+                            )}
+                        </div>
+                        <AwesomeButton
+                            type={camStarted ? 'danger' : 'primary'}
+                            onPress={() => {
+                                setCamStarted(!camStarted);
+                            }}
+                            ripple
+                            style={{ position: 'absolute', bottom: '10px', right: '30px' }}
+                        >
+                            {camStarted ? 'OFF' : 'ON'}
+                        </AwesomeButton>
+                    </div>
                 </div>
             </div>
             <Emotion data={data} />
-        </div>
+        </>
     );
 }
 
