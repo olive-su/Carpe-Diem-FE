@@ -266,7 +266,7 @@ function WebCamera(props: any) {
                     console.log(err);
                 }
             }
-        }, 15000);
+        }, 20000);
     };
 
     async function handleDataAvailable(event: any) {
