@@ -430,7 +430,7 @@ function MobileCamera(props: any) {
                     console.log(err);
                 }
             }
-        }, 10000);
+        }, 15000);
     };
 
     async function handleDataAvailable(event: any) {
