@@ -17,8 +17,8 @@ import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/styles.css';
 
 const rotate = keyframes`
-  from {
-      transform: rotate(0deg);
+    from {
+        transform: rotate(0deg);
     }
 
     to { transform: rotate(360deg);
@@ -224,7 +224,7 @@ function WebCamera(props: any) {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: -32400000,
+                    maxTime: 0,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -237,7 +237,7 @@ function WebCamera(props: any) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
-                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime;
                 }
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }

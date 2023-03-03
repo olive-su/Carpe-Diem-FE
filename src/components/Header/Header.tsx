@@ -165,7 +165,7 @@ export default function Header(props: any | undefined) {
                     )}
                     {!props.dark && (
                         <>
-                            <EmotionIcon>
+                            <EmotionIcon href="/report">
                                 <AssessmentOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
                             </EmotionIcon>
                             <EmotionIcon>
