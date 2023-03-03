@@ -80,7 +80,6 @@ function Main() {
                         <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
                             <PersonalVideoRounded sx={{ color: 'white', fontSize: 40 }} />
                         </div>
-                        <p>Web Camera</p>
                     </button>
                 </Tooltip>
                 <Tooltip title="모바일 캠을 사용해요!" arrow placement="top">
@@ -93,7 +92,6 @@ function Main() {
                         <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
                             <PhoneAndroidRounded sx={{ color: 'white', fontSize: 40 }} />
                         </div>
-                        <p>Mobile Camera</p>
                     </button>
                 </Tooltip>
             </div>
