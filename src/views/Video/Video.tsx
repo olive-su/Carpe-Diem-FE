@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -34,6 +35,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import IndeterminateCheckbox from './CheckBox';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import { Button } from '@mui/material';
+
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import OutletIcon from '@mui/icons-material/Outlet';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
+import SickIcon from '@mui/icons-material/Sick';
+
+const icons = [
+    <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#9a3412' }} />,
+    <SentimentDissatisfiedIcon sx={{ fontSize: '60px', color: '#155e75' }} />,
+    <LocalFireDepartmentIcon sx={{ fontSize: '60px', color: '#991b1b' }} />,
+    <SickIcon sx={{ fontSize: '60px', color: '#166534' }} />,
+    <SentimentVeryDissatisfiedRoundedIcon sx={{ fontSize: '60px', color: '#6b21a8' }} />,
+    <OutletIcon sx={{ fontSize: '60px', color: '#854d0e' }} />,
+];
+const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised'];
 
 const CheckboxStyle = styled.div`
     position: absolute;
@@ -396,10 +414,10 @@ const Video = () => {
                                     >
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <Typography mt={5} ml={1} fontSize={15} color="#d1d5db">
-                                                {dayjs(card.createdAt).tz('utc').format('YYYY.MM.DD HH:mm')}
+                                                {dayjs(card.createdAt).tz('utc').format('YYYY년 MM월 DD일 HH:mm')}
                                             </Typography>
                                             <Typography mr={1} mt={2} variant="h5" component="h2">
-                                                {card.expressionLabel}
+                                                {icons[expressions.indexOf(card.expressionLabel)]}
                                             </Typography>
                                         </Box>
                                     </Box>

@@ -182,20 +182,20 @@ export default function Header(props: any | undefined) {
             </StyleHeader>
             <Sidebar>
                 <List style={{ marginBottom: 30 }}>
-                    <Inner href="/camera/mobile">Mobile Cam</Inner>
-                    <Inner href="/camera/web">Web Cam</Inner>
+                    <Inner href="/camera/mobile">모바일 캠</Inner>
+                    <Inner href="/camera/web">웹 캠</Inner>
                 </List>
                 <List>
-                    <Inner href="/">Home</Inner>
+                    <Inner href="/">홈</Inner>
                 </List>
                 <List>
-                    <Inner href="/album">Album</Inner>
+                    <Inner href="/album">앨범</Inner>
                 </List>
                 <List>
-                    <Inner href="/video">Video</Inner>
+                    <Inner href="/video">비디오</Inner>
                 </List>
                 <List>
-                    <Inner href="/friend">Friend</Inner>
+                    <Inner href="/friend">친구</Inner>
                 </List>
                 <List style={{ marginTop: 70 }}>
                     <SignOutBtn
@@ -207,7 +207,7 @@ export default function Header(props: any | undefined) {
                         }}
                     >
                         <MeetingRoom style={{ marginTop: '5px', marginRight: '10px' }} />
-                        Logout
+                        로그아웃
                     </SignOutBtn>
                 </List>
             </Sidebar>

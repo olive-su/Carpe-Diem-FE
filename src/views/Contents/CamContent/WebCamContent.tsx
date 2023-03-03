@@ -13,7 +13,6 @@ import WebCamera from '../../Camera/WebCamera';
 import MobileCamera from '../../Camera/MobileCamera';
 import config from '../../../config';
 import MainLayout from '../../../components/MainLayout/MainLayout';
-import InternetWindow from '../../Camera/InternetWindow';
 import { url } from 'inspector';
 
 const StyleContent = styledComponents.div`
