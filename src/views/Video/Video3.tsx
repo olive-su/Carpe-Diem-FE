@@ -74,7 +74,7 @@ const Album = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/card`,
+            url: `/card`,
             withCredentials: true,
         })
             .then(function (result) {
@@ -83,7 +83,7 @@ const Album = () => {
                 allCard = result.data;
             })
             .catch(function (error) {
-                console.log(`http://${config.server.host}:${config.server.port}/card`);
+                console.log(`/card`);
                 console.error('card 에러발생: ', error);
             });
     }, []);
@@ -377,7 +377,7 @@ const handleClickc = () => {
                                     onClick={() => {
                                         axios({
                                             method: 'post',
-                                            url: `http://${config.server.host}:${config.server.port}/album`,
+                                            url: `/album`,
                                             withCredentials: true,
                                             data: {
                                                 title: titleInput,

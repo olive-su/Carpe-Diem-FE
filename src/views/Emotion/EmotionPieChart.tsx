@@ -3,106 +3,123 @@ import { ResponsiveContainer, PieChart, Pie, LabelList } from 'recharts';
 import styled from 'styled-components';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 
-const emotionData = {
-    happy: [0, 1, 1, 2, 6, 2, 3],
-    sad: [4, 2, 3, 1, 3, 0, 2],
-    surprised: [2, 3, 2, 1, 3, 1, 1],
-    disgusted: [1, 1, 3, 2, 4, 0, 3],
-    angry: [0, 2, 4, 1, 0, 2, 4],
-    fearful: [4, 0, 2, 3, 2, 2, 4],
+const testData: any = {
+    '2023-02-26': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-02-27': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-02-28': {
+        happy: 1,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-03-01': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 1,
+        fearful: 0,
+    },
+    '2023-03-02': {
+        happy: 4,
+        sad: 1,
+        surprised: 1,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-03-03': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-03-04': {
+        happy: 0,
+        sad: 1,
+        surprised: 0,
+        disgusted: 1,
+        angry: 0,
+        fearful: 0,
+    },
 };
 
-const avgEmotion = {
-    happy:
-        emotionData['happy'][0] +
-        emotionData['happy'][1] +
-        emotionData['happy'][2] +
-        emotionData['happy'][2] +
-        emotionData['happy'][3] +
-        emotionData['happy'][4] +
-        emotionData['happy'][5] +
-        emotionData['happy'][6],
-    sad:
-        emotionData['sad'][0] +
-        emotionData['sad'][1] +
-        emotionData['sad'][2] +
-        emotionData['sad'][2] +
-        emotionData['sad'][3] +
-        emotionData['sad'][4] +
-        emotionData['sad'][5] +
-        emotionData['sad'][6],
-    surprised:
-        emotionData['surprised'][0] +
-        emotionData['surprised'][1] +
-        emotionData['surprised'][2] +
-        emotionData['surprised'][2] +
-        emotionData['surprised'][3] +
-        emotionData['surprised'][4] +
-        emotionData['surprised'][5] +
-        emotionData['surprised'][6],
-    disgusted:
-        emotionData['disgusted'][0] +
-        emotionData['disgusted'][1] +
-        emotionData['disgusted'][2] +
-        emotionData['disgusted'][2] +
-        emotionData['disgusted'][3] +
-        emotionData['disgusted'][4] +
-        emotionData['disgusted'][5] +
-        emotionData['disgusted'][6],
-    angry:
-        emotionData['angry'][0] +
-        emotionData['angry'][1] +
-        emotionData['angry'][2] +
-        emotionData['angry'][2] +
-        emotionData['angry'][3] +
-        emotionData['angry'][4] +
-        emotionData['angry'][5] +
-        emotionData['angry'][6],
-    fearful:
-        emotionData['fearful'][0] +
-        emotionData['fearful'][1] +
-        emotionData['fearful'][2] +
-        emotionData['fearful'][2] +
-        emotionData['fearful'][3] +
-        emotionData['fearful'][4] +
-        emotionData['fearful'][5] +
-        emotionData['fearful'][6],
+let resultData: any = {
+    happy: [],
+    sad: [],
+    surprised: [],
+    disgusted: [],
+    angry: [],
+    fearful: [],
+};
+
+Object.keys(resultData).forEach((emotion) => {
+    Object.keys(testData).forEach((date, index) => {
+        resultData[emotion][index] = testData[date][emotion];
+    });
+});
+
+const sumEmotion = {
+    happy: resultData.happy.reduce((a: any, b: any) => a + b),
+    sad: resultData.sad.reduce((a: any, b: any) => a + b),
+    surprised: resultData.surprised.reduce((a: any, b: any) => a + b),
+    disgusted: resultData.disgusted.reduce((a: any, b: any) => a + b),
+    angry: resultData.angry.reduce((a: any, b: any) => a + b),
+    fearful: resultData.fearful.reduce((a: any, b: any) => a + b),
 };
 
 const data = [
     {
         name: '😃 행복해요',
-        value: avgEmotion['happy'],
+        value: sumEmotion['happy'],
         fill: '#fdba74',
     },
     {
         name: '😢 슬퍼요',
-        value: avgEmotion['sad'],
+        value: sumEmotion['sad'],
         fill: '#67e8f9',
     },
     {
         name: '😳 놀라워요',
-        value: avgEmotion['surprised'],
+        value: sumEmotion['surprised'],
         fill: '#fde047',
     },
     {
-        name: '🫠 힘들어요',
-        value: avgEmotion['disgusted'],
+        name: '🤮 힘들어요',
+        value: sumEmotion['disgusted'],
         fill: '#86efac',
     },
     {
         name: '🤬 화나요',
-        value: avgEmotion['angry'],
+        value: sumEmotion['angry'],
         fill: '#fda4af',
     },
     {
         name: '😱 무서워요',
-        value: avgEmotion['fearful'],
+        value: sumEmotion['fearful'],
         fill: '#d8b4fe',
     },
 ];
 
-const total = Object.values(avgEmotion).reduce((a, b) => a + b, 0);
+const total = Object.values(sumEmotion).reduce((a, b) => a + b, 0);
 
 const renderCustomizedLabelPercentage = (value: any) => {
     const percentageCalculated = ((value.value / total) * 100).toFixed(2);

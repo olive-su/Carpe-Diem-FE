@@ -15,7 +15,7 @@ import {
 const friendAlbumListLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/album/albumList/${data}`,
+        url: `/album/albumList/${data}`,
         withCredentials: true,
     });
 };
@@ -43,7 +43,7 @@ function* watchAlbumListLoad() {
 const friendAlbumLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/album/singleAlbum/${data}/${data.album_id}`,
+        url: `/album/singleAlbum/${data}/${data.album_id}`,
         withCredentials: true,
     });
 };

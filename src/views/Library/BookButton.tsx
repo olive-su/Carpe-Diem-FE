@@ -42,7 +42,7 @@ const BookButton = (props: any) => {
     const sendEdit = () => {
         axios({
             method: 'put',
-            url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
+            url: `/album/${props.album.albumId}`,
             withCredentials: true,
             data: {
                 card_id: props.album.cardId,
@@ -73,7 +73,7 @@ const BookButton = (props: any) => {
     // const onClickDelete = () => {
     //     axios({
     //         method: 'delete',
-    //         url: `http://${config.server.host}:${config.server.port}/album/${props.album.albumId}`,
+    //         url: `/album/${props.album.albumId}`,
     //         withCredentials: true,
     //         data: {},
     //     })

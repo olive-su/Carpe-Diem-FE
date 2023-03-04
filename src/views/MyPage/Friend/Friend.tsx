@@ -68,7 +68,7 @@ const Friend = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/`,
+            url: `/friend/`,
             withCredentials: true,
         })
             .then(function (result) {
@@ -84,7 +84,7 @@ const Friend = () => {
         console.log(friendEmail);
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/${friendEmail}`,
+            url: `/friend/${friendEmail}`,
             withCredentials: true,
         })
             .then(function (response: any) {
@@ -100,7 +100,7 @@ const Friend = () => {
         console.log(friendEmail);
         axios({
             method: 'delete',
-            url: `http://${config.server.host}:${config.server.port}/friend/${friendEmail}`,
+            url: `/friend/${friendEmail}`,
             withCredentials: true,
         })
             .then(function (response: any) {

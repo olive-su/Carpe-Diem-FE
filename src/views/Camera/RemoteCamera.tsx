@@ -7,7 +7,7 @@ import * as io from 'socket.io-client';
 
 import constraints from '../../common/constraints';
 
-const socket = io.connect(`http://${config.server.host}:4001`);
+const socket = io.connect(`${config.server.protocol}://${config.server.host}:4001`);
 
 const StyleContent = styled.div`
     background-color: #f1f5f9;

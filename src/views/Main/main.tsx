@@ -114,7 +114,7 @@ function Main() {
 
             <BtnSection>
                 {!isAuthenticated ? (
-                    <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
+                    <NavLink to={`${config.server.protocol}://${config.server.host}:${config.server.port}/auth/google`}>
                         <LoginButton src={`${process.env.PUBLIC_URL}/imgs/btn-google-signin-light-normal-web@2x.png`} />
                     </NavLink>
                 ) : (

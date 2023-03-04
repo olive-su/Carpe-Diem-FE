@@ -14,80 +14,91 @@ const CardBox = styled.div`
     margin-bottom: 2em;
 `;
 
-const emotionData = {
-    happy: [0, 1, 1, 2, 6, 2, 3],
-    sad: [4, 2, 3, 1, 3, 0, 2],
-    surprised: [2, 3, 2, 1, 3, 1, 1],
-    disgusted: [1, 1, 3, 2, 4, 0, 3],
-    angry: [0, 2, 4, 1, 0, 2, 4],
-    fearful: [4, 0, 2, 3, 2, 2, 4],
+const testData: any = {
+    '2023-02-26': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-02-27': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-02-28': {
+        happy: 1,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-03-01': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 1,
+        fearful: 0,
+    },
+    '2023-03-02': {
+        happy: 4,
+        sad: 1,
+        surprised: 1,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-03-03': {
+        happy: 0,
+        sad: 0,
+        surprised: 0,
+        disgusted: 0,
+        angry: 0,
+        fearful: 0,
+    },
+    '2023-03-04': {
+        happy: 0,
+        sad: 1,
+        surprised: 0,
+        disgusted: 1,
+        angry: 0,
+        fearful: 0,
+    },
 };
 
-const data = [
-    {
-        name: '일요일',
-        행복해요: emotionData['happy'][0],
-        슬퍼요: emotionData['sad'][0],
-        놀라워요: emotionData['surprised'][0],
-        힘들어요: emotionData['disgusted'][0],
-        화나요: emotionData['angry'][0],
-        무서워요: emotionData['fearful'][0],
-    },
-    {
-        name: '월요일',
-        행복해요: emotionData['happy'][1],
-        슬퍼요: emotionData['sad'][1],
-        놀라워요: emotionData['surprised'][1],
-        힘들어요: emotionData['disgusted'][1],
-        화나요: emotionData['angry'][1],
-        무서워요: emotionData['fearful'][1],
-    },
-    {
-        name: '화요일',
-        행복해요: emotionData['happy'][2],
-        슬퍼요: emotionData['sad'][2],
-        놀라워요: emotionData['surprised'][2],
-        힘들어요: emotionData['disgusted'][2],
-        화나요: emotionData['angry'][2],
-        무서워요: emotionData['fearful'][2],
-    },
-    {
-        name: '수요일',
-        행복해요: emotionData['happy'][3],
-        슬퍼요: emotionData['sad'][3],
-        놀라워요: emotionData['surprised'][3],
-        힘들어요: emotionData['disgusted'][3],
-        화나요: emotionData['angry'][3],
-        무서워요: emotionData['fearful'][3],
-    },
-    {
-        name: '목요일',
-        행복해요: emotionData['happy'][4],
-        슬퍼요: emotionData['sad'][4],
-        놀라워요: emotionData['surprised'][4],
-        힘들어요: emotionData['disgusted'][4],
-        화나요: emotionData['angry'][4],
-        무서워요: emotionData['fearful'][4],
-    },
-    {
-        name: '금요일',
-        행복해요: emotionData['happy'][5],
-        슬퍼요: emotionData['sad'][5],
-        놀라워요: emotionData['surprised'][5],
-        힘들어요: emotionData['disgusted'][5],
-        화나요: emotionData['angry'][5],
-        무서워요: emotionData['fearful'][5],
-    },
-    {
-        name: '토요일',
-        행복해요: emotionData['happy'][6],
-        슬퍼요: emotionData['sad'][6],
-        놀라워요: emotionData['surprised'][6],
-        힘들어요: emotionData['disgusted'][6],
-        화나요: emotionData['angry'][6],
-        무서워요: emotionData['fearful'][6],
-    },
-];
+let resultData: any = {
+    happy: [],
+    sad: [],
+    surprised: [],
+    disgusted: [],
+    angry: [],
+    fearful: [],
+};
+
+Object.keys(resultData).forEach((emotion) => {
+    Object.keys(testData).forEach((date, index) => {
+        resultData[emotion][index] = testData[date][emotion];
+    });
+});
+
+const daysOfWeek = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+
+const data = daysOfWeek.map((day, index) => ({
+    name: day,
+    행복해요: resultData['happy'][index],
+    슬퍼요: resultData['sad'][index],
+    놀라워요: resultData['surprised'][index],
+    힘들어요: resultData['disgusted'][index],
+    화나요: resultData['angry'][index],
+    무서워요: resultData['fearful'][index],
+}));
 
 export default class emotionLineChart extends PureComponent {
     render() {

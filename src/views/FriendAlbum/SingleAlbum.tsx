@@ -35,7 +35,7 @@ const SingleAlbum = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friendAlbum/${userId}/${albumId}`,
+            url: `/friendAlbum/${userId}/${albumId}`,
             withCredentials: true,
         })
             .then(function (result) {
