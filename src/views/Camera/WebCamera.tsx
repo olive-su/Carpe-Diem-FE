@@ -12,54 +12,8 @@ import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
-
-const rotate = keyframes`
-  from {
-      transform: rotate(0deg);
-    }
-
-    to { transform: rotate(360deg);
-    }
-    `;
-const Rotate = styled.div`
-    display: inline-block;
-    animation: ${rotate} 2s linear infinite;
-    padding: 2rem 1rem;
-    font-size: 1.2rem;
-`;
-
-const OnButton = styled.button`
-    color: #8a1441;
-    font-size: 1em;
-    width: 80px;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid #8a1441;
-    border-radius: 3px;
-    font-family: IBMPlexSansKR-Regular;
-    &:active,
-    &:hover,
-    &:focus {
-        background: var(--button-hover-bg-color, white);
-    }
-`;
-
-const OffButton = styled.button`
-    color: #2679cc;
-    font-size: 1em;
-    width: 80px;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid #2679cc;
-    font-family: IBMPlexSansKR-Regular;
-    border-radius: 3px;
-    &:active,
-    &:hover,
-    &:focus {
-        background: var(--button-hover-bg-color, white);
-    }
-`;
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
 
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
@@ -222,7 +176,7 @@ function WebCamera(props: any) {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: -32400000,
+                    maxTime: 0,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -235,7 +189,7 @@ function WebCamera(props: any) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
-                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime;
                 }
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }
@@ -282,7 +236,7 @@ function WebCamera(props: any) {
         backgroundColor: 'black',
         color: 'red',
         textDecoration: 'none',
-        marginBottom: 20,
+        marginBottom: 40,
         fontWeight: 'bold',
         border: '4px solid red',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -296,7 +250,7 @@ function WebCamera(props: any) {
         backgroundColor: 'black',
         color: 'white',
         textDecoration: 'none',
-        marginBottom: 20,
+        marginBottom: 40,
         fontWeight: 'bold',
         border: '2px solid grey',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -310,7 +264,22 @@ function WebCamera(props: any) {
         <>
             <div>
                 <div>
-                    {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                    <div style={{ paddingBottom: '20px' }}>
+                        {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                        {/* <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton> */}
+
+                        {/* {camStarted ? (
+                        <AwesomeButton onPressed={() => setCamStarted(false)} type="danger">
+                            OFF
+                        </AwesomeButton>
+                    ) : (
+                        <AwesomeButton onPressed={() => setCamStarted(true)} type="primary" className="aws-btn">
+                            ON
+                        </AwesomeButton>
+                    )} */}
+                        {/* <ButtonOnOff /> */}
+                    </div>
                     <div
                         ref={wrapRef}
                         id="wrap"
@@ -321,6 +290,18 @@ function WebCamera(props: any) {
                         }}
                     >
                         <div>
+                            {/* <img
+                            src={`${process.env.PUBLIC_URL}/imgs/frame.png`}
+                            style={{ position: 'absolute', left: '-130px', bottom: '-165px' }}
+                            width={constraints.video.width + 260}
+                            height={constraints.video.height + 200}
+                        /> */}
+                            <img
+                                src={`${process.env.PUBLIC_URL}/imgs/imac-frame.png`}
+                                style={{ position: 'absolute', left: '-35px', bottom: '-275px' }}
+                                width={constraints.video.width + 58}
+                                height={constraints.video.height + 315}
+                            />
                             {camStarted ? (
                                 <video
                                     ref={videoRef}
@@ -342,10 +323,16 @@ function WebCamera(props: any) {
                                 />
                             )}
                         </div>
-                    </div>
-                    <div>
-                        <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                        <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                        <AwesomeButton
+                            type={camStarted ? 'danger' : 'primary'}
+                            onPress={() => {
+                                setCamStarted(!camStarted);
+                            }}
+                            ripple
+                            style={{ position: 'absolute', bottom: '10px', right: '30px' }}
+                        >
+                            {camStarted ? 'OFF' : 'ON'}
+                        </AwesomeButton>
                     </div>
                 </div>
             </div>

@@ -20,3 +20,23 @@ div#wrap canvas {
     top: 0;
     left: 0;
 }
+
+.internet-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 600px;
+    border-radius: 10px;
+    border: 1px solid #c7c7c7;
+    overflow: hidden;
+}
+
+.internet-window__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #007;
+}

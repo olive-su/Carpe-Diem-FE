@@ -28,7 +28,7 @@ const Receive = () => {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/receive`,
+            url: `/friend/receive`,
             withCredentials: true,
         })
             .then(function (result) {
@@ -41,7 +41,7 @@ const Receive = () => {
     const accept = (friendEmail: string) => {
         axios({
             method: 'put',
-            url: `http://${config.server.host}:${config.server.port}/friend/request/${friendEmail}/1`,
+            url: `/friend/request/${friendEmail}/1`,
             withCredentials: true,
         })
             .then(function (result) {
@@ -55,7 +55,7 @@ const Receive = () => {
     const refuse = (friendEmail: string) => {
         axios({
             method: 'put',
-            url: `http://${config.server.host}:${config.server.port}/friend/request/${friendEmail}/2`,
+            url: `/friend/request/${friendEmail}/2`,
             withCredentials: true,
         })
             .then(function (result) {

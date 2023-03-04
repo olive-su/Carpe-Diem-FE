@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { PersonalVideoRounded, PhoneAndroidRounded } from '@mui/icons-material';
+import { PersonalVideoRounded, PhoneAndroidRounded, SignLanguage } from '@mui/icons-material';
+import Tooltip from '@mui/material/Tooltip';
 import styled from 'styled-components';
 import './main.css';
 import config from '../../config';
@@ -68,29 +69,49 @@ function Main() {
         const [isCamPage, setIsCamPage] = useState('');
 
         return (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <button
-                    className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
-                    onClick={() => {
-                        navigate('/camera/web');
-                    }}
+            <div style={{ display: 'flex', flexDirection: 'row', gap: 80 }}>
+                <Tooltip
+                    title={
+                        <h6 style={{ paddingTop: '10px' }}>
+                            {' '}
+                            <SignLanguage sx={{ marginRight: '5px', marginBottom: '5px' }} /> 웹 캠으로 이용할래요!
+                        </h6>
+                    }
+                    arrow
+                    placement="left"
                 >
-                    <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
-                        <PersonalVideoRounded sx={{ color: 'white', fontSize: 40 }} />
-                    </div>
-                    <p>Web Camera</p>
-                </button>
-                <button
-                    className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
-                    onClick={() => {
-                        navigate('/camera/mobile');
-                    }}
+                    <button
+                        className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
+                        onClick={() => {
+                            navigate('/camera/web');
+                        }}
+                    >
+                        <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
+                            <PersonalVideoRounded sx={{ color: 'white', fontSize: 40 }} />
+                        </div>
+                    </button>
+                </Tooltip>
+                <Tooltip
+                    title={
+                        <h6 style={{ paddingTop: '10px' }}>
+                            {' '}
+                            <SignLanguage sx={{ marginRight: '5px', marginBottom: '5px' }} /> 모바일 캠으로 이용할래요!
+                        </h6>
+                    }
+                    arrow
+                    placement="right"
                 >
-                    <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
-                        <PhoneAndroidRounded sx={{ color: 'white', fontSize: 40 }} />
-                    </div>
-                    <p>Mobile Camera</p>
-                </button>
+                    <button
+                        className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
+                        onClick={() => {
+                            navigate('/camera/mobile');
+                        }}
+                    >
+                        <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
+                            <PhoneAndroidRounded sx={{ color: 'white', fontSize: 40 }} />
+                        </div>
+                    </button>
+                </Tooltip>
             </div>
         );
     }
@@ -111,7 +132,7 @@ function Main() {
 
             <BtnSection>
                 {!isAuthenticated ? (
-                    <NavLink to={`http://${config.server.host}:${config.server.port}/auth/google`}>
+                    <NavLink to={`${config.server.protocol}://${config.server.host}:${config.server.port}/auth/google`}>
                         <LoginButton src={`${process.env.PUBLIC_URL}/imgs/btn-google-signin-light-normal-web@2x.png`} />
                     </NavLink>
                 ) : (

@@ -13,6 +13,7 @@ import WebCamera from '../../Camera/WebCamera';
 import MobileCamera from '../../Camera/MobileCamera';
 import config from '../../../config';
 import MainLayout from '../../../components/MainLayout/MainLayout';
+import { url } from 'inspector';
 
 const StyleContent = styledComponents.div`
     font-family: IBMPlexSansKR-Regular;
@@ -27,9 +28,12 @@ const StyleContent = styledComponents.div`
 const AlignContents = styledComponents.div`
     display: flex;
     flex-direction: column;
-    padding: 50px;
+
+    padding-top: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
     border-radius: 25px;
-    background-color: rgba(255, 255, 255, 0.5);
 `;
 
 const WebCamPage = styledComponents.section`
@@ -111,7 +115,7 @@ export default function CamContent() {
     const videoRenderFlag = () => {
         async function fetchData(): Promise<any> {
             const result = await axios({
-                url: `http://${config.server.host}:${config.server.port}/camera`,
+                url: `/camera`,
                 method: 'get',
                 withCredentials: true,
             });
@@ -138,8 +142,8 @@ export default function CamContent() {
             <StyleContent>
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <FormGroup>
+                    <div style={{ position: 'absolute', top: '30px' }}>
+                        {/* <FormGroup>
                             <FormControlLabel
                                 control={
                                     <MaterialUISwitch
@@ -152,9 +156,9 @@ export default function CamContent() {
                                 }
                                 label={<Typography sx={{ color: 'white' }}>Select Device</Typography>}
                             />
-                        </FormGroup>
-                        <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
-                            <ArrowCircleLeftRounded sx={{ mx: 1 }} />
+                        </FormGroup> */}
+                        {/* <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
+                            <ArrowCircleDownRounded sx={{ mx: 1 }} />
                             카메라를 연결할 기기를 바꿀 수 있어요!
                             <Button
                                 onClick={() => {
@@ -163,31 +167,34 @@ export default function CamContent() {
                             >
                                 <ClearRounded />
                             </Button>
-                        </Alert>
+                        </Alert> */}
                     </div>
-                    {switchChecked === true ? (
-                        <WebCamPage>
-                            <WebCamera onVideoListRender={videoRenderFlag} />
-                        </WebCamPage>
-                    ) : (
-                        <MobileCamPage>
-                            <MobileCamera onVideoListRender={videoRenderFlag} />
-                        </MobileCamPage>
-                    )}
+                    <WebCamPage>
+                        <WebCamera onVideoListRender={videoRenderFlag} />
+                    </WebCamPage>
                 </AlignContents>
                 <div
                     style={{
                         width: '500px',
-                        paddingLeft: '20px',
-                        paddingTop: '50px',
-                        paddingBottom: '50px',
+                        height: '780px',
+                        paddingTop: '100px',
+                        backgroundImage: `url('${process.env.PUBLIC_URL}/imgs/browser-frame.png')`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        borderRadius: '6px',
+                        marginTop: '110px',
+                        marginLeft: '30px',
                     }}
                 >
-                    <h4 style={{ color: 'white' }}>
+                    {/* <img
+                        src={`${process.env.PUBLIC_URL}/imgs/browser.png`}
+                        style={{ position: 'relative', height: '880px', width: '500px', borderRadius: '6px', zIndex: '0' }}
+                    /> */}
+                    <h4 style={{ color: 'black', paddingLeft: '50px' }}>
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
                     </h4>
-                    <div>
+                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
                 </div>

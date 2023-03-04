@@ -25,7 +25,7 @@ import {
 const cardListLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/card?page=${data}`,
+        url: `/card?page=${data}`,
         withCredentials: true,
     });
 };
@@ -90,7 +90,7 @@ function* watchCardListDateLoad() {
 const cardLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/card/${data}`,
+        url: `/card/${data}`,
         withCredentials: true,
     });
 };
@@ -118,7 +118,7 @@ function* watchCardLoad() {
 const cardUpdateAPI = (data: any) => {
     return axios({
         method: 'put',
-        url: `http://${config.server.host}:${config.server.port}/card/${data.card_id}`,
+        url: `/card/${data.card_id}`,
         withCredentials: true,
         data: data,
         headers: {
@@ -151,7 +151,7 @@ function* watchCardUpdate() {
 const cardDeleteAPI = (data: any) => {
     return axios({
         method: 'delete',
-        url: `http://${config.server.host}:${config.server.port}/card/${data.card_id}`,
+        url: `/card/${data.card_id}`,
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',

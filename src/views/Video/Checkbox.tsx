@@ -18,10 +18,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CARD_LIST_FILTER_EXPRESSION, CARD_LIST_FILTER_DATE } from '../../redux/types';
 import { styled } from '@mui/material/styles';
 
-const ToggleButtonss = styled(ToggleButton)(() => ({
+const ToggleButtons1 = styled(ToggleButton)(() => ({
     '&.Mui-selected, &.Mui-selected:hover': {
-        color: 'white',
-        backgroundColor: '#6666cc',
+        color: '#9a3412',
+        backgroundColor: '#fdba74',
+        fontWeight: 'bold',
+    },
+}));
+const ToggleButtons2 = styled(ToggleButton)(() => ({
+    '&.Mui-selected, &.Mui-selected:hover': {
+        color: '#155e75',
+        backgroundColor: '#67e8f9',
+        fontWeight: 'bold',
+    },
+}));
+const ToggleButtons3 = styled(ToggleButton)(() => ({
+    '&.Mui-selected, &.Mui-selected:hover': {
+        color: '#991b1b',
+        backgroundColor: '#fca5a5',
+        fontWeight: 'bold',
+    },
+}));
+const ToggleButtons4 = styled(ToggleButton)(() => ({
+    '&.Mui-selected, &.Mui-selected:hover': {
+        color: '#166534',
+        backgroundColor: '#86EFAC',
+        fontWeight: 'bold',
+    },
+}));
+const ToggleButtons5 = styled(ToggleButton)(() => ({
+    '&.Mui-selected, &.Mui-selected:hover': {
+        color: '#6b21a8',
+        backgroundColor: '#d8b4fe',
+        fontWeight: 'bold',
+    },
+}));
+const ToggleButtons6 = styled(ToggleButton)(() => ({
+    '&.Mui-selected, &.Mui-selected:hover': {
+        color: '#854d0e',
+        backgroundColor: '#fde047',
+        fontWeight: 'bold',
     },
 }));
 
@@ -76,7 +112,6 @@ export default function IndeterminateCheckbox(props: any) {
     const handleChange7 = () => {
         setChecked([checked[0], checked[1], checked[2], checked[3], checked[4], !checked[5]]);
     };
-    const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised'];
 
     // setChecked([checked[0], checked[1], checked[2], checked[3], event.target.checked]);
     useEffect(() => {
@@ -114,12 +149,12 @@ export default function IndeterminateCheckbox(props: any) {
                     inputProps={{ 'aria-label': 'Without label' }}
                     sx={{ border: 1, borderColor: 'white', color: 'white' }}
                 >
-                    <MenuItem value={'Newest'}>Newest</MenuItem>
-                    <MenuItem value={'Oldest'}>Oldest</MenuItem>
+                    <MenuItem value={'Newest'}>최신순</MenuItem>
+                    <MenuItem value={'Oldest'}>오래된순</MenuItem>
                 </Select>
             </FormControl>
             <FormControlLabel
-                label="ALL"
+                label="전체 선택"
                 control={
                     <Checkbox
                         checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]}
@@ -131,28 +166,29 @@ export default function IndeterminateCheckbox(props: any) {
                 }
                 sx={{ mt: 3, ml: 3, paddingRight: '20px', border: '1px solid lightgrey', borderRadius: '2px' }}
             />
-            <ToggleButtonss value="check" sx={{ color: 'white' }} selected={checked[0]} onChange={handleChange2}>
-                <InsertEmoticonIcon /> Happy
-            </ToggleButtonss>
-            <ToggleButtonss value="check" sx={{ color: 'white' }} selected={checked[1]} onChange={handleChange3}>
+            <ToggleButtons1 value="check" sx={{ color: 'white' }} selected={checked[0]} onChange={handleChange2}>
+                <InsertEmoticonIcon /> 행복해요
+            </ToggleButtons1>
+            <ToggleButtons2 value="check" sx={{ color: 'white' }} selected={checked[1]} onChange={handleChange3}>
                 <SentimentDissatisfiedIcon />
-                Sad
-            </ToggleButtonss>
-            <ToggleButtonss value="check" sx={{ color: 'white' }} selected={checked[2]} onChange={handleChange4}>
-                <LocalFireDepartmentIcon /> Angry
-            </ToggleButtonss>
-            <ToggleButtonss value="check" sx={{ color: 'white' }} selected={checked[3]} onChange={handleChange5}>
+                슬퍼요
+            </ToggleButtons2>
+            <ToggleButtons3 value="check" sx={{ color: 'white' }} selected={checked[2]} onChange={handleChange4}>
+                <LocalFireDepartmentIcon />
+                화나요
+            </ToggleButtons3>
+            <ToggleButtons4 value="check" sx={{ color: 'white' }} selected={checked[3]} onChange={handleChange5}>
                 <SickIcon />
-                Disgusted
-            </ToggleButtonss>
-            <ToggleButtonss value="check" sx={{ color: 'white' }} selected={checked[4]} onChange={handleChange6}>
+                힘들어요
+            </ToggleButtons4>
+            <ToggleButtons5 value="check" sx={{ color: 'white' }} selected={checked[4]} onChange={handleChange6}>
                 <SentimentVeryDissatisfiedRoundedIcon />
-                Fearful
-            </ToggleButtonss>
-            <ToggleButtonss value="check" sx={{ color: 'white' }} selected={checked[5]} onChange={handleChange7}>
+                두려워요
+            </ToggleButtons5>
+            <ToggleButtons6 value="check" sx={{ color: 'white' }} selected={checked[5]} onChange={handleChange7}>
                 <OutletIcon />
-                Surprised
-            </ToggleButtonss>
+                놀라워요
+            </ToggleButtons6>
         </Stack>
     );
 

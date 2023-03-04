@@ -16,71 +16,24 @@ import config from '../../config';
 import axios from 'axios';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
-const rotate = keyframes`
-  from {
-      transform: rotate(0deg);
-    }
-
-    to { transform: rotate(360deg);
-    }
-    `;
-const Rotate = styled.div`
-    display: inline-block;
-    animation: ${rotate} 2s linear infinite;
-    padding: 2rem 1rem;
-    font-size: 1.2rem;
-`;
-
-const OnButton = styled.button`
-    color: #8a1441;
-    font-size: 1em;
-    width: 80px;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid #8a1441;
-    border-radius: 3px;
-    font-family: IBMPlexSansKR-Regular;
-    &:active,
-    &:hover,
-    &:focus {
-        background: var(--button-hover-bg-color, white);
-    }
-`;
-
-const OffButton = styled.button`
-    color: #2679cc;
-    font-size: 1em;
-    width: 80px;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid #2679cc;
-    font-family: IBMPlexSansKR-Regular;
-    border-radius: 3px;
-    &:active,
-    &:hover,
-    &:focus {
-        background: var(--button-hover-bg-color, white);
-    }
-`;
-
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
 let recordInfo: types.RecordInfo;
 const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
-const socket = io.connect(`http://${config.server.host}:4001`);
+const socket = io.connect(`${config.server.protocol}://${config.server.host}:4001`);
 let myStream: any;
 let myPeerConnection: any;
-const roomName: any = 'test';
 
 // 비디오 사이즈 설정
 function MobileCamera(props: any) {
     const { usim } = useSelector((state: any) => state.usim);
-    const { nickname } = useSelector((state: any) => state.auth);
+    const { userId, nickname } = useSelector((state: any) => state.auth);
     const wrapRef = useRef<any>(null);
     const videoRef = useRef<any>(null);
     const mobileRef = useRef<any>(null);
+    const [onRemoteStream, setOnRemoteStream] = useState(false);
 
     const [camStarted, setCamStarted] = useState(false);
     const [modelLoaded, setModelLoaded] = useState(false);
@@ -88,26 +41,10 @@ function MobileCamera(props: any) {
 
     const [data, setData] = useState(EmotionSetData(0));
 
-    // 사용자 비디오 가져오기
-    // useEffect(() => {
-    //     navigator.mediaDevices
-    //         .getUserMedia(constraints)
-    //         .then((stream) => {
-    //             if (mobileRef && mobileRef.current) {
-    //                 if (camStarted) {
-    //                     mobileRef.current.srcObject = stream;
-    //                     setModelLoaded(true);
-    //                 } else {
-    //                     setModelLoaded(false);
-    //                     mobileRef.current.srcObject = null;
-    //                 }
-    //             }
-    //         })
-    //         .catch((err) => console.error(err));
-    // }, [camStarted]);
     useEffect(() => {
         setCamStarted(true);
         setModelLoaded(true);
+        setOnRemoteStream(true);
     }, [mobileRef]);
 
     useEffect(() => {
@@ -143,7 +80,7 @@ function MobileCamera(props: any) {
 
     async function handleWelcomeSubmit() {
         await initCall();
-        socket.emit('join_room', roomName);
+        socket.emit('join_room', userId);
     }
 
     async function getCameras() {
@@ -198,7 +135,7 @@ function MobileCamera(props: any) {
         const answer = await myPeerConnection.createAnswer();
         // console.log(answer); // PeerB의 answer 정보 전송
         myPeerConnection.setLocalDescription(answer);
-        socket.emit('answer', answer, roomName);
+        socket.emit('answer', answer, userId);
         console.log('sent the answer');
     });
 
@@ -232,7 +169,7 @@ function MobileCamera(props: any) {
     }
 
     function handleIce(data: any) {
-        socket.emit('ice', data.candidate, roomName);
+        socket.emit('ice', data.candidate, userId);
         console.log('sent candidate');
         // console.log(data);
     }
@@ -257,7 +194,7 @@ function MobileCamera(props: any) {
         // console.log(offer);
         // console.log("someone joined!");
         console.log('sent the offer');
-        socket.emit('offer', offer, roomName); // 접속한 socket.io 방으로 PeerA의 session정보를 보냄
+        socket.emit('offer', offer, userId); // 접속한 socket.io 방으로 PeerA의 session정보를 보냄
     });
 
     // CHECK 미디어 송신 (peer B 의 방)
@@ -269,7 +206,7 @@ function MobileCamera(props: any) {
         const answer = await myPeerConnection.createAnswer();
         // console.log(answer); // PeerB의 answer 정보 전송
         myPeerConnection.setLocalDescription(answer);
-        socket.emit('answer', answer, roomName);
+        socket.emit('answer', answer, userId);
         console.log('sent the answer');
     });
 
@@ -307,7 +244,7 @@ function MobileCamera(props: any) {
         const canvas = faceapi.createCanvasFromMedia(mobileRef.current as HTMLVideoElement);
         if (wrapRef.current !== null) wrapRef.current.append(canvas);
 
-        const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); // 다운로드할 영상 변수 생성
+        const mediaStream = await mobileRef.current.srcObject({ video: true, audio: true }); // 다운로드할 영상 변수 생성
         const mediaRecorder = new MediaRecorder(mediaStream); // 새로운 영상 객체 생성
         mediaRecorder.ondataavailable = handleDataAvailable;
 
@@ -386,7 +323,7 @@ function MobileCamera(props: any) {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: -32400000,
+                    maxTime: 0,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -399,7 +336,7 @@ function MobileCamera(props: any) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
-                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime;
                 }
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }
@@ -483,9 +420,9 @@ function MobileCamera(props: any) {
                         height: constraints.video.height,
                     }}
                 >
-                    <QRCodeSVG value="https://reactjs.org/" />
                     <div>
-                        {mobileRef ? (
+                        <QRCodeSVG value={`${config.server.protocol}://${config.client.host}/remote/${userId}`} />
+                        {onRemoteStream ? (
                             <video ref={mobileRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
                         ) : (
                             <video

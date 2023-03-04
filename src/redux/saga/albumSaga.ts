@@ -24,7 +24,7 @@ import {
 const albumListLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/album?page=${data}`,
+        url: `/album?page=${data}`,
         withCredentials: true,
     });
 };
@@ -52,7 +52,7 @@ function* watchAlbumListLoad() {
 const albumLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/album/${data}`,
+        url: `/album/${data}`,
         withCredentials: true,
     });
 };
@@ -79,7 +79,7 @@ function* watchAlbumLoad() {
 const albumCreateAPI = (data: any) => {
     return axios({
         method: 'post',
-        url: `http://${config.server.host}:${config.server.port}/album`,
+        url: `/album`,
         withCredentials: true,
         data: data,
         headers: {
@@ -113,7 +113,7 @@ function* watchAlbumCreate() {
 const albumUpdateAPI = (data: any) => {
     return axios({
         method: 'put',
-        url: `http://${config.server.host}:${config.server.port}/album/${data.album_id}`,
+        url: `/album/${data.album_id}`,
         withCredentials: true,
         data: data,
         headers: {
@@ -146,7 +146,7 @@ function* watchAlbumUpdate() {
 const albumDeleteAPI = (data: any) => {
     return axios({
         method: 'delete',
-        url: `http://${config.server.host}:${config.server.port}/album/${data.album_id}`,
+        url: `/album/${data.album_id}`,
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
