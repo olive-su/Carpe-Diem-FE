@@ -73,7 +73,7 @@ const testData: any = {
     },
 };
 
-let resultData: any = {
+const resultData: any = {
     happy: [],
     sad: [],
     surprised: [],
@@ -110,7 +110,7 @@ export default class emotionLineChart extends PureComponent {
                             width={700}
                             data={data}
                             margin={{
-                                top: 20,
+                                top: 50,
                                 right: 50,
                                 bottom: 50,
                             }}

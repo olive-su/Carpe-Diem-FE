@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { ResponsiveContainer, PieChart, Pie, LabelList } from 'recharts';
 import styled from 'styled-components';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 
 const testData: any = {
@@ -62,7 +63,7 @@ const testData: any = {
     },
 };
 
-let resultData: any = {
+const resultData: any = {
     happy: [],
     sad: [],
     surprised: [],
@@ -153,29 +154,40 @@ export default function EmotionPieChart() {
                         </Pie>
                     </PieChart>
                 </ResponsiveContainer>
-                <div
+                <Paper
+                    component={Paper}
                     style={{
-                        marginTop: '-430px',
-                        marginLeft: '400px',
+                        height: 'auto',
+                        width: '300px',
+                        marginTop: '-380px',
+                        marginLeft: '60%',
+                        paddingTop: '10px',
+                        paddingBottom: '10px',
+                        minWidth: 150,
                     }}
                 >
-                    <h3 style={{ color: '#fff' }}>
-                        <span style={{ fontSize: '0.6em', color: '#fff' }}>※ 일주일 단위로 갱신 ※</span>
-                        <br></br>
-                        <MilitaryTechOutlinedIcon sx={{ fontSize: 35 }} />
-                        실시간 감정 순위
-                        <MilitaryTechOutlinedIcon sx={{ fontSize: 35 }} />
-                    </h3>
-                    <br />
-
-                    {data
-                        .sort((a, b) => b.value - a.value)
-                        .map((item) => (
-                            <ul key={item.name} style={{ color: '#fff', marginLeft: '-30px' }}>
-                                {item.name}({item.value}회)
-                            </ul>
-                        ))}
-                </div>
+                    <Typography variant="h6" id="tableTitle" component="div">
+                        실시간 감정 랭킹
+                    </Typography>
+                    <Table size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>감정</TableCell>
+                                <TableCell align="right">횟수 (회)</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data
+                                .sort((a, b) => b.value - a.value)
+                                .map((item) => (
+                                    <TableRow key={item.name}>
+                                        <TableCell style={{ color: '#333', marginLeft: '-30px' }}>{item.name}</TableCell>
+                                        <TableCell align="right">{item.value} 회</TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
             </CardBox>
         </CardBox>
     );
