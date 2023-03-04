@@ -35,7 +35,7 @@ const Edit = () => {
 
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/user`,
+            url: `/user`,
             method: 'get',
             withCredentials: true,
         })
@@ -56,7 +56,7 @@ const Edit = () => {
     //     }
     //     axios({
     //         method: 'put',
-    //         url: `http://${config.server.host}:${config.server.port}/user`,
+    //         url: `/user`,
     //         withCredentials: true,
     //         data: {
     //             nickname: nickname,

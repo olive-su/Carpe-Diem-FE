@@ -87,7 +87,7 @@ export function UserSearch() {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/receive`,
+            url: `/friend/receive`,
             withCredentials: true,
         })
             .then(function (result) {
@@ -101,7 +101,7 @@ export function UserSearch() {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/request`,
+            url: `/friend/request`,
             withCredentials: true,
         })
             .then(function (result: any) {
@@ -115,7 +115,7 @@ export function UserSearch() {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend`,
+            url: `/friend`,
             withCredentials: true,
         })
             .then(function (result: any) {
@@ -129,7 +129,7 @@ export function UserSearch() {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/user`,
+            url: `/user`,
             withCredentials: true,
         })
             .then(function (result: any) {
@@ -143,7 +143,7 @@ export function UserSearch() {
     React.useEffect(function () {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/user/all`,
+            url: `/user/all`,
             withCredentials: true,
         })
             .then(function (result: any) {
@@ -201,7 +201,7 @@ export function UserSearch() {
         if (checkUser && !checkMe && !checkFriend && !checkReqFriend && !checkReceiveFriend) {
             axios({
                 method: 'post',
-                url: `http://${config.server.host}:${config.server.port}/friend/`,
+                url: `/friend/`,
                 data: {
                     receive_email: text.current?.value,
                     check: 0,

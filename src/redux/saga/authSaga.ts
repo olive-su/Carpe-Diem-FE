@@ -20,7 +20,7 @@ import {
 const userLoadingAPI = (token: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/auth`,
+        url: `/auth`,
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ function* watchUserLoading() {
 const userLogoutAPI = (token: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/auth/signout`,
+        url: `/auth/signout`,
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ function* watchUserLogout() {
 const usimLoadingAPI = (data: any) => {
     return axios({
         method: 'get',
-        url: `http://${config.server.host}:${config.server.port}/camera/usim`,
+        url: `/camera/usim`,
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const usimCreateAPI = (data: any) => {
     console.log(data);
     return axios({
         method: 'post',
-        url: `http://${config.server.host}:${config.server.port}/camera/usim`,
+        url: `/camera/usim`,
         withCredentials: true,
         data: data,
         headers: {

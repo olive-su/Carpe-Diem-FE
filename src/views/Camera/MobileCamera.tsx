@@ -69,7 +69,7 @@ let recordInfo: types.RecordInfo;
 const expression: types.Expression = { value: 0, label: '', target: '', time: 0 };
 
 // 서버로 넘어가는 유저 아이디
-const socket = io.connect(`http://${config.server.host}:4001`);
+const socket = io.connect(`${config.server.protocol}://${config.server.host}:4001`);
 let myStream: any;
 let myPeerConnection: any;
 const roomName: any = 'test';
