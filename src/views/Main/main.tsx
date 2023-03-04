@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { PersonalVideoRounded, PhoneAndroidRounded } from '@mui/icons-material';
+import Tooltip from '@mui/material/Tooltip';
 import styled from 'styled-components';
 import './main.css';
 import config from '../../config';
@@ -69,28 +70,30 @@ function Main() {
 
         return (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <button
-                    className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
-                    onClick={() => {
-                        navigate('/camera/web');
-                    }}
-                >
-                    <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
-                        <PersonalVideoRounded sx={{ color: 'white', fontSize: 40 }} />
-                    </div>
-                    <p>Web Camera</p>
-                </button>
-                <button
-                    className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
-                    onClick={() => {
-                        navigate('/camera/mobile');
-                    }}
-                >
-                    <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
-                        <PhoneAndroidRounded sx={{ color: 'white', fontSize: 40 }} />
-                    </div>
-                    <p>Mobile Camera</p>
-                </button>
+                <Tooltip title="웹 캠을 사용해요!" arrow placement="top">
+                    <button
+                        className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
+                        onClick={() => {
+                            navigate('/camera/web');
+                        }}
+                    >
+                        <div className="web" style={{ background: `${isOpen ? '#fff' : ''}` }}>
+                            <PersonalVideoRounded sx={{ color: 'white', fontSize: 40 }} />
+                        </div>
+                    </button>
+                </Tooltip>
+                <Tooltip title="모바일 캠을 사용해요!" arrow placement="top">
+                    <button
+                        className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
+                        onClick={() => {
+                            navigate('/camera/mobile');
+                        }}
+                    >
+                        <div className="mobile" style={{ background: `${isOpen ? '#fff' : ''}` }}>
+                            <PhoneAndroidRounded sx={{ color: 'white', fontSize: 40 }} />
+                        </div>
+                    </button>
+                </Tooltip>
             </div>
         );
     }

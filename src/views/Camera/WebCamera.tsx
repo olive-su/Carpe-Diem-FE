@@ -13,6 +13,8 @@ import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
+import { AwesomeButton } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
 
 const rotate = keyframes`
     from {
@@ -282,7 +284,7 @@ function WebCamera(props: any) {
         backgroundColor: 'black',
         color: 'red',
         textDecoration: 'none',
-        marginBottom: 20,
+        marginBottom: 40,
         fontWeight: 'bold',
         border: '4px solid red',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -296,7 +298,7 @@ function WebCamera(props: any) {
         backgroundColor: 'black',
         color: 'white',
         textDecoration: 'none',
-        marginBottom: 20,
+        marginBottom: 40,
         fontWeight: 'bold',
         border: '2px solid grey',
         boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.5), -4px -4px 4px rgba(255, 255, 255, 0.5)',
@@ -310,7 +312,22 @@ function WebCamera(props: any) {
         <>
             <div>
                 <div>
-                    {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                    <div style={{ paddingBottom: '20px' }}>
+                        {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                        {/* <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
+                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton> */}
+
+                        {/* {camStarted ? (
+                        <AwesomeButton onPressed={() => setCamStarted(false)} type="danger">
+                            OFF
+                        </AwesomeButton>
+                    ) : (
+                        <AwesomeButton onPressed={() => setCamStarted(true)} type="primary" className="aws-btn">
+                            ON
+                        </AwesomeButton>
+                    )} */}
+                        {/* <ButtonOnOff /> */}
+                    </div>
                     <div
                         ref={wrapRef}
                         id="wrap"
@@ -321,6 +338,18 @@ function WebCamera(props: any) {
                         }}
                     >
                         <div>
+                            {/* <img
+                            src={`${process.env.PUBLIC_URL}/imgs/frame.png`}
+                            style={{ position: 'absolute', left: '-130px', bottom: '-165px' }}
+                            width={constraints.video.width + 260}
+                            height={constraints.video.height + 200}
+                        /> */}
+                            <img
+                                src={`${process.env.PUBLIC_URL}/imgs/imac-frame.png`}
+                                style={{ position: 'absolute', left: '-35px', bottom: '-275px' }}
+                                width={constraints.video.width + 58}
+                                height={constraints.video.height + 315}
+                            />
                             {camStarted ? (
                                 <video
                                     ref={videoRef}
@@ -342,10 +371,16 @@ function WebCamera(props: any) {
                                 />
                             )}
                         </div>
-                    </div>
-                    <div>
-                        <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                        <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton>
+                        <AwesomeButton
+                            type={camStarted ? 'danger' : 'primary'}
+                            onPress={() => {
+                                setCamStarted(!camStarted);
+                            }}
+                            ripple
+                            style={{ position: 'absolute', bottom: '10px', right: '30px' }}
+                        >
+                            {camStarted ? 'OFF' : 'ON'}
+                        </AwesomeButton>
                     </div>
                 </div>
             </div>
