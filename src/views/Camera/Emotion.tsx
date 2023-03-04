@@ -31,7 +31,7 @@ export default class Emotion extends PureComponent<data> {
                     <Bar dataKey="disgusted" fill="#86EFAC" />
                     <Bar dataKey="angry" fill="#fca5a5" />
                     <Bar dataKey="fearful" fill="#d8b4fe" />
-                    <Legend wrapperStyle={{ margin: '-1rem 0rem' }} iconSize={20} />
+                    <Legend iconSize={20} />
                 </BarChart>
             </ResponsiveContainer>
         );
