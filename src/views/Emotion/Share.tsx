@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import Menu from '@mui/material/Menu';
 import ListSubheader from '@mui/material/ListSubheader';
@@ -7,7 +7,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LinkIcon from '@mui/icons-material/Link';
-import styled from 'styled-components';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,6 +15,21 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import ForumIcon from '@mui/icons-material/Forum';
 import config from '../../config';
 import ShareIcon from '@mui/icons-material/Share';
+
+import { useNavigate } from 'react-router-dom';
+import FriendItem from '../MyPage/Friend/FriendItem';
+import { Container } from '@mui/material';
+import axios from 'axios';
+import { friendData } from '../../types/type';
+import ListItem from '@mui/material/ListItem';
+import TextField from '@mui/material/TextField';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import styled from 'styled-components';
+import { BiLibrary } from 'react-icons/bi';
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import { Button } from '@mui/material';
+import html2canvas from 'html2canvas';
+import Popover from '@mui/material/Popover';
 
 export interface SnackbarMessage {
     message: string;
@@ -37,17 +51,70 @@ const TextArea = styled.textarea`
     left: 0;
     opacity: 0;
 `;
-const Share = (props: any) => {
-    useEffect((): any => {
-        const script = document.createElement('script');
-        script.src = 'http://developers.kakao.com/sdk/js/kakao.js';
-        script.async = true;
 
-        document.body.appendChild(script);
-        console.log(process.env.REACT_APP_BASIC_KAKAO);
-        window.Kakao.init(`${process.env.REACT_APP_BASIC_KAKAO}`);
-        console.log(window.Kakao.isInitialized());
-        return (): HTMLScriptElement => document.body.removeChild(script);
+const inputSx = {
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+        '&.Mui-focused fieldset': {
+            borderColor: '#6666cc',
+        },
+        '&:hover fieldset': {
+            borderColor: '#6666cc',
+        },
+    },
+};
+
+const InputTextField = styled(TextField)({
+    '& label': {
+        color: '#333',
+    },
+    '& label.Mui-focused': {
+        color: '#333',
+    },
+    '& .MuiOutlinedInput-root': {
+        color: '#333',
+        '& fieldset': {
+            borderColor: '#333',
+        },
+    },
+});
+
+const TodoItemBlock = styled.div`
+    &:hover {
+        ${'#button'} {
+            display: initial;
+        }
+    }
+`;
+
+const CardBox = styled.div`
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-radius: 1rem;
+    padding: 1rem;
+`;
+
+const Share = (props: any) => {
+    const [friendList, setFriendList] = useState([]);
+    const [allFriendList, setAllFriendList] = useState([]);
+    React.useEffect(function () {
+        axios({
+            method: 'get',
+            url: `/friend/`,
+            withCredentials: true,
+        })
+            .then(function (result) {
+                setFriendList(result.data);
+                setAllFriendList(result.data);
+            })
+            .catch(function (error) {
+                console.error('friend 에러발생: ', error);
+            });
     }, []);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -59,6 +126,7 @@ const Share = (props: any) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const toastOpen = () => {
         setToast(true);
     };
@@ -69,116 +137,111 @@ const Share = (props: any) => {
         setToast(false);
     };
 
+    const searchSpace = (event: any) => {
+        const keyword = event.target.value;
+        setFriendList(
+            allFriendList?.filter((data: friendData) => {
+                if (data.nickname.toLowerCase().includes(keyword.toLowerCase()) || data.email.toLowerCase().includes(keyword.toLowerCase())) {
+                    return data;
+                }
+            }),
+        );
+    };
+    const expression = 'happy';
+    let friend = '';
+    const sendMail = () => {
+        console.log('onCapture');
+        html2canvas(document.getElementById('chart') as HTMLElement)?.then((canvas) => {
+            const imgData = canvas.toDataURL('image/jpeg', 0.3);
+            console.log(imgData, (document.getElementById('outlined-search') as HTMLInputElement).value);
+            axios({
+                method: 'post',
+                url: `/mail`,
+                withCredentials: true,
+                data: {
+                    email: (document.getElementById('outlined-search') as HTMLInputElement).value,
+                    image: imgData,
+                    friend: friend,
+                    expression: expression,
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(function (result) {
+                    toastOpen();
+                })
+                .catch(function (error) {
+                    console.error('mail 에러발생: ', error);
+                });
+        });
+    };
+
     const copyUrlRef = React.useRef<HTMLTextAreaElement>(null);
 
-    const copyUrl = (e: any) => {
-        if (!document.queryCommandSupported('copy')) {
-            return alert('복사 기능이 지원되지 않는 브라우저입니다.');
-        }
-        if (copyUrlRef.current) {
-            copyUrlRef.current.select();
-        }
-        document.execCommand('copy');
-        e.target.focus();
-
-        setTimeout(() => {
-            toastOpen();
-        }, 200);
-    };
-    const url = encodeURI(window.location.href);
-
-    // Facebook
-    const shareFacebook = () => {
-        window.open('http://www.facebook.com/sharer/sharer.php?u=' + url);
-    };
-
-    // Twitter
-    const shareTwitter = () => {
-        const text = '';
-        window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url);
-    };
-    const shareKatalk = () => {
-        if (window.Kakao) {
-            const kakao = window.Kakao;
-            kakao.Link.sendDefault({
-                objectType: 'feed',
-                content: {
-                    title:`${props.nickname}님의 감정 레포트`,
-                    description: props.comment, 
-                    imageUrl: `https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.img}`,
-                    link: {
-                        mobileWebUrl: url,
-                        webUrl: url,
-                    },
-                },
-                buttons: [
-                    {
-                        title: '디지털 앨범 만들러 가기',
-                        link: {
-                            webUrl: url,
-                            mobileWebUrl: url,
-                        },
-                    },
-                ],
-            });
-        }
-    };
     return (
         <div>
             <IconButton type="button" onClick={handleClick}>
                 <ShareIcon sx={{ color: 'white' }} />
             </IconButton>
-            <Menu
+            <Popover
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
+                sx={{ paddding: 0 }}
             >
-                <List
-                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                            공유
-                        </ListSubheader>
-                    }
-                >
-                    <form>
-                        <TextArea ref={copyUrlRef} value={window.location.href} />
-                    </form>
-                    <ListItemButton onClick={copyUrl}>
-                        <ListItemIcon>
-                            <LinkIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="링크 복사" />
-                    </ListItemButton>
-                    <ListItemButton onClick={shareKatalk}>
-                        <ListItemIcon>
-                            <ForumIcon sx={{ color: '#fcd34d' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="카카오톡 공유" />
-                    </ListItemButton>
-                    <ListItemButton onClick={shareFacebook}>
-                        <ListItemIcon>
-                            <FacebookIcon sx={{ color: '#0369a1' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="페이스북 공유" />
-                    </ListItemButton>
-                    <ListItemButton>
-                        <ListItemIcon onClick={shareTwitter}>
-                            <TwitterIcon sx={{ color: '#0ea5e9' }} />
-                        </ListItemIcon>
-                        <ListItemText primary="트위터 공유" />
-                    </ListItemButton>
-                </List>
-            </Menu>
+                <Container sx={{ backgroundColor: '#333' }}>
+                    <h4 style={{ color: '#333' }}>친구 목록</h4>
+                    <div>
+                        <CardBox style={{ display: 'flex', flexDirection: 'row' }}>
+                            <InputTextField id="outlined-search" label="" type="search" sx={inputSx} onChange={(e) => searchSpace(e)} />
+                            <Button aria-label="send" sx={{ p: 0.5, color: '#6666cc' }} onClick={sendMail}>
+                                <ForwardToInboxIcon fontSize="medium" />
+                            </Button>
+                        </CardBox>
+                    </div>
+                    {friendList.length !== 0 ? (
+                        <div style={{ paddingTop: '2em', paddingBottom: '2em' }}>
+                            <CardBox>
+                                <List sx={{ overflow: 'auto', height: '400px' }}>
+                                    {friendList.map((item: friendData) => (
+                                        <TodoItemBlock
+                                            key={item.user_id}
+                                            onClick={() => {
+                                                (document.getElementById('outlined-search') as HTMLInputElement).value = item.email;
+                                                friend = item.nickname;
+                                            }}
+                                        >
+                                            <ListItem alignItems="flex-start" sx={{ display: 'flex', alignItems: 'center', color: '#fff' }}>
+                                                <FriendItem nickname={item.nickname} email={item.email} img={item.profile_img} />
+                                            </ListItem>
+                                            <hr></hr>
+                                        </TodoItemBlock>
+                                    ))}
+                                </List>
+                            </CardBox>
+                        </div>
+                    ) : (
+                        <div style={{ paddingTop: '2em', paddingBottom: '2em' }}>
+                            <CardBox>
+                                <div style={{ color: '#333' }}>친구 목록이 비었습니다.</div>
+                            </CardBox>
+                        </div>
+                    )}
+                </Container>
+            </Popover>
             <Snackbar
                 open={toast}
                 onClose={toastClose}
-                message={'복사되었습니다.'}
+                message={'이메일이 발송되었습니다.'}
                 action={
                     <React.Fragment>
                         <IconButton aria-label="close" color="inherit" sx={{ p: 0.5 }} onClick={toastClose}>

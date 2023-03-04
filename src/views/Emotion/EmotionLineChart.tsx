@@ -73,7 +73,7 @@ const testData: any = {
     },
 };
 
-let resultData: any = {
+const resultData: any = {
     happy: [],
     sad: [],
     surprised: [],

@@ -7,13 +7,14 @@ import store from './store/store';
 import LoadUser from './services/loadUser';
 import config from './config';
 
-axios.defaults.baseURL = config.node_env !== 'production' ? '/' : `${config.server.protocol}://${config.server.host}:${config.server.port}`;
-axios.interceptors.response.use(
-    (response) => {
-        return response.headers['content-type'] === 'application/json' ? response : Promise.reject(response);
-    },
-    (error) => Promise.reject(error),
-);
+// axios.defaults.baseURL = config.node_env !== 'production' ? '/' : `${config.server.protocol}://${config.server.host}:${config.server.port}`;
+// console.log(axios.defaults.baseURL);
+// axios.interceptors.response.use(
+//     (response) => {
+//         return response.headers['content-type'] === 'application/json' ? response : Promise.reject(response);
+//     },
+//     (error) => Promise.reject(error),
+// );
 
 LoadUser();
 

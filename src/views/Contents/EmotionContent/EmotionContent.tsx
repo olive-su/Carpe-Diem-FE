@@ -7,7 +7,8 @@ import { IconButton } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShareIcon from '@mui/icons-material/Share';
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
-import Share from '../../Album/Share';
+import Share from '../../Emotion/Share';
+import { Container } from '@mui/material';
 
 export default function LibraryContent() {
     const onCapture = () => {
@@ -29,17 +30,19 @@ export default function LibraryContent() {
 
     return (
         <MainLayout>
-            <IconButton onClick={onCapture}>
-                <FontAwesomeIcon
-                    icon={faCircleDown}
-                    style={{
-                        color: '#fff',
-                    }}
-                />
-                {/* <DownloadIcon /> */}
-            </IconButton>
-            <Share />
-            <div id="chart">
+            <div style={{ display: 'flex', flexDirection: 'row', width: '70%', marginLeft: '15%', justifyContent: 'right' }}>
+                <IconButton onClick={onCapture}>
+                    <FontAwesomeIcon
+                        icon={faCircleDown}
+                        style={{
+                            color: '#fff',
+                        }}
+                    />
+                    {/* <DownloadIcon /> */}
+                </IconButton>
+                <Share />
+            </div>
+            <div id="chart" style={{ padding: '1rem', backgroundColor: '#333' }}>
                 <EmotionLineChart />
                 <EmotionPieChart />
             </div>
