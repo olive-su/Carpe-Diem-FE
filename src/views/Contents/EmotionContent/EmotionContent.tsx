@@ -8,10 +8,8 @@ import EmotionPieChart from '../../Emotion/EmotionPieChart';
 import html2canvas from 'html2canvas';
 import { IconButton } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ShareIcon from '@mui/icons-material/Share';
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
 import Share from '../../Emotion/Share';
-import { Container } from '@mui/material';
 
 const StyledContent = styled.div`
     display: flex;
