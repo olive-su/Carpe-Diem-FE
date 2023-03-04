@@ -103,7 +103,7 @@ const Share = (props: any) => {
             kakao.Link.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: '내 추억 구경할래?',
+                    title:`${props.nickname}님의 감정 레포트`,
                     description: props.comment, 
                     imageUrl: `https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.img}`,
                     link: {
