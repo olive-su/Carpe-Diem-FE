@@ -32,7 +32,7 @@ import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/typ
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
-import IndeterminateCheckbox from './CheckBox';
+import IndeterminateCheckbox from './Checkbox';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import { Button } from '@mui/material';
 
@@ -398,7 +398,7 @@ const Video = () => {
                                             // 16:9
                                             width: '120',
                                             height: '250px',
-                                            objectFit: 'fill',
+                                            objectFit: 'cover',
                                         }}
                                         image="./imgs/not_found_files.jpg"
                                         alt="img"

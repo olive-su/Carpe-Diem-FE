@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -31,7 +32,7 @@ export default function MobileCamera() {
     const videoRef = useRef<any>(null);
     let myStream: any;
     let myPeerConnection: any;
-    const roomName: any = 'test';
+    const { userId }: any = useParams();
 
     useEffect(() => {
         handleWelcomeSubmit();
@@ -44,7 +45,7 @@ export default function MobileCamera() {
 
     async function handleWelcomeSubmit() {
         await initCall();
-        socket.emit('join_room', roomName);
+        socket.emit('join_room', userId);
     }
 
     async function getCameras() {
@@ -100,7 +101,7 @@ export default function MobileCamera() {
         const answer = await myPeerConnection.createAnswer();
         // console.log(answer); // PeerB의 answer 정보 전송
         myPeerConnection.setLocalDescription(answer);
-        socket.emit('answer', answer, roomName);
+        socket.emit('answer', answer, userId);
         console.log('sent the answer');
     });
 
@@ -134,7 +135,7 @@ export default function MobileCamera() {
     }
 
     function handleIce(data: any) {
-        socket.emit('ice', data.candidate, roomName);
+        socket.emit('ice', data.candidate, userId);
         console.log('sent candidate');
         // console.log(data);
     }
@@ -159,7 +160,7 @@ export default function MobileCamera() {
         // console.log(offer);
         // console.log("someone joined!");
         console.log('sent the offer');
-        socket.emit('offer', offer, roomName); // 접속한 socket.io 방으로 PeerA의 session정보를 보냄
+        socket.emit('offer', offer, userId); // 접속한 socket.io 방으로 PeerA의 session정보를 보냄
     });
 
     // CHECK 미디어 송신 (peer B 의 방)
@@ -171,7 +172,7 @@ export default function MobileCamera() {
         const answer = await myPeerConnection.createAnswer();
         // console.log(answer); // PeerB의 answer 정보 전송
         myPeerConnection.setLocalDescription(answer);
-        socket.emit('answer', answer, roomName);
+        socket.emit('answer', answer, userId);
         console.log('sent the answer');
     });
 

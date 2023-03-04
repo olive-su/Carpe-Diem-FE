@@ -195,7 +195,7 @@ export default function Header(props: any | undefined) {
                     <Inner href="/video">비디오</Inner>
                 </List>
                 <List>
-                    <Inner href="/friend">친구</Inner>
+                    <Inner href="/friend">친구 목록</Inner>
                 </List>
                 <List style={{ marginTop: 70 }}>
                     <SignOutBtn
