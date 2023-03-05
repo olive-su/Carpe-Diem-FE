@@ -49,7 +49,7 @@ const Library = () => {
                         color: 'var(--white)',
                     }}
                 >
-                    내 앨범
+                    앨범
                 </Typography>
                 <Grid container spacing={1}>
                     {albumList?.map((data: albumData, idx: any) => (

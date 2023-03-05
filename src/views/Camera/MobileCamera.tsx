@@ -41,6 +41,10 @@ function MobileCamera(props: any) {
 
     const [data, setData] = useState(EmotionSetData(0));
 
+    // 녹화시간
+    const [runningTime, setRunningTime] = useState(0);
+    const [timer, setTimerId] = useState<any>(null);
+
     useEffect(() => {
         setCamStarted(true);
         setModelLoaded(true);
@@ -330,6 +334,12 @@ function MobileCamera(props: any) {
                 recordVideo(mediaRecorder); // 녹화시작
                 setRecordStarted(true);
                 console.log('녹화 시작');
+
+                // 녹화 경과시간 표시
+                const timer = setInterval(() => {
+                    setRunningTime((prevTime) => prevTime + 1);
+                }, 1000);
+                setTimerId(timer);
             }
             // 녹화 시간 연장
             else if (recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === recordInfo.label) {
@@ -410,6 +420,7 @@ function MobileCamera(props: any) {
     return (
         <>
             <div>
+                {runningTime}
                 {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
                 <div
                     ref={wrapRef}

@@ -144,7 +144,7 @@ export default function MobileCamContent() {
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
                     <div style={{ textAlign: 'center', top: '-10px' }}>
-                        <img src={iphone} style={{ width: '200px', position: 'relative', top: '-50px' }}></img>
+                        <img src={iphone} style={{ width: '200px', position: 'relative', top: '-50px', left: '13px' }}></img>
                     </div>
                     {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <FormGroup>
@@ -186,12 +186,17 @@ export default function MobileCamContent() {
                 <div
                     style={{
                         width: '500px',
-                        paddingLeft: '20px',
-                        paddingTop: '50px',
-                        paddingBottom: '50px',
+                        // height: '780px',
+                        paddingTop: '100px',
+                        backgroundImage: `url('${process.env.PUBLIC_URL}/imgs/browser-frame.png')`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        borderRadius: '6px',
+                        // marginTop: '110px',
+                        marginLeft: '30px',
                     }}
                 >
-                    <h4 style={{ color: 'white' }}>
+                    <h4 style={{ color: 'black' }}>
                         {' '}
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
