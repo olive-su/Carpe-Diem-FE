@@ -22,7 +22,7 @@ export default class Emotion extends PureComponent<data> {
     render() {
         return (
             <ResponsiveContainer width="100%" height="20%">
-                <BarChart width={500} height={300} data={this.props.data} barGap={50}>
+                <BarChart width={500} height={300} data={this.props.data} barGap={50} style={{ marginTop: '27px' }}>
                     <XAxis dataKey="Emotion" />
                     <Bar dataKey="neutral" fill="gray" />
                     <Bar dataKey="happy" fill="#fdba74" />
@@ -31,7 +31,7 @@ export default class Emotion extends PureComponent<data> {
                     <Bar dataKey="disgusted" fill="#86EFAC" />
                     <Bar dataKey="angry" fill="#fca5a5" />
                     <Bar dataKey="fearful" fill="#d8b4fe" />
-                    <Legend iconSize={20} />
+                    <Legend wrapperStyle={{ margin: '1rem 0rem' }} iconSize={20} />
                 </BarChart>
             </ResponsiveContainer>
         );

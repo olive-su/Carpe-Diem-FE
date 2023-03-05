@@ -4,129 +4,6 @@ import styled from 'styled-components';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
 
-const testData: any = {
-    '2023-02-26': {
-        happy: 0,
-        sad: 0,
-        surprised: 0,
-        disgusted: 0,
-        angry: 0,
-        fearful: 0,
-    },
-    '2023-02-27': {
-        happy: 0,
-        sad: 0,
-        surprised: 0,
-        disgusted: 0,
-        angry: 0,
-        fearful: 0,
-    },
-    '2023-02-28': {
-        happy: 1,
-        sad: 0,
-        surprised: 0,
-        disgusted: 0,
-        angry: 0,
-        fearful: 0,
-    },
-    '2023-03-01': {
-        happy: 0,
-        sad: 0,
-        surprised: 0,
-        disgusted: 0,
-        angry: 1,
-        fearful: 0,
-    },
-    '2023-03-02': {
-        happy: 4,
-        sad: 1,
-        surprised: 1,
-        disgusted: 0,
-        angry: 0,
-        fearful: 0,
-    },
-    '2023-03-03': {
-        happy: 0,
-        sad: 0,
-        surprised: 0,
-        disgusted: 0,
-        angry: 0,
-        fearful: 0,
-    },
-    '2023-03-04': {
-        happy: 0,
-        sad: 1,
-        surprised: 0,
-        disgusted: 1,
-        angry: 0,
-        fearful: 0,
-    },
-};
-
-const resultData: any = {
-    happy: [],
-    sad: [],
-    surprised: [],
-    disgusted: [],
-    angry: [],
-    fearful: [],
-};
-
-Object.keys(resultData).forEach((emotion) => {
-    Object.keys(testData).forEach((date, index) => {
-        resultData[emotion][index] = testData[date][emotion];
-    });
-});
-
-const sumEmotion = {
-    happy: resultData.happy.reduce((a: any, b: any) => a + b),
-    sad: resultData.sad.reduce((a: any, b: any) => a + b),
-    surprised: resultData.surprised.reduce((a: any, b: any) => a + b),
-    disgusted: resultData.disgusted.reduce((a: any, b: any) => a + b),
-    angry: resultData.angry.reduce((a: any, b: any) => a + b),
-    fearful: resultData.fearful.reduce((a: any, b: any) => a + b),
-};
-
-const data = [
-    {
-        name: '😃 행복해요',
-        value: sumEmotion['happy'],
-        fill: '#fdba74',
-    },
-    {
-        name: '😢 슬퍼요',
-        value: sumEmotion['sad'],
-        fill: '#67e8f9',
-    },
-    {
-        name: '😳 놀라워요',
-        value: sumEmotion['surprised'],
-        fill: '#fde047',
-    },
-    {
-        name: '🤮 힘들어요',
-        value: sumEmotion['disgusted'],
-        fill: '#86efac',
-    },
-    {
-        name: '🤬 화나요',
-        value: sumEmotion['angry'],
-        fill: '#fda4af',
-    },
-    {
-        name: '😱 무서워요',
-        value: sumEmotion['fearful'],
-        fill: '#d8b4fe',
-    },
-];
-
-const total = Object.values(sumEmotion).reduce((a, b) => a + b, 0);
-
-const renderCustomizedLabelPercentage = (value: any) => {
-    const percentageCalculated = ((value.value / total) * 100).toFixed(2);
-    return `${percentageCalculated}%`;
-};
-
 const CardBox = styled.div`
     background-position: center;
     background-size: cover;
@@ -139,7 +16,47 @@ const CardBox = styled.div`
     margin-bottom: 2em;
 `;
 
-export default function EmotionPieChart() {
+const EmotionPieChart = (props: any) => {
+    const data = [
+        {
+            name: '😃 행복해요',
+            value: props.sumEmotion['happy'],
+            fill: '#fdba74',
+        },
+        {
+            name: '😢 슬퍼요',
+            value: props.sumEmotion['sad'],
+            fill: '#67e8f9',
+        },
+        {
+            name: '😳 놀라워요',
+            value: props.sumEmotion['surprised'],
+            fill: '#fde047',
+        },
+        {
+            name: '🤮 힘들어요',
+            value: props.sumEmotion['disgusted'],
+            fill: '#86efac',
+        },
+        {
+            name: '🤬 화나요',
+            value: props.sumEmotion['angry'],
+            fill: '#fda4af',
+        },
+        {
+            name: '😱 무서워요',
+            value: props.sumEmotion['fearful'],
+            fill: '#d8b4fe',
+        },
+    ];
+
+    const total: any = Object.values(props.sumEmotion).reduce((a: any, b: any) => a + b, 0);
+
+    const renderCustomizedLabelPercentage = (value: any) => {
+        const percentageCalculated = ((value.value / total) * 100).toFixed(2);
+        return `${percentageCalculated}%`;
+    };
+
     const renderLabel = useCallback((piePiece: any) => {
         return piePiece.name;
     }, []);
@@ -191,4 +108,6 @@ export default function EmotionPieChart() {
             </CardBox>
         </CardBox>
     );
-}
+};
+
+export default EmotionPieChart;
