@@ -1,8 +1,9 @@
+/* eslint-disable react/jsx-key */
 import React, { useRef, useState, useEffect } from 'react';
+import { Modal } from '@mui/material';
 import { useSelector } from 'react-redux';
 import * as faceapi from 'face-api.js';
-import styled, { keyframes } from 'styled-components';
-import { TbLoader } from 'react-icons/tb';
+import IconButton from '@mui/material/IconButton';
 
 import './index.css';
 import Emotion from './Emotion';
@@ -11,9 +12,10 @@ import constraints from '../../common/constraints';
 import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import EmotionSetData from './EmotionSetData';
 import config from '../../config';
-import axios from 'axios';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/styles.css';
+import Box from '@mui/material/Box';
+import CloseIcon from '@mui/icons-material/Close';
 
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
@@ -268,26 +270,59 @@ function WebCamera(props: any) {
         transition: 'all 0.6s ease-in-out',
     };
 
+    const [open, setOpen] = useState(false);
+    const [bigUsim, setBigUsim] = useState('');
+
+    const handleOpen = (usim: any) => {
+        setBigUsim(usim);
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             <div>
                 <div>
                     {/* <span style={{ color: '#fff' }}>녹화시간 : {runningTime}</span> */}
                     <div style={{ paddingBottom: '20px' }}>
+                        <div style={{ position: 'absolute', display: 'flex', alignItems: 'left', top: '30px' }}>
+                            {usim?.map((us: any) => {
+                                return (
+                                    <img
+                                        style={{ padding: '7px' }}
+                                        width="60px"
+                                        height="60px"
+                                        src={us}
+                                        onClick={() => {
+                                            handleOpen(us);
+                                        }}
+                                    />
+                                );
+                            })}
+                        </div>
+                        <Modal open={open} onClose={handleClose}>
+                            <Box
+                                sx={{
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    position: 'absolute',
+                                    outline: 'none',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                }}
+                            >
+                                <img src={bigUsim} width="600px" height="600px" style={{ objectFit: 'cover' }} />
+                                <Box>
+                                    <IconButton type="button" onClick={handleClose}>
+                                        <CloseIcon sx={{ color: 'white' }} />
+                                    </IconButton>
+                                </Box>
+                            </Box>
+                        </Modal>
                         {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
-                        {/* <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>
-                    <OffButton onClick={() => setCamStarted(false)}>OFF</OffButton> */}
-
-                        {/* {camStarted ? (
-                        <AwesomeButton onPressed={() => setCamStarted(false)} type="danger">
-                            OFF
-                        </AwesomeButton>
-                    ) : (
-                        <AwesomeButton onPressed={() => setCamStarted(true)} type="primary" className="aws-btn">
-                            ON
-                        </AwesomeButton>
-                    )} */}
-                        {/* <ButtonOnOff /> */}
                     </div>
                     <div
                         ref={wrapRef}
@@ -299,12 +334,6 @@ function WebCamera(props: any) {
                         }}
                     >
                         <div>
-                            {/* <img
-                            src={`${process.env.PUBLIC_URL}/imgs/frame.png`}
-                            style={{ position: 'absolute', left: '-130px', bottom: '-165px' }}
-                            width={constraints.video.width + 260}
-                            height={constraints.video.height + 200}
-                        /> */}
                             <img
                                 src={`${process.env.PUBLIC_URL}/imgs/imac-frame.png`}
                                 style={{ position: 'absolute', left: '-19px', bottom: '-300px' }}
