@@ -12,6 +12,8 @@ import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { CARD_LOADING_REQUEST } from '../../redux/types';
 import config from '../../config';
+import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const VideoDetail = () => {
     const dispatch = useDispatch();
@@ -54,6 +56,17 @@ const VideoDetail = () => {
                         <IconButton type="button" onClick={() => history.go(-1)}>
                             <CloseIcon sx={{ color: 'white' }} />
                         </IconButton>
+                        <a href={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.videoUrl}`} download>
+                            <IconButton>
+                                <FontAwesomeIcon
+                                    icon={faCircleDown}
+                                    style={{
+                                        color: '#fff',
+                                    }}
+                                />
+                                {/* <DownloadIcon /> */}
+                            </IconButton>
+                        </a>
                         <Share img={card.thumbnailUrl} comment={card.comment} videoUrl={card.videoUrl} />
                         <VideoDelete cardId={card.cardId} />
                     </Box>

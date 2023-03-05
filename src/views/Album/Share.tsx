@@ -15,8 +15,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import ForumIcon from '@mui/icons-material/Forum';
 import config from '../../config';
-import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShareIcon from '@mui/icons-material/Share';
 
 export interface SnackbarMessage {
@@ -106,7 +104,7 @@ const Share = (props: any) => {
                 objectType: 'feed',
                 content: {
                     title: '내 추억 구경할래?',
-                    description: props.comment,
+                    description: props.comment, 
                     imageUrl: `https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.img}`,
                     link: {
                         mobileWebUrl: url,
@@ -127,17 +125,6 @@ const Share = (props: any) => {
     };
     return (
         <div>
-            <a href={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.videoUrl}`} download>
-                <IconButton>
-                    <FontAwesomeIcon
-                        icon={faCircleDown}
-                        style={{
-                            color: '#fff',
-                        }}
-                    />
-                    {/* <DownloadIcon /> */}
-                </IconButton>
-            </a>
             <IconButton type="button" onClick={handleClick}>
                 <ShareIcon sx={{ color: 'white' }} />
             </IconButton>
