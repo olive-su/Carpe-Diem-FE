@@ -11,7 +11,6 @@ import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentV
 import SickIcon from '@mui/icons-material/Sick';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useDispatch, useSelector } from 'react-redux';
