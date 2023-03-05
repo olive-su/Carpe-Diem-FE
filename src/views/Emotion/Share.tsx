@@ -40,8 +40,11 @@ const TextArea = styled.textarea`
 const inputSx = {
     width: '100%',
     '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: '#fff',
+        },
         '&.Mui-focused fieldset': {
-            borderColor: '#6666cc',
+            borderColor: '#fff',
         },
         '&:hover fieldset': {
             borderColor: '#6666cc',
@@ -57,7 +60,7 @@ const InputTextField = styled(TextField)({
         color: '#333',
     },
     '& .MuiOutlinedInput-root': {
-        color: '#333',
+        color: '#fff',
         '& fieldset': {
             borderColor: '#333',
         },
@@ -96,6 +99,7 @@ const Share = (props: any) => {
             .then(function (result) {
                 setFriendList(result.data);
                 setAllFriendList(result.data);
+                props.sort();
             })
             .catch(function (error) {
                 console.error('friend 에러발생: ', error);
@@ -132,13 +136,11 @@ const Share = (props: any) => {
             }),
         );
     };
-    const expression = 'happy';
     let friend = '';
     const sendMail = () => {
         console.log('onCapture');
         html2canvas(document.getElementById('chart') as HTMLElement)?.then((canvas) => {
             const imgData = canvas.toDataURL('image/jpeg', 0.3);
-            console.log(imgData, (document.getElementById('outlined-search') as HTMLInputElement).value);
             axios({
                 method: 'post',
                 url: `/mail`,
@@ -147,7 +149,7 @@ const Share = (props: any) => {
                     email: (document.getElementById('outlined-search') as HTMLInputElement).value,
                     image: imgData,
                     friend: friend,
-                    expression: expression,
+                    expression: Object.keys(props.sumEmotion)[0],
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -188,7 +190,7 @@ const Share = (props: any) => {
                     <div>
                         <CardBox style={{ display: 'flex', flexDirection: 'row' }}>
                             <InputTextField id="outlined-search" label="" type="search" sx={inputSx} onChange={(e) => searchSpace(e)} />
-                            <Button aria-label="send" sx={{ p: 0.5, color: '#6666cc' }} onClick={sendMail}>
+                            <Button aria-label="send" sx={{ p: 0.5, color: '#fff' }} onClick={sendMail}>
                                 <ForwardToInboxIcon fontSize="medium" />
                             </Button>
                         </CardBox>
@@ -217,7 +219,7 @@ const Share = (props: any) => {
                     ) : (
                         <div style={{ paddingTop: '2em', paddingBottom: '2em' }}>
                             <CardBox>
-                                <div style={{ color: '#333' }}>친구 목록이 비었습니다.</div>
+                                <div style={{ color: '#fff' }}>친구 목록이 비었습니다.</div>
                             </CardBox>
                         </div>
                     )}

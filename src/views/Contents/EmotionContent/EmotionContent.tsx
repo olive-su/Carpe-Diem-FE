@@ -113,7 +113,7 @@ export default function LibraryContent() {
                         }}
                     />
                 </IconButton>
-                <Share />
+                <Share sumEmotion={sumEmotion} />
             </div>
             <div id="chart" style={{ padding: '1rem', backgroundColor: '#333' }}>
                 <EmotionLineChart data={data} />
