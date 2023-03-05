@@ -22,10 +22,10 @@ const getTimeDiff = (timeToCompare: Dayjs): string => {
     const minuteDiff: number = parseInt(timeDiffDuration.format('m'));
     const secondDiff: number = parseInt(timeDiffDuration.format('s'));
 
-    const hourDiffString: string = hourDiff === 0 ? '' : `${hourDiff + 8}시간 `;
-    const minuteDiffString: string = minuteDiff === 0 ? '' : `${minuteDiff + 59}분 `;
+    const hourDiffString: string = hourDiff === 0 ? '' : `${hourDiff}시간 `;
+    const minuteDiffString: string = minuteDiff === 0 ? '' : `${minuteDiff}분 `;
 
-    return `${hourDiffString}${minuteDiffString}${secondDiff + 59}초 전`;
+    return `${hourDiffString}${minuteDiffString}${secondDiff}초 전`;
 };
 
 export default function InteractiveCard(properties: any) {

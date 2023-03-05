@@ -179,7 +179,7 @@ function WebCamera(props: any) {
                     label: expressions.label,
                     count: 1,
                     startTime: expressions.time,
-                    maxTime: 0,
+                    maxTime: -32400000,
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();
@@ -197,7 +197,7 @@ function WebCamera(props: any) {
                 if (recordInfo.maxValue < expressions.value) {
                     // 최대 감정 관측 데이터 변경
                     recordInfo.maxValue = expressions.value;
-                    recordInfo.maxTime = expressions.time - recordInfo.startTime;
+                    recordInfo.maxTime = expressions.time - recordInfo.startTime - 32400000;
                 }
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
             }
@@ -307,9 +307,9 @@ function WebCamera(props: any) {
                         /> */}
                             <img
                                 src={`${process.env.PUBLIC_URL}/imgs/imac-frame.png`}
-                                style={{ position: 'absolute', left: '-35px', bottom: '-275px' }}
-                                width={constraints.video.width + 58}
-                                height={constraints.video.height + 315}
+                                style={{ position: 'absolute', left: '-19px', bottom: '-300px' }}
+                                width={constraints.video.width + 40}
+                                height={constraints.video.height + 330}
                             />
                             {camStarted ? (
                                 <video
