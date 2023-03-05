@@ -15,7 +15,6 @@ const CardBox = styled.div`
 `;
 
 const EmotionLineChart = (props: any) => {
-    console.log(props.data);
     return (
         <CardBox style={{ width: '70%', height: '500px', background: '#333', marginLeft: '15%' }}>
             <CardBox>

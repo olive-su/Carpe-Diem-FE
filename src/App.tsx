@@ -33,10 +33,9 @@ function App() {
                     <Route path="/camera/web" element={<WebCamContent />} />
                     <Route path="/camera/mobile" element={<MobileCamContent />} />
                     <Route path="/friend" element={<FriendContent />} />
-                    <Route path="/remote" element={<RemoteCamera />} />
+                    <Route path="/remote/:userId" element={<RemoteCamera />} />
                     <Route path="/mobile" element={<Mobile />} />
                     <Route path="/video" element={<VideoContent />} />
-                    {/* <Route path="/video/:cardId" element={<SingleVideo />} /> */}
                     <Route path="/album" element={<LibraryContent />} />
                     <Route path="/album/:albumId" element={<AlbumMultiContent />} />
                     <Route path="friendAlbum/:userId" element={<FriendLibraryContent />} />

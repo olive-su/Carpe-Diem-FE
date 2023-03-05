@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { PersonalVideoRounded, PhoneAndroidRounded } from '@mui/icons-material';
+import { PersonalVideoRounded, PhoneAndroidRounded, SignLanguage } from '@mui/icons-material';
 import Tooltip from '@mui/material/Tooltip';
 import styled from 'styled-components';
 import './main.css';
@@ -69,8 +69,17 @@ function Main() {
         const [isCamPage, setIsCamPage] = useState('');
 
         return (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <Tooltip title="웹 캠을 사용해요!" arrow placement="top">
+            <div style={{ display: 'flex', flexDirection: 'row', gap: 80 }}>
+                <Tooltip
+                    title={
+                        <h6 style={{ paddingTop: '10px' }}>
+                            {' '}
+                            <SignLanguage sx={{ marginRight: '5px', marginBottom: '5px' }} /> 웹 캠으로 이용할래요!
+                        </h6>
+                    }
+                    arrow
+                    placement="left"
+                >
                     <button
                         className={`btn web ${isOpen && isCamPage === 'web' ? 'active' : ''}`}
                         onClick={() => {
@@ -82,7 +91,16 @@ function Main() {
                         </div>
                     </button>
                 </Tooltip>
-                <Tooltip title="모바일 캠을 사용해요!" arrow placement="top">
+                <Tooltip
+                    title={
+                        <h6 style={{ paddingTop: '10px' }}>
+                            {' '}
+                            <SignLanguage sx={{ marginRight: '5px', marginBottom: '5px' }} /> 모바일 캠으로 이용할래요!
+                        </h6>
+                    }
+                    arrow
+                    placement="right"
+                >
                     <button
                         className={`btn mobile ${isOpen && isCamPage === 'mobile' ? 'active' : ''}`}
                         onClick={() => {

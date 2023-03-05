@@ -72,12 +72,12 @@ const FriendLibrary = () => {
                             <Grid item xs={12} sm={4}>
                                 <Card
                                     sx={{
-                                        boxShadow: 'none',
+                                        boxShadow: '0 15px 80px #6666cc80',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         position: 'relative',
-                                        borderRadius: '0px',
-                                        backgroundColor: '#6666cc',
+                                        borderRadius: '5px',
+                                        backgroundColor: '#6666cc80',
                                         padding: '10px',
                                     }}
                                 >

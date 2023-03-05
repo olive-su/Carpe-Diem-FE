@@ -32,7 +32,7 @@ import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/typ
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
-import IndeterminateCheckbox from './CheckBox';
+import IndeterminateCheckbox from './Checkbox';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import { Button } from '@mui/material';
 
@@ -44,12 +44,12 @@ import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentV
 import SickIcon from '@mui/icons-material/Sick';
 
 const icons = [
-    <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#9a3412' }} />,
-    <SentimentDissatisfiedIcon sx={{ fontSize: '60px', color: '#155e75' }} />,
-    <LocalFireDepartmentIcon sx={{ fontSize: '60px', color: '#991b1b' }} />,
-    <SickIcon sx={{ fontSize: '60px', color: '#166534' }} />,
-    <SentimentVeryDissatisfiedRoundedIcon sx={{ fontSize: '60px', color: '#6b21a8' }} />,
-    <OutletIcon sx={{ fontSize: '60px', color: '#854d0e' }} />,
+    <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#fdba74', stroke: '#9a3412', strokeWidth: '0.5px' }} />,
+    <SentimentDissatisfiedIcon sx={{ fontSize: '60px', color: '#67e8f9', stroke: '#155e75', strokeWidth: '0.5px' }} />,
+    <LocalFireDepartmentIcon sx={{ fontSize: '60px', color: '#fda4af' , stroke: '#991b1b', strokeWidth: '0.5px' }} />,
+    <SickIcon sx={{ fontSize: '60px', color: '#86efac', stroke: '#166534', strokeWidth: '0.5px'  }} />,
+    <SentimentVeryDissatisfiedRoundedIcon sx={{ fontSize: '60px', color: '#d8b4fe',stroke: '#6b21a8', strokeWidth: '0.5px'  }} />,
+    <OutletIcon sx={{ fontSize: '60px', color: '#fde047' ,stroke: '#854d0e', strokeWidth: '0.5px' }} />,
 ];
 const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised'];
 
@@ -398,7 +398,7 @@ const Video = () => {
                                             // 16:9
                                             width: '120',
                                             height: '250px',
-                                            objectFit: 'fill',
+                                            objectFit: 'cover',
                                         }}
                                         image="./imgs/not_found_files.jpg"
                                         alt="img"

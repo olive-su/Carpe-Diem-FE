@@ -12,56 +12,8 @@ import uploadToS3Bucket from '../../services/Cam/uploadToS3Bucket';
 import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/styles.css';
-
-const rotate = keyframes`
-    from {
-        transform: rotate(0deg);
-    }
-
-    to { transform: rotate(360deg);
-    }
-    `;
-const Rotate = styled.div`
-    display: inline-block;
-    animation: ${rotate} 2s linear infinite;
-    padding: 2rem 1rem;
-    font-size: 1.2rem;
-`;
-
-const OnButton = styled.button`
-    color: #8a1441;
-    font-size: 1em;
-    width: 80px;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid #8a1441;
-    border-radius: 3px;
-    font-family: IBMPlexSansKR-Regular;
-    &:active,
-    &:hover,
-    &:focus {
-        background: var(--button-hover-bg-color, white);
-    }
-`;
-
-const OffButton = styled.button`
-    color: #2679cc;
-    font-size: 1em;
-    width: 80px;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid #2679cc;
-    font-family: IBMPlexSansKR-Regular;
-    border-radius: 3px;
-    &:active,
-    &:hover,
-    &:focus {
-        background: var(--button-hover-bg-color, white);
-    }
-`;
 
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
