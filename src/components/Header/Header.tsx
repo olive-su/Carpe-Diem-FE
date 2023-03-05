@@ -15,6 +15,7 @@ export default function Header(props: any | undefined) {
     const logoColor = props.dark ? '-dark' : '-white';
     const themeColorDark = props.dark ? '#333' : '#fff';
     const themeColorWhite = props.dark ? '#fff' : '#333';
+    const { userId } = useSelector((state: any) => state.auth);
 
     const StyleHeader = styled.div`
         position: absolute;
@@ -208,7 +209,7 @@ export default function Header(props: any | undefined) {
                         <Inner id="web" href="/camera/web">
                             웹 캠
                         </Inner>
-                        <Inner id="remote" href="/camera/web">
+                        <Inner id="remote" href={`/remote/${userId}`}>
                             카메라 켜기
                         </Inner>
                     </List>
