@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import styled from 'styled-components';
 import { Box, cardMediaClasses } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { Container } from '@mui/system';
@@ -14,6 +14,12 @@ import { CARD_LOADING_REQUEST } from '../../redux/types';
 import config from '../../config';
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const VideoStyle = styled.video`
+    @media (max-width: 768px) {
+        width: 80vw;
+    }
+`;
 
 const VideoDetail = () => {
     const dispatch = useDispatch();
@@ -44,13 +50,13 @@ const VideoDetail = () => {
                         flexDirection: 'row',
                     }}
                 >
-                    <video
+                    <VideoStyle
                         controls
                         autoPlay
                         loop
                         poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.thumbnailUrl}`}
                         src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${card.videoUrl}`}
-                    ></video>
+                    ></VideoStyle>
 
                     <Box>
                         <IconButton type="button" onClick={() => history.go(-1)}>

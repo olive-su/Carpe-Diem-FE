@@ -51,6 +51,9 @@ export default function Header(props: any | undefined) {
             text-decoration: none;
             color: #6666cc;
         }
+        @media (max-width: 768px) {
+            display: none;
+        }
     `;
 
     const EmotionIcon = styled.a`
@@ -78,6 +81,22 @@ export default function Header(props: any | undefined) {
         }
     `;
 
+    const RemoteCamBtn = styled.div`
+        #remote {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            #mobile {
+                display: none;
+            }
+            #web {
+                display: none;
+            }
+            #remote {
+                display: block;
+            }
+        }
+    `;
     const List = styled.li`
         list-style: none;
     `;
@@ -181,10 +200,19 @@ export default function Header(props: any | undefined) {
                 </RightSide>
             </StyleHeader>
             <Sidebar>
-                <List style={{ marginBottom: 30 }}>
-                    <Inner href="/camera/mobile">모바일 캠</Inner>
-                    <Inner href="/camera/web">웹 캠</Inner>
-                </List>
+                <RemoteCamBtn>
+                    <List style={{ marginBottom: 30 }}>
+                        <Inner id="mobile" href="/camera/mobile">
+                            모바일 캠
+                        </Inner>
+                        <Inner id="web" href="/camera/web">
+                            웹 캠
+                        </Inner>
+                        <Inner id="remote" href="/camera/web">
+                            카메라 켜기
+                        </Inner>
+                    </List>
+                </RemoteCamBtn>
                 <List>
                     <Inner href="/">홈</Inner>
                 </List>
