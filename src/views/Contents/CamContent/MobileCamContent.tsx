@@ -4,7 +4,7 @@ import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
-import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
+import { Alert, Button, FormGroup, FormControlLabel, Switch, Stack } from '@mui/material';
 import { ArrowCircleLeftRounded, ClearRounded, TimerRounded } from '@mui/icons-material';
 
 import InteractiveCard from '../../Card/InteractiveCard';
@@ -14,7 +14,8 @@ import WebCamera from '../../Camera/WebCamera';
 import MobileCamera from '../../Camera/MobileCamera';
 import config from '../../../config';
 import MainLayout from '../../../components/MainLayout/MainLayout';
-import iphone from '../../../assets/iphone.png';
+
+import { QRCodeSVG } from 'qrcode.react';
 
 const StyleContent = styledComponents.div`
     font-family: IBMPlexSansKR-Regular;
@@ -30,13 +31,13 @@ const StyleContent = styledComponents.div`
 const AlignContents = styledComponents.div`
     display: flex;
     flex-direction: column;
-    padding: 50px;
-    border-radius: 45px;
-    border-width: 30px;
-    border-style: solid;
-    border-color: black;
-    background-color: rgba(255, 255, 255, 0.5);
-`;
+    width:730px;
+    height: 600px;
+    padding-top: 25px;
+    padding-left: -10px;
+    padding-bottom: 45px;
+    border-radius: 25px;
+ `;
 
 const WebCamPage = styledComponents.section`
     display: block;
@@ -106,6 +107,7 @@ export default function MobileCamContent() {
     const [videoList, setVideoList] = useState<any[]>([]);
     const [alertClosed, setAlertClosed] = useState<any>('inline-block');
     const [switchChecked, setSwitchChecked] = useState<any>(false);
+    let getUserId = '';
 
     useEffect(() => {
         dispatch({
@@ -126,8 +128,8 @@ export default function MobileCamContent() {
             .then((result) => {
                 setVideoList(new Array(result.data));
 
-                console.log(result.data);
                 console.log('최근 24시간 내 저장된 영상 데이터 로드 성공');
+                getUserId = result.data[0].userId;
             })
             .catch((err) => {
                 console.log(err);
@@ -142,66 +144,36 @@ export default function MobileCamContent() {
         <MainLayout>
             <StyleContent>
                 {usim !== undefined && usim.length === 0 && <Modal />}
-                <AlignContents>
-                    <div style={{ textAlign: 'center', top: '-10px' }}>
-                        <img src={iphone} style={{ width: '200px', position: 'relative', top: '-50px', left: '13px' }}></img>
-                    </div>
-                    {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <MaterialUISwitch
-                                        sx={{ m: 1 }}
-                                        checked={switchChecked}
-                                        onChange={() => {
-                                            setSwitchChecked(!switchChecked);
-                                        }}
-                                    />
-                                }
-                                label={<Typography sx={{ color: 'white' }}>Select Device</Typography>}
-                            />
-                        </FormGroup>
-                        <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
-                            <ArrowCircleLeftRounded sx={{ mx: 1 }} />
-                            카메라를 연결할 기기를 바꿀 수 있어요!
-                            <Button
-                                onClick={() => {
-                                    setAlertClosed('none');
-                                }}
-                            >
-                                <ClearRounded />
-                            </Button>
-                        </Alert>
-                    </div> */}
-                    {switchChecked === true ? (
-                        <WebCamPage>
-                            <WebCamera onVideoListRender={videoRenderFlag} />
-                        </WebCamPage>
-                    ) : (
-                        <MobileCamPage>
-                            <MobileCamera onVideoListRender={videoRenderFlag} />
-                        </MobileCamPage>
-                    )}
-                </AlignContents>
+                {/* <AlignContents> */}
+                <MobileCamPage>
+                    <MobileCamera onVideoListRender={videoRenderFlag} />
+                </MobileCamPage>
+                {/* </AlignContents> */}
                 <div
                     style={{
                         width: '500px',
-                        // height: '780px',
+                        height: '780px',
                         paddingTop: '100px',
                         backgroundImage: `url('${process.env.PUBLIC_URL}/imgs/browser-frame.png')`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         borderRadius: '6px',
-                        // marginTop: '110px',
-                        marginLeft: '30px',
+                        marginTop: '110px',
+                        marginLeft: '80px',
+                        textAlign: 'center',
                     }}
                 >
-                    <h4 style={{ color: 'black' }}>
+                    <Alert severity="info" sx={{ margin: '10px' }}>
+                        모바일 원격 캠에 접속하시려면 QR을 찍어보세요
+                    </Alert>
+                    <QRCodeSVG style={{ paddingBottom: '12px' }} value={`${config.server.protocol}://${config.client.host}/remote/${getUserId}`} />
+                    <hr />
+                    <h4 style={{ color: 'black', marginTop: '15px' }}>
                         {' '}
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
                     </h4>
-                    <div>
+                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
                 </div>

@@ -272,7 +272,7 @@ function WebCamera(props: any) {
         <>
             <div>
                 <div>
-                    <h1 style={{ color: '#fff' }}>!!!!!:!!!!!:{runningTime}</h1>
+                    {/* <span style={{ color: '#fff' }}>녹화시간 : {runningTime}</span> */}
                     <div style={{ paddingBottom: '20px' }}>
                         {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
                         {/* <OnButton onClick={() => setCamStarted(true)}>ON</OnButton>

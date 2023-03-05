@@ -184,13 +184,14 @@ export default function CamContent() {
                         borderRadius: '6px',
                         marginTop: '110px',
                         marginLeft: '30px',
+                        textAlign: 'center',
                     }}
                 >
                     {/* <img
                         src={`${process.env.PUBLIC_URL}/imgs/browser.png`}
                         style={{ position: 'relative', height: '880px', width: '500px', borderRadius: '6px', zIndex: '0' }}
                     /> */}
-                    <h4 style={{ color: 'black', paddingLeft: '50px' }}>
+                    <h4 style={{ color: 'black' }}>
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
                     </h4>
