@@ -414,7 +414,7 @@ const Video = () => {
                                     >
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <Typography mt={5} ml={1} fontSize={15} color="#d1d5db">
-                                                {dayjs(card.createdAt).tz('utc').format('YYYY년 MM월 DD일 HH:mm')}
+                                                {dayjs(card.createdAt).format('YYYY년 MM월 DD일 HH:mm')}
                                             </Typography>
                                             <Typography mr={1} mt={2} variant="h5" component="h2">
                                                 {icons[expressions.indexOf(card.expressionLabel)]}
