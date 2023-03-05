@@ -69,7 +69,7 @@ export default function SingleAlbumEdit(props: any) {
                 <CiEdit
                     size="30"
                     onClick={editOn}
-                    style={{ color: '#fe2e79', cursor: 'pointer', marginTop: '3px', marginLeft: '20px', marginRight: '5px' }}
+                    style={{ color: '#00cceb', cursor: 'pointer', marginTop: '3px', marginLeft: '20px', marginRight: '5px' }}
                 />
             </div>
         </div>

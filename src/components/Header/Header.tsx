@@ -168,9 +168,9 @@ export default function Header(props: any | undefined) {
                             <EmotionIcon href="/report">
                                 <AssessmentOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
                             </EmotionIcon>
-                            <EmotionIcon>
+                            {/* <EmotionIcon>
                                 <NotificationsNoneOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
-                            </EmotionIcon>
+                            </EmotionIcon> */}
                         </>
                     )}
                     {isAuthenticated && (

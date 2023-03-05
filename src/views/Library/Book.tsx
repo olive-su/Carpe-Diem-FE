@@ -22,20 +22,19 @@ const Div = styled('div')`
         transform: scale(1.1);
         .title {
             display: block;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
             top: 50%;
-            left: 10%;
+            position: absolute;
+            left: 20%;
+            margin-left: -20px;
         }
         .image {
-            opacity: 0.5;
+            opacity: 0.2;
         }
     }
     .title {
         display: none;
         position: absolute;
-        color: #f42e79;
+        color: #fff;
         font-size: 18px;
         font-family: IBMPlexSansKR-Regular;
         font-weight: bold;
