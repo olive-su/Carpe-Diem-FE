@@ -152,13 +152,13 @@ export default function MobileCamContent() {
                 <div
                     style={{
                         width: '500px',
-                        height: '780px',
+                        height: '930px',
                         paddingTop: '100px',
                         backgroundImage: `url('${process.env.PUBLIC_URL}/imgs/browser-frame.png')`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         borderRadius: '6px',
-                        marginTop: '110px',
+                        marginTop: '135px',
                         marginLeft: '80px',
                         textAlign: 'center',
                     }}
@@ -168,14 +168,15 @@ export default function MobileCamContent() {
                     </Alert>
                     <QRCodeSVG style={{ paddingBottom: '12px' }} value={`${config.server.protocol}://${config.client.host}/remote/${getUserId}`} />
                     <hr />
-                    <h4 style={{ color: 'black', marginTop: '15px' }}>
+                    <h4 style={{ color: 'black', marginTop: '13px' }}>
                         {' '}
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
                     </h4>
-                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                    <div style={{ marginTop: '-12px', marginLeft: '11%', alignItems: 'center', flexDirection: 'column', overflow: 'auto' }}>
                         {videoList.length > 0 && videoList[0]?.map((videos: any, index: any) => <InteractiveCard key={index} properties={videos} />)}
                     </div>
+                    {/* </div> */}
                 </div>
             </StyleContent>
         </MainLayout>

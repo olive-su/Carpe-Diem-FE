@@ -16,6 +16,7 @@ import axios from 'axios';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import iphone from '../../assets/iphone-frame.png';
+import { margin } from '@mui/system';
 
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
@@ -420,7 +421,7 @@ function MobileCamera(props: any) {
 
     return (
         <>
-            <div>
+            <div style={{ marginBottom: '100px' }}>
                 <Link to={`/remote/${userId}`}>
                     <div style={{ marginLeft: '7px', marginTop: '30px', marginBottom: '10px' }}>
                         {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
