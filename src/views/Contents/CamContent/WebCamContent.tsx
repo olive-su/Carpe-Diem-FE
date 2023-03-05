@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
-import {  Switch } from '@mui/material';
+import { Switch } from '@mui/material';
 import { TimerRounded } from '@mui/icons-material';
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
@@ -153,6 +153,7 @@ export default function CamContent() {
                         borderRadius: '6px',
                         marginTop: '110px',
                         marginLeft: '30px',
+                        textAlign: 'center',
                         boxShadow: '0 1rem 2rem rgba(0, 0, 0, 1)',
                     }}
                 >
@@ -160,7 +161,7 @@ export default function CamContent() {
                         src={`${process.env.PUBLIC_URL}/imgs/browser.png`}
                         style={{ position: 'relative', height: '880px', width: '500px', borderRadius: '6px', zIndex: '0' }}
                     /> */}
-                    <h4 style={{ color: 'black', paddingLeft: '50px' }}>
+                    <h4 style={{ color: 'black' }}>
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
                     </h4>

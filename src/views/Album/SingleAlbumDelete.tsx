@@ -34,7 +34,7 @@ export default function AlbumDelete(props: any) {
     };
     return (
         <>
-            <CiTrash size="28" onClick={handleOpen} style={{ color: '#fe2e79', cursor: 'pointer', marginTop: '3px' }} />
+            <CiTrash size="28" onClick={handleOpen} style={{ color: '#f4292c', cursor: 'pointer', marginTop: '3px' }} />
 
             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>

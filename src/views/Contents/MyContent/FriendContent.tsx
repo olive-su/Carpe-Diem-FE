@@ -19,8 +19,8 @@ const Center = styled.div`
 export default function FriendContent() {
     return (
         <MainLayout>
-            <Typography sx={{ fontSize: '20px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '-20px', color: 'var(--white)', marginX: '19%' }}>
-                Friend
+            <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '-20px', color: 'var(--white)', marginX: '19%' }}>
+                친구목록
             </Typography>
             <Center>
                 <Grid container spacing={1} style={{ display: 'flex', justifyContent: 'center' }}>

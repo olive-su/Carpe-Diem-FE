@@ -35,6 +35,9 @@ function WebCamera(props: any) {
 
     const [data, setData] = useState(EmotionSetData(0));
 
+    // 녹화시간
+    const [runningTime, setRunningTime] = useState(0);
+    const [timerId, setTimerId] = useState<any>(null);
     // 사용자 비디오 가져오기
     useEffect(() => {
         navigator.mediaDevices
@@ -185,6 +188,11 @@ function WebCamera(props: any) {
                 recordVideo(mediaRecorder); // 녹화시작
                 setRecordStarted(true);
                 console.log('녹화 시작');
+                // 녹화 경과시간 표시
+                const timer = setInterval(() => {
+                    setRunningTime((prevTime) => prevTime + 1);
+                }, 1000);
+                setTimerId(timer);
             }
             // 녹화 시간 연장
             else if (recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === recordInfo.label) {
@@ -277,6 +285,7 @@ function WebCamera(props: any) {
         <>
             <div>
                 <div>
+                    {/* <span style={{ color: '#fff' }}>녹화시간 : {runningTime}</span> */}
                     <div style={{ paddingBottom: '20px' }}>
                         <div style={{ position: 'absolute', display: 'flex', alignItems: 'left', top: '30px' }}>
                             {usim?.map((us: any) => {

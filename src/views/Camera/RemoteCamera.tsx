@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { Typography } from '@mui/material';
 import config from '../../config';
 import * as io from 'socket.io-client';
 
@@ -193,8 +194,19 @@ export default function MobileCamera() {
             <span>
                 <hr />
             </span>
-            <div>
-                <video ref={videoRef} autoPlay muted width={constraints.video.width} height={constraints.video.height} />
+            <div style={{ display: 'block', flexDirection: 'row', textAlign: 'center' }}>
+                <h2
+                    style={{
+                        fontSize: '40px',
+                        fontWeight: 'bold',
+                        paddingTop: '100px',
+                        color: 'var(--white)',
+                    }}
+                >
+                    모바일 원격 캠
+                </h2>
+                <video ref={videoRef} autoPlay muted width="500px" />
+                {/* <video ref={videoRef} autoPlay muted width={constraints.video.width} height={constraints.video.height} /> */}
             </div>
             <span>
                 <hr style={{ marginTop: '-1px' }} />
