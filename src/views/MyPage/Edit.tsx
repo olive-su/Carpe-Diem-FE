@@ -78,7 +78,7 @@ const Edit = () => {
 
     React.useEffect(function () {
         axios({
-            url: `http://${config.server.host}:${config.server.port}/user`,
+            url: `/user`,
             method: 'get',
             withCredentials: true,
         })
@@ -95,7 +95,7 @@ const Edit = () => {
     const openUsimForm = () => {
         axios({
             method: 'get',
-            url: `http://${config.server.host}:${config.server.port}/friend/updateImages`,
+            url: `/friend/updateImages`,
             withCredentials: true,
         })
             .then(function (response) {
@@ -119,7 +119,7 @@ const Edit = () => {
 
         axios({
             method: 'put',
-            url: `http://${config.server.host}:${config.server.port}/friend/updateImages`,
+            url: `/friend/updateImages`,
             withCredentials: true,
             data: formData,
             headers: {
