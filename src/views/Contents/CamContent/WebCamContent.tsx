@@ -3,17 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import styledComponents from 'styled-components';
 import { styled } from '@mui/material/styles';
-import { Alert, Button, FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { ArrowCircleLeftRounded, ClearRounded, TimerRounded } from '@mui/icons-material';
-import { Typography } from '@mui/material';
+import { Switch } from '@mui/material';
+import { TimerRounded } from '@mui/icons-material';
 import InteractiveCard from '../../Card/InteractiveCard';
 import Modal from '../../Camera/Modal';
 import { USIM_LOADING_REQUEST } from '../../../redux/types';
 import WebCamera from '../../Camera/WebCamera';
-import MobileCamera from '../../Camera/MobileCamera';
-import config from '../../../config';
 import MainLayout from '../../../components/MainLayout/MainLayout';
-import { url } from 'inspector';
 
 const StyleContent = styledComponents.div`
     font-family: IBMPlexSansKR-Regular;
@@ -142,33 +138,6 @@ export default function CamContent() {
             <StyleContent>
                 {usim !== undefined && usim.length === 0 && <Modal />}
                 <AlignContents>
-                    <div style={{ position: 'absolute', top: '30px' }}>
-                        {/* <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <MaterialUISwitch
-                                        sx={{ m: 1 }}
-                                        checked={switchChecked}
-                                        onChange={() => {
-                                            setSwitchChecked(!switchChecked);
-                                        }}
-                                    />
-                                }
-                                label={<Typography sx={{ color: 'white' }}>Select Device</Typography>}
-                            />
-                        </FormGroup> */}
-                        {/* <Alert icon={false} severity="info" style={{ display: `${alertClosed}` }}>
-                            <ArrowCircleDownRounded sx={{ mx: 1 }} />
-                            카메라를 연결할 기기를 바꿀 수 있어요!
-                            <Button
-                                onClick={() => {
-                                    setAlertClosed('none');
-                                }}
-                            >
-                                <ClearRounded />
-                            </Button>
-                        </Alert> */}
-                    </div>
                     <WebCamPage>
                         <WebCamera onVideoListRender={videoRenderFlag} />
                     </WebCamPage>
@@ -184,13 +153,15 @@ export default function CamContent() {
                         borderRadius: '6px',
                         marginTop: '110px',
                         marginLeft: '30px',
+                        textAlign: 'center',
+                        boxShadow: '0 1rem 2rem rgba(0, 0, 0, 1)',
                     }}
                 >
                     {/* <img
                         src={`${process.env.PUBLIC_URL}/imgs/browser.png`}
                         style={{ position: 'relative', height: '880px', width: '500px', borderRadius: '6px', zIndex: '0' }}
                     /> */}
-                    <h4 style={{ color: 'black', paddingLeft: '50px' }}>
+                    <h4 style={{ color: 'black' }}>
                         <TimerRounded sx={{ marginRight: '10px' }} />
                         최근 저장된 영상
                     </h4>

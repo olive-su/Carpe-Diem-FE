@@ -46,10 +46,10 @@ import SickIcon from '@mui/icons-material/Sick';
 const icons = [
     <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#fdba74', stroke: '#9a3412', strokeWidth: '0.5px' }} />,
     <SentimentDissatisfiedIcon sx={{ fontSize: '60px', color: '#67e8f9', stroke: '#155e75', strokeWidth: '0.5px' }} />,
-    <LocalFireDepartmentIcon sx={{ fontSize: '60px', color: '#fda4af' , stroke: '#991b1b', strokeWidth: '0.5px' }} />,
-    <SickIcon sx={{ fontSize: '60px', color: '#86efac', stroke: '#166534', strokeWidth: '0.5px'  }} />,
-    <SentimentVeryDissatisfiedRoundedIcon sx={{ fontSize: '60px', color: '#d8b4fe',stroke: '#6b21a8', strokeWidth: '0.5px'  }} />,
-    <OutletIcon sx={{ fontSize: '60px', color: '#fde047' ,stroke: '#854d0e', strokeWidth: '0.5px' }} />,
+    <LocalFireDepartmentIcon sx={{ fontSize: '60px', color: '#fda4af', stroke: '#991b1b', strokeWidth: '0.5px' }} />,
+    <SickIcon sx={{ fontSize: '60px', color: '#86efac', stroke: '#166534', strokeWidth: '0.5px' }} />,
+    <SentimentVeryDissatisfiedRoundedIcon sx={{ fontSize: '60px', color: '#d8b4fe', stroke: '#6b21a8', strokeWidth: '0.5px' }} />,
+    <OutletIcon sx={{ fontSize: '60px', color: '#fde047', stroke: '#854d0e', strokeWidth: '0.5px' }} />,
 ];
 const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised'];
 
@@ -153,8 +153,8 @@ const Video = () => {
     return (
         <MainLayout>
             <Container maxWidth="lg">
-                <Typography sx={{ fontSize: '20px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'var(--white)' }}>
-                    Video
+                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'var(--white)' }}>
+                    비디오
                 </Typography>
                 <ClearCard>
                     <Box
@@ -413,7 +413,7 @@ const Video = () => {
                                         }}
                                     >
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <Typography mt={5} ml={1} fontSize={15} color="#d1d5db">
+                                            <Typography mt={5} ml={1} fontSize={20} color="#d1d5db">
                                                 {dayjs(card.createdAt).format('YYYY년 MM월 DD일 HH:mm')}
                                             </Typography>
                                             <Typography mr={1} mt={2} variant="h5" component="h2">

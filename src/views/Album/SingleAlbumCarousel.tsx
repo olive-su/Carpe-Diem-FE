@@ -112,7 +112,7 @@ export default function AlbumCarousel(props: any) {
     };
     return (
         <div>
-            <h3 style={{ fontSize: '15px', textAlign: 'center', paddingTop: '5px' }}>
+            <h3 style={{ fontSize: '20px', textAlign: 'center', paddingTop: '5px' }}>
                 {' '}
                 {dayjs(props.cardInfo.createdAt).tz('utc').format('YYYY년 MM월 DD일')}
             </h3>
@@ -125,7 +125,7 @@ export default function AlbumCarousel(props: any) {
                     height="380px"
                 ></video>
             </div>
-            <div style={{ textAlign: 'center', marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ fontSize: '20px', textAlign: 'center', marginTop: '4px', display: 'flex', justifyContent: 'center' }}>
                 <span style={{ marginRight: '10px' }}>
                     {emotionType()}
                     {props.cardInfo.expressionLabel}
@@ -150,9 +150,8 @@ export default function AlbumCarousel(props: any) {
                     )}
                 </span>
 
-                <CiEdit size="21" onClick={editOn} style={{ cursor: 'pointer', color: '#fe2e79', marginLeft: '10px', marginRight: '5px' }} />
-
-                <CiTrash size="20" onClick={handleOpen} style={{ cursor: 'pointer', color: '#fe2e79' }} />
+                <CiEdit size="21" onClick={editOn} style={{ cursor: 'pointer', color: '#00cceb', marginLeft: '10px', marginRight: '3px' }} />
+                <CiTrash size="20" onClick={handleOpen} style={{ cursor: 'pointer', color: '#f4292c', marginLeft: '5px' }} />
 
                 <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                     <Box sx={style}>

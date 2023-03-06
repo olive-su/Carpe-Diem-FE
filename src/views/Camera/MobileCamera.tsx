@@ -4,7 +4,6 @@ import * as faceapi from 'face-api.js';
 import * as io from 'socket.io-client';
 import styled, { keyframes } from 'styled-components';
 import { TbLoader } from 'react-icons/tb';
-import { QRCodeSVG } from 'qrcode.react';
 
 import './index.css';
 import Emotion from './Emotion';
@@ -15,6 +14,9 @@ import EmotionSetData from './EmotionSetData';
 import config from '../../config';
 import axios from 'axios';
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import iphone from '../../assets/iphone-frame.png';
+import { margin } from '@mui/system';
 
 let recordFlag = false; // 녹화 여부
 let recentRecordTime: number;
@@ -40,6 +42,10 @@ function MobileCamera(props: any) {
     const [recordStarted, setRecordStarted] = useState(false);
 
     const [data, setData] = useState(EmotionSetData(0));
+
+    // 녹화시간
+    const [runningTime, setRunningTime] = useState(0);
+    const [timer, setTimerId] = useState<any>(null);
 
     useEffect(() => {
         setCamStarted(true);
@@ -332,6 +338,12 @@ function MobileCamera(props: any) {
                 recordVideo(mediaRecorder); // 녹화시작
                 setRecordStarted(true);
                 console.log('녹화 시작');
+
+                // 녹화 경과시간 표시
+                const timer = setInterval(() => {
+                    setRunningTime((prevTime) => prevTime + 1);
+                }, 1000);
+                setTimerId(timer);
             }
             // 녹화 시간 연장
             else if (recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === recordInfo.label) {
@@ -411,8 +423,13 @@ function MobileCamera(props: any) {
 
     return (
         <>
-            <div>
-                {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+            <div style={{ marginBottom: '100px' }}>
+                <Link to={`/remote/${userId}`}>
+                    <div style={{ marginLeft: '7px', marginTop: '30px', marginBottom: '10px' }}>
+                        {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                    </div>
+                </Link>
+                {/* <div>녹화시간 : {runningTime}</div> */}
                 <div
                     ref={wrapRef}
                     id="wrap"
@@ -422,21 +439,23 @@ function MobileCamera(props: any) {
                         height: constraints.video.height,
                     }}
                 >
-                    <div>
-                        <QRCodeSVG value={`${config.server.protocol}://${config.client.host}/remote/${userId}`} />
-                        {/* {onRemoteStream ? ( */}
-                        <video ref={mobileRef} autoPlay muted onPlay={onPlay} width={constraints.video.width} height={constraints.video.height} />
-                        {/* ) : (
+                    <div style={{ textAlign: 'center', top: '-10px' }}>
+                        <img src={iphone} style={{ position: 'absolute', width: '880px', height: '1000px', top: '-30px', left: '-45px' }}></img>
+                        <div>
+                            {/* {onRemoteStream ? ( */}
                             <video
-                                src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
+                                style={{ marginTop: '100px' }}
+                                ref={mobileRef}
                                 autoPlay
-                                loop
                                 muted
-                                style={{ objectFit: 'cover' }}
+                                onPlay={onPlay}
                                 width={constraints.video.width}
                                 height={constraints.video.height}
                             />
+                            {/* ) : (
+                            ''
                         )} */}
+                        </div>
                     </div>
                 </div>
             </div>
