@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faImage } from '@fortawesome/free-regular-svg-icons';
 import Modal from '@mui/material/Modal';
 import ImageUploader from 'react-images-upload';
-import Resizer from 'react-image-file-resizer';
 
 const Profile = styled.img`
     display: flex;
