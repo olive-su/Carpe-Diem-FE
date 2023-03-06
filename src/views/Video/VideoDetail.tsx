@@ -16,9 +16,9 @@ import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const VideoStyle = styled.video`
-    @media (max-width: 768px) {
-        width: 80vw;
-    }
+    /* @media (max-width: 768px) { */
+    height: 80vh;
+    /* } */
 `;
 
 const VideoDetail = () => {
@@ -48,6 +48,8 @@ const VideoDetail = () => {
                         outline: 'none',
                         display: 'flex',
                         flexDirection: 'row',
+                        // width: '800px',
+                        // height: '600px',
                     }}
                 >
                     <VideoStyle
