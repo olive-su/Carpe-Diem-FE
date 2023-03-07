@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import config from '../../config';
 import dayjs from 'dayjs';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
@@ -14,11 +14,6 @@ import { CiEdit, CiTrash } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { CARD_UPDATE_REQUEST, CARD_DELETE_REQUEST } from '../../redux/types';
 import styled from 'styled-components';
-
-const InputBox = styled.div`
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
-`;
 
 const style = {
     position: 'absolute',
@@ -110,6 +105,7 @@ export default function AlbumCarousel(props: any) {
         });
         window.location.reload();
     };
+
     return (
         <div>
             <h3 style={{ fontSize: '20px', textAlign: 'center', paddingTop: '5px' }}>
@@ -141,7 +137,13 @@ export default function AlbumCarousel(props: any) {
                                     value={text}
                                     onChange={(e) => handleChange(e)}
                                     onKeyDown={handleKeyDown}
-                                    style={{ backgroundColor: 'transparent', borderColor: '#fff', color: '#fff', borderRadius: '5px' }}
+                                    style={{
+                                        border: '1px solid #1d2b3a',
+                                        background: 'rgba(255, 255, 255, 0.25)',
+                                        borderRadius: '5px',
+                                        color: '#00dfc4',
+                                        outline: 'none',
+                                    }}
                                 />
                             </form>
                         </span>

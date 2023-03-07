@@ -45,7 +45,9 @@ export default function Header(props: any | undefined) {
     const GithubIcon = styled.a`
         text-decoration: none;
         color: ${themeColorDark};
-        font-size: 1.5em;
+        /* font-size: 1.5em; */
+        font-size: 2.5em;
+        margin-top: -10px;
         margin-right: 10px;
         &:hover {
             text-decoration: none;
@@ -85,7 +87,8 @@ export default function Header(props: any | undefined) {
     const Inner = styled.a`
         display: inline-flex;
         margin: 5px 0;
-        font-size: 1.35em;
+        /* font-size: 1.35em; */
+        font-size: 2.35em;
         text-decoration: none;
         color: ${themeColorDark};
         padding: 5px 20px;
@@ -100,7 +103,8 @@ export default function Header(props: any | undefined) {
     const SignOutBtn = styled.button`
         display: inline-flex;
         margin: 5px 0;
-        font-size: 1.35em;
+        /* font-size: 1.35em; */
+        font-size: 2.35em;
         text-decoration: none;
         color: ${themeColorDark};
         padding: 5px 20px;
@@ -166,7 +170,7 @@ export default function Header(props: any | undefined) {
                     {!props.dark && (
                         <>
                             <EmotionIcon href="/report">
-                                <AssessmentOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
+                                <AssessmentOutlined sx={{ marginTop: 0.6, fontSize: 35 }} />
                             </EmotionIcon>
                             {/* <EmotionIcon>
                                 <NotificationsNoneOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
@@ -175,7 +179,8 @@ export default function Header(props: any | undefined) {
                     )}
                     {isAuthenticated && (
                         <MenuButton onClick={handleMenuToggle}>
-                            {isMenuOpen === '0' ? <BiExit size="30" name="close-outline" /> : <BiMenu size="30" name="menu-outline" />}
+                            {isMenuOpen === '0' ? <BiExit size="70" name="close-outline" /> : <BiMenu size="70" name="menu-outline" />}{' '}
+                            {/* 기존 사이즈 : 30 */}
                         </MenuButton>
                     )}
                 </RightSide>
@@ -206,7 +211,7 @@ export default function Header(props: any | undefined) {
                             history.go(0);
                         }}
                     >
-                        <MeetingRoom style={{ marginTop: '5px', marginRight: '10px' }} />
+                        <MeetingRoom style={{ marginTop: '5px', marginRight: '10px', fontSize: '50px' }} />
                         로그아웃
                     </SignOutBtn>
                 </List>

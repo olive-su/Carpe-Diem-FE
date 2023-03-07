@@ -48,7 +48,7 @@ const VideoDelete = (props: any) => {
                         정말 삭제하시겠습니까?
                     </Typography>
                     <Typography fontSize={13} color="#64748b" id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
-                        삭제된 앨범의 영상은 Video 탭에서 계속 볼 수 있습니다.
+                        영상이 영구적으로 삭제됩니다.
                     </Typography>
                     <Typography align="right">
                         <Button onClick={onClickDelete}>확인</Button>
