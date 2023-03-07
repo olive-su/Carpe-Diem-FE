@@ -250,7 +250,8 @@ function MobileCamera(props: any) {
         const canvas = faceapi.createCanvasFromMedia(mobileRef.current as HTMLVideoElement);
         if (wrapRef.current !== null) wrapRef.current.append(canvas);
 
-        const mediaStream = await mobileRef.current.srcObject({ video: true, audio: true }); // 다운로드할 영상 변수 생성
+        const mediaStream = new MediaStream(mobileRef.current.srcObject);
+
         const mediaRecorder = new MediaRecorder(mediaStream); // 새로운 영상 객체 생성
         mediaRecorder.ondataavailable = handleDataAvailable;
 
@@ -330,6 +331,7 @@ function MobileCamera(props: any) {
                     count: 1,
                     startTime: expressions.time,
                     maxTime: -32400000,
+                    device: 'mobile',
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();

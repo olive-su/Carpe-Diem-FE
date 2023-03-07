@@ -4,6 +4,7 @@ declare interface RecordInfo {
     count: number;
     startTime: number;
     maxTime: number;
+    device: string;
 }
 
 declare interface Expression {
