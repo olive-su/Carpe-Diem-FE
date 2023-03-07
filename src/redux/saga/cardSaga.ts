@@ -23,10 +23,12 @@ import {
 
 /* 카드 리스트 로드 */
 const cardListLoadAPI: any = (data: any) => {
+    console.log('카드리스트 로드', data);
     return axios({
         method: 'get',
-        url: `/card?page=${data}`,
+        url: `/card?page=${data.offset}`,
         withCredentials: true,
+        params: { option: data.option },
     });
 };
 
@@ -35,7 +37,7 @@ function* cardListload(action: any): any {
         const result = yield call(cardListLoadAPI, action.payload);
         yield put({
             type: CARD_LIST_LOADING_SUCCESS,
-            payload: result.data,
+            payload: { result: result.data },
         });
     } catch (e: any) {
         yield put({
@@ -47,7 +49,7 @@ function* cardListload(action: any): any {
 
 function* cardListFilterload(action: any): any {
     try {
-        const result = yield call(cardListLoadAPI);
+        const result = yield call(cardListLoadAPI, action.payload);
         yield put({
             type: CARD_LIST_FILTER_EXPRESSION_SUCCESS,
             payload: { result: result.data, checked: action.payload.checked },
@@ -60,38 +62,40 @@ function* cardListFilterload(action: any): any {
     }
 }
 
+function* watchCardListFilterLoad() {
+    yield takeEvery(CARD_LIST_FILTER_EXPRESSION, cardListFilterload);
+}
 function* watchCardListLoad() {
     yield takeEvery(CARD_LIST_LOADING_REQUEST, cardListload);
 }
 
-function* watchCardListFilterLoad() {
-    yield takeEvery(CARD_LIST_FILTER_EXPRESSION, cardListFilterload);
-}
-
-function* cardListDateload(action: any): any {
-    try {
-        const result = yield call(cardListLoadAPI);
-        yield put({
-            type: CARD_LIST_FILTER_DATE_SUCCESS,
-            payload: { result: result.data, option: action.payload.option },
-        });
-    } catch (e: any) {
-        yield put({
-            type: CARD_LIST_LOADING_FAILURE,
-            payload: e.response,
-        });
-    }
-}
-function* watchCardListDateLoad() {
-    yield takeEvery(CARD_LIST_FILTER_DATE, cardListDateload);
-}
+// function* cardListDateload(action: any): any {
+//     try {
+//         const result = yield call(cardListLoadAPI);
+//         yield put({
+//             type: CARD_LIST_FILTER_DATE_SUCCESS,
+//             payload: { result: result.data, option: action.payload.option },
+//         });
+//     } catch (e: any) {
+//         yield put({
+//             type: CARD_LIST_LOADING_FAILURE,
+//             payload: e.response,
+//         });
+//     }
+// }
+// function* watchCardListDateLoad() {
+//     yield takeEvery(CARD_LIST_FILTER_DATE, cardListDateload);
+// }
 
 /* 카드 정보 로드 */
 const cardLoadAPI: any = (data: any) => {
     return axios({
         method: 'get',
-        url: `/card/${data}`,
+        url: `/card/${data.offset}`,
         withCredentials: true,
+        params: {
+            option: data.option,
+        },
     });
 };
 
@@ -179,7 +183,7 @@ function* watchCardDelete() {
 }
 
 function* cardListSaga() {
-    yield all([fork(watchCardListLoad), fork(watchCardListFilterLoad), fork(watchCardListDateLoad)]);
+    yield all([fork(watchCardListLoad), fork(watchCardListFilterLoad)]);
 }
 
 function* cardSaga() {

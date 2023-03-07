@@ -63,13 +63,23 @@ const ToggleButtons6 = styled(ToggleButton)(() => ({
 export default function IndeterminateCheckbox(props: any) {
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
-    const [option, setOption] = React.useState('Newest');
     const [checked, setChecked] = React.useState([true, true, true, true, true, true]);
-
+    const [option, setOption] = React.useState(localStorage.getItem('option')?localStorage.getItem('option'):0);
     const handleChange = (event: any) => {
+        props.setOption(event.target.value);
         setOption(event.target.value);
+        localStorage.setItem('option', event.target.value);
+        window.location.reload();
     };
     const handleChange1 = (event: any) => {
+        props.setChecked([
+            event.target.checked,
+            event.target.checked,
+            event.target.checked,
+            event.target.checked,
+            event.target.checked,
+            event.target.checked,
+        ]);
         setChecked([
             event.target.checked,
             event.target.checked,
@@ -83,7 +93,8 @@ export default function IndeterminateCheckbox(props: any) {
                 type: CARD_LIST_FILTER_EXPRESSION,
                 payload: { checked: [false, false, false, false, false, false] },
             });
-            setOption('Newest');
+            props.setOption(0);
+            setOption(0);
         } else {
             dispatch({
                 type: CARD_LIST_FILTER_EXPRESSION,
@@ -93,41 +104,48 @@ export default function IndeterminateCheckbox(props: any) {
     };
 
     const handleChange2 = () => {
+        props.setChecked([!checked[0], checked[1], checked[2], checked[3], checked[4], checked[5]]);
         setChecked([!checked[0], checked[1], checked[2], checked[3], checked[4], checked[5]]);
     };
 
     const handleChange3 = () => {
+        props.setChecked([checked[0], !checked[1], checked[2], checked[3], checked[4], checked[5]]);
         setChecked([checked[0], !checked[1], checked[2], checked[3], checked[4], checked[5]]);
     };
     const handleChange4 = () => {
+        props.setChecked([checked[0], checked[1], !checked[2], checked[3], checked[4], checked[5]]);
         setChecked([checked[0], checked[1], !checked[2], checked[3], checked[4], checked[5]]);
     };
     const handleChange5 = () => {
+        props.setChecked([checked[0], checked[1], checked[2], !checked[3], checked[4], checked[5]]);
         setChecked([checked[0], checked[1], checked[2], !checked[3], checked[4], checked[5]]);
     };
     const handleChange6 = () => {
+        props.setChecked([checked[0], checked[1], checked[2], checked[3], !checked[4], checked[5]]);
         setChecked([checked[0], checked[1], checked[2], checked[3], !checked[4], checked[5]]);
     };
     const handleChange7 = () => {
+        props.setChecked([checked[0], checked[1], checked[2], checked[3], checked[4], !checked[5]]);
         setChecked([checked[0], checked[1], checked[2], checked[3], checked[4], !checked[5]]);
     };
 
     // setChecked([checked[0], checked[1], checked[2], checked[3], event.target.checked]);
-    useEffect(() => {
-        dispatch({
-            type: CARD_LIST_FILTER_EXPRESSION,
-            payload: { checked: checked },
-        });
-    }, [checked]);
-    useEffect(() => {
-        dispatch({
-            type: CARD_LIST_FILTER_DATE,
-            payload: { option: option },
-        });
-    }, [option]);
-    useEffect(() => {
-        setOption('Newest');
-    }, []);
+    // useEffect(() => {
+    //     dispatch({
+    //         type: CARD_LIST_FILTER_EXPRESSION,
+    //         payload: { checked: checked },
+    //     });
+    // }, [checked]);
+    // useEffect(() => {
+    //     dispatch({
+    //         type: CARD_LIST_FILTER_DATE,
+    //         payload: { option: option },
+    //     });
+    // }, [option]);
+    // useEffect(() => {
+    //     props.setOption(0);
+    //     setOption(0);
+    // }, []);
     const children = (
         // <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
         //     <FormControlLabel label="Child 1" control={<Checkbox checked={checked[0]} onChange={handleChange2} />} />
@@ -148,8 +166,8 @@ export default function IndeterminateCheckbox(props: any) {
                     inputProps={{ 'aria-label': 'Without label' }}
                     sx={{ border: 1, borderColor: 'white', color: 'white' }}
                 >
-                    <MenuItem value={'Newest'}>최신순</MenuItem>
-                    <MenuItem value={'Oldest'}>오래된순</MenuItem>
+                    <MenuItem value={0}>최신순</MenuItem>
+                    <MenuItem value={1}>오래된순</MenuItem>
                 </Select>
             </FormControl>
             <FormControlLabel

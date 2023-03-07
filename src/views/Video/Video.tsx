@@ -28,7 +28,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import CloseIcon from '@mui/icons-material/Close';
 import config from '../../config';
-import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/types';
+import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST, CARD_LIST_FILTER_EXPRESSION } from '../../redux/types';
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,6 +42,7 @@ import OutletIcon from '@mui/icons-material/Outlet';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
 import SickIcon from '@mui/icons-material/Sick';
+import { KeyboardOptionKey } from '@mui/icons-material';
 
 const icons = [
     <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#fdba74', stroke: '#9a3412', strokeWidth: '0.5px' }} />,
@@ -85,11 +86,36 @@ const Video = () => {
     const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
+    const [option, setOption] = useState(localStorage.getItem('option'));
+    const [checked, setChecked] = useState([true, true, true, true, true, true]);
+
+    // useEffect(() => {
+    //     console.log('option', option);
+    //     dispatch({
+    //         type: CARD_LIST_LOADING_REQUEST,
+    //         payload: { offset: offset, option: localStorage.getItem('option') },
+    //     });
+    // }, [dispatch, option]);
+    // useEffect(() => {
+    //     console.log('option', option);
+    //     dispatch({
+    //         type: CARD_LIST_LOADING_REQUEST,
+    //         payload: { offset: offset, option: localStorage.getItem('option') },
+    //     });
+    // }, [dispatch, offset, option]);
+
+    // useEffect(() => {
+    //     dispatch({
+    //         type: CARD_LIST_FILTER_EXPRESSION,
+    //         payload: { offset: offset, option: localStorage.getItem('option'), checked: checked },
+    //     });
+    // }, [dispatch, checked]);
 
     useEffect(() => {
+        console.log('option', option);
         dispatch({
             type: CARD_LIST_LOADING_REQUEST,
-            payload: offset,
+            payload: { offset: offset, option: localStorage.getItem('option') },
         });
     }, [dispatch, offset]);
 
@@ -153,7 +179,7 @@ const Video = () => {
     return (
         <MainLayout>
             <Container maxWidth="lg">
-                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'var(--white)' }}>
+                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'white' }}>
                     비디오
                 </Typography>
                 <ClearCard>
@@ -171,7 +197,7 @@ const Video = () => {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography sx={{ color: 'var(--white)' }}>앨범에 추가할 비디오 확인하기</Typography>
+                                <Typography sx={{ color: 'white' }}>앨범에 추가할 비디오 확인하기</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography sx={{ color: '#a1a1aa', fontSize: '15px', textAlign: 'left', p: 1 }}>
@@ -315,7 +341,7 @@ const Video = () => {
                 </Modal>
 
                 <ClearCard>
-                    <IndeterminateCheckbox />
+                    <IndeterminateCheckbox setOption={setOption} setChecked={setChecked} />
                 </ClearCard>
                 <Grid container spacing={1} sx={{ mt: '20px' }}>
                     {cardList?.map((card: any) => (
