@@ -43,10 +43,6 @@ function MobileCamera(props: any) {
 
     const [data, setData] = useState(EmotionSetData(0));
 
-    // 녹화시간
-    const [runningTime, setRunningTime] = useState(0);
-    const [timer, setTimerId] = useState<any>(null);
-
     useEffect(() => {
         setCamStarted(true);
         setModelLoaded(true);
@@ -338,12 +334,6 @@ function MobileCamera(props: any) {
                 recordVideo(mediaRecorder); // 녹화시작
                 setRecordStarted(true);
                 console.log('녹화 시작');
-
-                // 녹화 경과시간 표시
-                const timer = setInterval(() => {
-                    setRunningTime((prevTime) => prevTime + 1);
-                }, 1000);
-                setTimerId(timer);
             }
             // 녹화 시간 연장
             else if (recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === recordInfo.label) {
@@ -423,42 +413,50 @@ function MobileCamera(props: any) {
 
     return (
         <>
-            <div style={{ marginBottom: '100px' }}>
+            <div>
                 <Link to={`/remote/${userId}`}>
-                    <div style={{ marginLeft: '7px', marginTop: '30px', marginBottom: '10px' }}>
-                        {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>}
+                    {/* <div style={{ marginLeft: '7px', marginTop: '30px', marginBottom: '10px' }}> */}
+                    <div style={{ marginLeft: '7px' }}>
+                        {recordStarted ? (
+                            <button style={onairButton}>ON AIR</button>
+                        ) : (
+                            <button style={{ ...offairButton, visibility: 'hidden' }}>ON AIR</button>
+                        )}
+                        {/* {recordStarted ? <button style={onairButton}>ON AIR</button> : <button style={offairButton}>ON AIR</button>} */}
                     </div>
                 </Link>
-                {/* <div>녹화시간 : {runningTime}</div> */}
-                <div
-                    ref={wrapRef}
-                    id="wrap"
-                    style={{
-                        borderStyle: 'none',
-                        width: constraints.video.width,
-                        height: constraints.video.height,
-                    }}
-                >
-                    <div style={{ textAlign: 'center', top: '-10px' }}>
-                        <img src={iphone} style={{ position: 'absolute', width: '880px', height: '1000px', top: '-30px', left: '-45px' }}></img>
-                        <div>
-                            {/* {onRemoteStream ? ( */}
-                            <video
-                                style={{ marginTop: '100px' }}
-                                ref={mobileRef}
-                                autoPlay
-                                muted
-                                onPlay={onPlay}
-                                width={constraints.video.width}
-                                height={constraints.video.height}
-                            />
-                            {/* ) : (
+            </div>
+            <div
+                ref={wrapRef}
+                id="mobilewrap"
+                style={{
+                    marginTop: '30px',
+                    borderStyle: 'none',
+                    width: constraints.video.width,
+                    height: constraints.video.height,
+                    marginBottom: '100px',
+                }}
+            >
+                <div style={{ textAlign: 'center', top: '-10px' }}>
+                    <img src={iphone} style={{ position: 'absolute', width: '880px', height: '1000px', top: '-30px', left: '-45px' }}></img>
+                    <div>
+                        {/* {onRemoteStream ? ( */}
+                        <video
+                            style={{ marginTop: '100px' }}
+                            ref={mobileRef}
+                            autoPlay
+                            muted
+                            onPlay={onPlay}
+                            width={constraints.video.width}
+                            height={constraints.video.height}
+                        />
+                        {/* ) : (
                             ''
                         )} */}
-                        </div>
                     </div>
                 </div>
             </div>
+
             <Emotion data={data} />
         </>
     );

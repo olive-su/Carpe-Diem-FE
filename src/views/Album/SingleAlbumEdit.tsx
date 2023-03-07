@@ -46,19 +46,19 @@ export default function SingleAlbumEdit(props: any) {
                 {editable ? (
                     <div>
                         <form>
-                            <input
-                                type="text"
+                            <textarea
                                 maxLength={25}
                                 value={text}
                                 onChange={(e) => handleChange(e)}
                                 onKeyDown={handleKeyDown}
                                 style={{
-                                    textAlign: 'center',
-                                    backgroundColor: 'transparent',
-                                    borderColor: '#fff',
-                                    color: '#fff',
-                                    borderRadius: '5px',
                                     fontSize: 28,
+                                    textAlign: 'center',
+                                    border: '1px solid #1d2b3a',
+                                    background: 'rgba(255, 255, 255, 0.25)',
+                                    borderRadius: '5px',
+                                    color: '#00dfc4',
+                                    outline: 'none',
                                 }}
                             />
                         </form>{' '}

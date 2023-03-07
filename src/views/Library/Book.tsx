@@ -4,6 +4,7 @@ import config from '../../config';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import Typography from '@mui/joy/Typography';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -22,10 +23,10 @@ const Div = styled('div')`
         transform: scale(1.1);
         .title {
             display: block;
-            top: 50%;
+            top: 40%;
             position: absolute;
-            left: 20%;
-            margin-left: -20px;
+            left: 15%;
+            text-overflow: ellipsis;
         }
         .image {
             opacity: 0.2;
@@ -50,9 +51,8 @@ const Book = (props: any) => {
                 src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.album.coverImgUrl}`}
             />
             <div className="title">
-                <div>
-                    {dayjs(props.album.createdAt).tz('utc').format('YYYY년 MM월 DD일')} {props.album.title}
-                </div>
+                <Typography sx={{ align: 'center' }}>{dayjs(props.album.createdAt).tz('utc').format('YYYY년 MM월 DD일')}</Typography>
+                <Typography>{props.album.title}</Typography>
             </div>
         </Div>
     );
