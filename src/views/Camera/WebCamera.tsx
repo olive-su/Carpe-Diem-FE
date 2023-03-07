@@ -35,10 +35,6 @@ function WebCamera(props: any) {
 
     const [data, setData] = useState(EmotionSetData(0));
 
-    // !!!녹화시간
-    const [runningTime, setRunningTime] = useState(0);
-    const [timerId, setTimerId] = useState<any>(null);
-    // !!!
     // 사용자 비디오 가져오기
     useEffect(() => {
         navigator.mediaDevices
@@ -167,13 +163,6 @@ function WebCamera(props: any) {
 
         const loop = async () => {
             const expressions = await faceDetecting(expression);
-            if (!recordFlag && recordStarted) {
-                setRecordStarted(false);
-                setRunningTime(0);
-                clearInterval(timerId);
-                setTimerId(null);
-            }
-
             // 새로 녹화 시작
             // CHECK
             // if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy') {
@@ -197,12 +186,6 @@ function WebCamera(props: any) {
                 recordVideo(mediaRecorder); // 녹화시작
                 setRecordStarted(true);
                 console.log('녹화 시작');
-                // !!! 녹화 경과시간 표시
-                const timer = setInterval(() => {
-                    setRunningTime((runningTime) => runningTime + 1);
-                }, 1000);
-                setTimerId(timer);
-                // !!!
             }
             // 녹화 시간 연장
             else if (recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === recordInfo.label) {
@@ -234,12 +217,7 @@ function WebCamera(props: any) {
                     }
                     recordFlag = false;
                     recentRecordTime = 0;
-                    // !!! 녹화시간 해제
-                    clearInterval(timerId);
-                    setRunningTime(0);
-                    setTimerId(null);
-                    // window.location.reload()
-                    // !!!
+
                     console.log('녹화 중지');
                     setRecordStarted(false);
                 } catch (err) {
@@ -330,6 +308,7 @@ function WebCamera(props: any) {
                                 }}
                             >
                                 <img src={bigUsim} width="600px" height="600px" style={{ objectFit: 'cover' }} />
+
                                 <Box>
                                     <IconButton type="button" onClick={handleClose}>
                                         <CloseIcon sx={{ color: 'white' }} />
@@ -337,7 +316,6 @@ function WebCamera(props: any) {
                                 </Box>
                             </Box>
                         </Modal>
-                        <span style={{ color: '#fff' }}>녹화시간 : {runningTime}</span>
                         {recordStarted ? (
                             <button style={onairButton}>ON AIR</button>
                         ) : (

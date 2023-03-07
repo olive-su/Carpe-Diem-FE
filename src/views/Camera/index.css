@@ -19,8 +19,16 @@ div#wrap canvas {
     position: absolute;
     top: 0;
     left: 0;
+}
+div#mobilewrap {
+    position: relative;
+}
+
+div#mobilewrap canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     margin-top: 100px;
-    /* visibility: hidden; */
 }
 
 .internet-window {
