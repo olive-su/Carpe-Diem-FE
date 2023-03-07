@@ -190,6 +190,7 @@ function WebCamera(props: any) {
                     count: 1,
                     startTime: expressions.time,
                     maxTime: -32400000,
+                    device: 'web',
                 };
                 recentRecordTime = expressions.time; // 최근 감정 갱신 시간
                 mediaRecorder.start();

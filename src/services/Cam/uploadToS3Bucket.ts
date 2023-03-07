@@ -6,7 +6,7 @@ export default (recordInfo: any, recordedChunks: any[]) => {
     const startTime = new Date(recordInfo.startTime).toString().split(' ')[4];
     const recordSave = startTime.split(':').join('_');
 
-    const file = new File(recordedChunks, `${recordSave}.webm`);
+    const file = new File(recordedChunks, `${recordInfo.device}-${recordSave}.webm`);
 
     const expressionData = {
         expressionLabel: recordInfo.label,
