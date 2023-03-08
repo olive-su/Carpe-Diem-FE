@@ -39,14 +39,20 @@ const Modal = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = images.length;
     const [pictures, setPictures] = React.useState<any[]>([]);
+
     const onDrop = (picture: any) => {
-        setPictures(picture);
-    };
-    React.useEffect(() => {
-        pictures.map((picture) => {
-            console.log(picture);
+        const filteredPictures = picture.map((p: any) => {
+            // 파일명에서 확장자 추출
+            const extension = p.name.split('.').pop();
+            // 파일명에서 확장자를 제외한 부분 추출
+            const fileNameWithoutExtension = p.name.replace(`.${extension}`, '');
+            // 특수문자와 공백 제거한 파일명 생성
+            const sanitizedFileName = fileNameWithoutExtension.replace(/[^\w\s]/gi, '');
+            // 새로운 파일 객체 생성
+            return new File([p], `${sanitizedFileName}.${extension}`, { type: p.type });
         });
-    }, [pictures]);
+        setPictures(filteredPictures);
+    };
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
