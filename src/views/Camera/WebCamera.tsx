@@ -356,7 +356,7 @@ function WebCamera(props: any) {
                                 />
                             ) : (
                                 <video
-                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/assets/loading-video.mp4`}
+                                    src={`https://${config.aws.cdn_name}/assets/loading-video.mp4`}
                                     autoPlay
                                     loop
                                     muted

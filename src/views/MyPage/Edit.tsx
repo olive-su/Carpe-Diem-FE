@@ -148,11 +148,7 @@ const Edit = () => {
         return usimInfo.map((id: any) => (
             <div key={id.img_id} style={{ width: '30%' }}>
                 <CardBox style={{ width: '70%', height: '20vh' }}>
-                    <Profile2
-                        src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${id.userImgUrl}`}
-                        alt="profile image"
-                        style={{ width: '100%', height: '17vh' }}
-                    />
+                    <Profile2 src={`https://${config.aws.cdn_name}/${id.userImgUrl}`} alt="profile image" style={{ width: '100%', height: '17vh' }} />
                 </CardBox>
             </div>
         ));
