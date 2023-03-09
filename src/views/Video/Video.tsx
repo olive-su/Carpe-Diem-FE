@@ -28,7 +28,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import CloseIcon from '@mui/icons-material/Close';
 import config from '../../config';
-import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/types';
+import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST, CARD_LIST_FILTER_EXPRESSION } from '../../redux/types';
 import Share from '../Album/Share';
 import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,6 +42,7 @@ import OutletIcon from '@mui/icons-material/Outlet';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
 import SickIcon from '@mui/icons-material/Sick';
+import { KeyboardOptionKey } from '@mui/icons-material';
 
 const icons = [
     <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#fdba74', stroke: '#9a3412', strokeWidth: '0.5px' }} />,
@@ -85,13 +86,15 @@ const Video = () => {
     const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
+    const [option, setOption] = useState(0);
+    const [checked, setChecked] = useState([true, true, true, true, true, true]);
 
     useEffect(() => {
         dispatch({
             type: CARD_LIST_LOADING_REQUEST,
-            payload: offset,
+            payload: { offset: offset, option: option, checked: checked },
         });
-    }, [dispatch, offset]);
+    }, [dispatch, offset, option, checked]);
 
     useEffect(() => {
         const handleScroll = (e: any) => {
@@ -153,9 +156,7 @@ const Video = () => {
     return (
         <MainLayout>
             <Container maxWidth="lg">
-                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'var(--white)' }}>
-                    비디오
-                </Typography>
+                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'white' }}>비디오</Typography>
                 <ClearCard>
                     <Box
                         sx={{
@@ -171,7 +172,7 @@ const Video = () => {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography sx={{ color: 'var(--white)' }}>앨범에 추가할 비디오 확인하기</Typography>
+                                <Typography sx={{ color: 'white' }}>앨범에 추가할 비디오 확인하기</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography sx={{ color: '#a1a1aa', fontSize: '15px', textAlign: 'left', p: 1 }}>
@@ -210,6 +211,7 @@ const Video = () => {
                                                                 style={{
                                                                     width: '170px',
                                                                     height: '120px',
+                                                                    objectFit: 'cover',
                                                                 }}
                                                             />
                                                             {/* <span style={{ display: 'none' }}>{list}</span> */}
@@ -315,7 +317,7 @@ const Video = () => {
                 </Modal>
 
                 <ClearCard>
-                    <IndeterminateCheckbox />
+                    <IndeterminateCheckbox setOption={setOption} setChecked={setChecked} />
                 </ClearCard>
                 <Grid container spacing={1} sx={{ mt: '20px' }}>
                     {cardList?.map((card: any) => (
@@ -344,15 +346,7 @@ const Video = () => {
                                         setComment(card.commnet);
                                     }}
                                 >
-                                    <CardCover
-                                    // sx={{
-                                    //     background:
-                                    //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                                    // }}
-                                    >
-                                        {/* <video id={String(card)} loop poster="https://source.unsplash.com/random">
-                                            <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4" />
-                                        </video> */}
+                                    <CardCover>
                                         <video
                                             id={String(card.cardId)}
                                             loop
@@ -426,40 +420,6 @@ const Video = () => {
                         </Grid>
                     ))}
                 </Grid>
-                {/* <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Modal open={open} onClose={handleClose}>
-                        <Box
-                            sx={{
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                position: 'absolute',
-                                outline: 'none',
-                                display: 'flex',
-                                flexDirection: 'row',
-                            }}
-                        >
-                            <video
-                                controls
-                                autoPlay
-                                loop
-                                poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${thumbnailUrl}`}
-                            >
-                                <source
-                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${videoUrl}`}
-                                    type="video/webm"
-                                />
-                            </video>
-                            <Box>
-                                <IconButton type="button" onClick={handleClose}>
-                                    <CloseIcon sx={{ color: 'white' }} />
-                                </IconButton>
-                                <Share img={thumbnailUrl} comment={comment} videoUrl={videoUrl} />
-                                <VideoDelete cardId={id} />
-                            </Box>
-                        </Box>
-                    </Modal>
-                </Container> */}
             </Container>
         </MainLayout>
     );
