@@ -6,7 +6,6 @@ import {
     CARD_LIST_LOADING_REQUEST,
     CARD_LIST_LOADING_SUCCESS,
     CARD_LIST_LOADING_FAILURE,
-    CARD_LIST_FILTER_EXPRESSION,
     CARD_LOADING_REQUEST,
     CARD_LOADING_SUCCESS,
     CARD_LOADING_FAILURE,
@@ -16,9 +15,6 @@ import {
     CARD_DELETE_REQUEST,
     CARD_DELETE_SUCCESS,
     CARD_DELETE_FAILURE,
-    CARD_LIST_FILTER_EXPRESSION_SUCCESS,
-    CARD_LIST_FILTER_DATE,
-    CARD_LIST_FILTER_DATE_SUCCESS,
 } from '../types';
 
 /* 카드 리스트 로드 */
@@ -47,24 +43,6 @@ function* cardListload(action: any): any {
     }
 }
 
-function* cardListFilterload(action: any): any {
-    try {
-        const result = yield call(cardListLoadAPI, action.payload);
-        yield put({
-            type: CARD_LIST_FILTER_EXPRESSION_SUCCESS,
-            payload: { result: result.data, checked: action.payload.checked },
-        });
-    } catch (e: any) {
-        yield put({
-            type: CARD_LIST_LOADING_FAILURE,
-            payload: e.response,
-        });
-    }
-}
-
-function* watchCardListFilterLoad() {
-    yield takeEvery(CARD_LIST_FILTER_EXPRESSION, cardListFilterload);
-}
 function* watchCardListLoad() {
     yield takeEvery(CARD_LIST_LOADING_REQUEST, cardListload);
 }
@@ -165,7 +143,7 @@ function* watchCardDelete() {
 }
 
 function* cardListSaga() {
-    yield all([fork(watchCardListLoad), fork(watchCardListFilterLoad)]);
+    yield all([fork(watchCardListLoad)]);
 }
 
 function* cardSaga() {

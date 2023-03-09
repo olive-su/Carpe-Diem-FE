@@ -128,31 +128,7 @@ export default function IndeterminateCheckbox(props: any) {
         props.setChecked([checked[0], checked[1], checked[2], checked[3], checked[4], !checked[5]]);
         setChecked([checked[0], checked[1], checked[2], checked[3], checked[4], !checked[5]]);
     };
-
-    // setChecked([checked[0], checked[1], checked[2], checked[3], event.target.checked]);
-    // useEffect(() => {
-    //     dispatch({
-    //         type: CARD_LIST_FILTER_EXPRESSION,
-    //         payload: { checked: checked },
-    //     });
-    // }, [checked]);
-    // useEffect(() => {
-    //     dispatch({
-    //         type: CARD_LIST_FILTER_DATE,
-    //         payload: { option: option },
-    //     });
-    // }, [option]);
-    // useEffect(() => {
-    //     props.setOption(0);
-    //     setOption(0);
-    // }, []);
     const children = (
-        // <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
-        //     <FormControlLabel label="Child 1" control={<Checkbox checked={checked[0]} onChange={handleChange2} />} />
-        //     <FormControlLabel label="Child 2" control={<Checkbox checked={checked[1]} onChange={handleChange3} />} />
-        //     <FormControlLabel label="Child 3" control={<Checkbox checked={checked[2]} onChange={handleChange4} />} />
-        //     <FormControlLabel label="Child 4" control={<Checkbox checked={checked[3]} onChange={handleChange5} />} />
-        // </Box>
         <Stack
             sx={{ mt: 4, pl: 10, p: 4, color: 'white', display: 'flex', justifyContent: 'center', alignContent: 'center' }}
             direction="row"
@@ -211,13 +187,6 @@ export default function IndeterminateCheckbox(props: any) {
 
     return (
         <Box>
-            {/* <FormControlLabel
-                label="전체선택"
-                control={
-                    <Checkbox checked={checked[0] && checked[1] && checked[2] && checked[3] && checked[4] && checked[5]} onChange={handleChange1} />
-                }
-                sx={{ mt: 3, ml: 3 }}
-            /> */}
             {children}
         </Box>
     );
