@@ -41,15 +41,16 @@ const Modal = () => {
     const [pictures, setPictures] = React.useState<any[]>([]);
 
     const onDrop = (picture: any) => {
+        let count = 0;
+
         const filteredPictures = picture.map((p: any) => {
             // 파일명에서 확장자 추출
             const extension = p.name.split('.').pop();
-            // 파일명에서 확장자를 제외한 부분 추출
-            const fileNameWithoutExtension = p.name.replace(`.${extension}`, '');
-            // 특수문자와 공백 제거한 파일명 생성
-            const sanitizedFileName = fileNameWithoutExtension.replace(/[^\w\s]/gi, '');
+
+            count += 1;
+
             // 새로운 파일 객체 생성
-            return new File([p], `${sanitizedFileName}.${extension}`, { type: p.type });
+            return new File([p], `${count}.${extension}`, { type: p.type });
         });
         setPictures(filteredPictures);
     };
@@ -140,13 +141,7 @@ const Modal = () => {
                         }
                     />
                     <DialogContentText sx={{ mt: '25px', mb: '10px' }}>얼굴 이미지 3개를 업로드해주세요</DialogContentText>
-                    <ImageUploader
-                        withPreview={true}
-                        withIcon={false}
-                        onChange={onDrop}
-                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                        maxFileSize={5242880}
-                    />
+                    <ImageUploader withPreview={true} withIcon={false} onChange={onDrop} imgExtension={['.jpg', '.png']} maxFileSize={5242880} />
                 </DialogContent>
                 <DialogActions sx={{ backgroundColor: '#ddd6fe' }}>
                     {pictures.length === 3 ? (
