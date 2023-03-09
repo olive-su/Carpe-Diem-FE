@@ -64,12 +64,12 @@ export default function IndeterminateCheckbox(props: any) {
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
     const [checked, setChecked] = React.useState([true, true, true, true, true, true]);
-    const [option, setOption] = React.useState(localStorage.getItem('option')?localStorage.getItem('option'):0);
+    const [option, setOption] = React.useState(0);
     const handleChange = (event: any) => {
         props.setOption(event.target.value);
         setOption(event.target.value);
-        localStorage.setItem('option', event.target.value);
-        window.location.reload();
+        //localStorage.setItem('option', event.target.value);
+        //window.location.reload();
     };
     const handleChange1 = (event: any) => {
         props.setChecked([

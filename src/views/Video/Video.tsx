@@ -86,38 +86,16 @@ const Video = () => {
     const [offset, setOffset] = useState(0);
     const dispatch = useDispatch();
     const { cardList } = useSelector((state: any) => state.cardList);
-    const [option, setOption] = useState(localStorage.getItem('option'));
+    const [option, setOption] = useState(0);
     const [checked, setChecked] = useState([true, true, true, true, true, true]);
-
-    // useEffect(() => {
-    //     console.log('option', option);
-    //     dispatch({
-    //         type: CARD_LIST_LOADING_REQUEST,
-    //         payload: { offset: offset, option: localStorage.getItem('option') },
-    //     });
-    // }, [dispatch, option]);
-    // useEffect(() => {
-    //     console.log('option', option);
-    //     dispatch({
-    //         type: CARD_LIST_LOADING_REQUEST,
-    //         payload: { offset: offset, option: localStorage.getItem('option') },
-    //     });
-    // }, [dispatch, offset, option]);
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: CARD_LIST_FILTER_EXPRESSION,
-    //         payload: { offset: offset, option: localStorage.getItem('option'), checked: checked },
-    //     });
-    // }, [dispatch, checked]);
 
     useEffect(() => {
         console.log('option', option);
         dispatch({
             type: CARD_LIST_LOADING_REQUEST,
-            payload: { offset: offset, option: localStorage.getItem('option') },
+            payload: { offset: offset, option: option, checked: checked },
         });
-    }, [dispatch, offset]);
+    }, [dispatch, offset, option, checked]);
 
     useEffect(() => {
         const handleScroll = (e: any) => {
@@ -179,9 +157,7 @@ const Video = () => {
     return (
         <MainLayout>
             <Container maxWidth="lg">
-                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'white' }}>
-                    비디오
-                </Typography>
+                <Typography sx={{ fontSize: '40px', fontWeight: 'bold', p: '4px 0px', mt: '20px', mb: '20px', color: 'white' }}>비디오</Typography>
                 <ClearCard>
                     <Box
                         sx={{

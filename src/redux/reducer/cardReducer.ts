@@ -22,7 +22,7 @@ const initialState = {
     card: [],
 };
 const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised'];
-
+let cardlist;
 const cardListReducer = (state = initialState, action: any) => {
     switch (action.type) {
         /**
@@ -30,22 +30,23 @@ const cardListReducer = (state = initialState, action: any) => {
          * 해당 case를 주석 처리해도 현재는 카드 리스트를 불러오는데 혹시 몰라서 주석으로 처리해놓았습니다.
          * case CARD_LIST_LOADING_REQUEST:
          */
+        // console.log('action.payload', action.payload);
+        // return {
+            //     ...state,
+            //     cardList: [...state.cardList, ...action.payload.result],
+            // };
         case CARD_LIST_LOADING_SUCCESS:
-            console.log('action.payload', action.payload);
-            return {
-                ...state,
-                cardList: [...state.cardList, ...action.payload.result],
-            };
         case CARD_LIST_FILTER_EXPRESSION_SUCCESS:
             console.log(
                 'filter payload',
                 action.payload,
                 'filter result',
-                action.payload.result?.filter((card: any) => action.payload.checked[expressions.indexOf(card.expressionLabel, 0)] === true),
+                action.payload.result
             );
+            cardlist = [...action.payload.result];
             return {
                 ...state,
-                cardList: action.payload.result?.filter((card: any) => action.payload.checked[expressions.indexOf(card.expressionLabel, 0)] === true),
+                cardList: cardlist?.filter((card: any) => action.payload.checked[expressions.indexOf(card.expressionLabel, 0)] === true),
             };
         // case CARD_LIST_FILTER_DATE_SUCCESS:
         //     console.log(action.payload.option);
