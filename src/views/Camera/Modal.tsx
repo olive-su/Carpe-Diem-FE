@@ -46,11 +46,12 @@ const Modal = () => {
         const filteredPictures = picture.map((p: any) => {
             // 파일명에서 확장자 추출
             const extension = p.name.split('.').pop();
+            const timestamp = Date.now();
 
             count += 1;
 
             // 새로운 파일 객체 생성
-            return new File([p], `${count}.${extension}`, { type: p.type });
+            return new File([p], `${count}_${timestamp}.${extension}`, { type: p.type });
         });
         setPictures(filteredPictures);
     };
