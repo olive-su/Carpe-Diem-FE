@@ -169,15 +169,7 @@ function WebCamera(props: any) {
 
         const loop = async () => {
             const expressions = await faceDetecting(expression);
-            // 새로 녹화 시작
-            // CHECK
-            // if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.label === 'happy') {
-            if (
-                !recordFlag &&
-                expressions.value > constraints.model.emotionValue &&
-                expressions.label === 'happy' &&
-                expressions.target !== 'unknown'
-            ) {
+            if (!recordFlag && expressions.value > constraints.model.emotionValue && expressions.target !== 'unknown') {
                 recordFlag = true;
                 recordInfo = {
                     maxValue: expressions.value,
@@ -355,15 +347,17 @@ function WebCamera(props: any) {
                                     height={constraints.video.height}
                                 />
                             ) : (
-                                <video
-                                    src={`https://${config.aws.cdn_name}/assets/loading-video.mp4`}
-                                    autoPlay
-                                    loop
-                                    muted
-                                    style={{ objectFit: 'cover' }}
-                                    width={constraints.video.width}
-                                    height={constraints.video.height}
-                                />
+                                <>
+                                    <video
+                                        src={`https://${config.aws.cdn_name}/assets/loading-video.mp4`}
+                                        autoPlay
+                                        loop
+                                        muted
+                                        style={{ objectFit: 'cover' }}
+                                        width={constraints.video.width}
+                                        height={constraints.video.height}
+                                    />
+                                </>
                             )}
                         </div>
                         <AwesomeButton
