@@ -90,7 +90,6 @@ const Video = () => {
     const [checked, setChecked] = useState([true, true, true, true, true, true]);
 
     useEffect(() => {
-        console.log('option', option);
         dispatch({
             type: CARD_LIST_LOADING_REQUEST,
             payload: { offset: offset, option: option, checked: checked },
@@ -346,15 +345,7 @@ const Video = () => {
                                         setComment(card.commnet);
                                     }}
                                 >
-                                    <CardCover
-                                    // sx={{
-                                    //     background:
-                                    //         'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                                    // }}
-                                    >
-                                        {/* <video id={String(card)} loop poster="https://source.unsplash.com/random">
-                                            <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4" />
-                                        </video> */}
+                                    <CardCover>
                                         <video
                                             id={String(card.cardId)}
                                             loop
@@ -428,40 +419,6 @@ const Video = () => {
                         </Grid>
                     ))}
                 </Grid>
-                {/* <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Modal open={open} onClose={handleClose}>
-                        <Box
-                            sx={{
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                position: 'absolute',
-                                outline: 'none',
-                                display: 'flex',
-                                flexDirection: 'row',
-                            }}
-                        >
-                            <video
-                                controls
-                                autoPlay
-                                loop
-                                poster={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${thumbnailUrl}`}
-                            >
-                                <source
-                                    src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${videoUrl}`}
-                                    type="video/webm"
-                                />
-                            </video>
-                            <Box>
-                                <IconButton type="button" onClick={handleClose}>
-                                    <CloseIcon sx={{ color: 'white' }} />
-                                </IconButton>
-                                <Share img={thumbnailUrl} comment={comment} videoUrl={videoUrl} />
-                                <VideoDelete cardId={id} />
-                            </Box>
-                        </Box>
-                    </Modal>
-                </Container> */}
             </Container>
         </MainLayout>
     );
