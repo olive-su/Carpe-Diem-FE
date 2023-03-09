@@ -210,6 +210,7 @@ const Video = () => {
                                                                 style={{
                                                                     width: '170px',
                                                                     height: '120px',
+                                                                    objectFit: 'cover',
                                                                 }}
                                                             />
                                                             {/* <span style={{ display: 'none' }}>{list}</span> */}
