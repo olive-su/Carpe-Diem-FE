@@ -42,11 +42,12 @@ const Style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '60%',
-    height: 'auto',
+    height: '70%',
     bgcolor: 'background.paper',
     border: '4px solid #000',
     borderRadius: '1rem',
     p: 7,
+    overflow: 'auto',
 };
 
 const Close = styled.div`
@@ -179,44 +180,41 @@ const Edit = () => {
                                     />
                                 </Typography>
                                 <Modal open={open} onClose={handleClose}>
-                                    <>
-                                        <Box sx={Style}>
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    flexDirection: 'row',
-                                                }}
-                                            >
-                                                {open && renderUsimInfo()}
-                                            </div>
-                                            <ImageUploader
-                                                withPreview={true}
-                                                withIcon={false}
-                                                onChange={onDrop}
-                                                label="학습할 3개의 새로운 이미지를 첨부해주세요."
-                                                imgExtension={['.jpg', '.png']}
-                                                maxFileSize={5242880}
-                                                buttonText="새로운 사진 업로드하기"
-                                                style={{ width: '100%' }}
-                                                buttonStyles={{ fontWeight: 'bold' }}
-                                            />
-                                            <div style={{ textAlign: 'center' }}>
-                                                <Button sx={{ backgroundColor: '#6666CC', marginRight: '10px' }} variant="contained" onClick={editOn}>
-                                                    취소
+                                    <Box sx={Style}>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                            }}
+                                        >
+                                            {open && renderUsimInfo()}
+                                        </div>
+                                        <ImageUploader
+                                            withPreview={true}
+                                            withIcon={false}
+                                            onChange={onDrop}
+                                            label="학습할 3개의 새로운 이미지를 첨부해주세요."
+                                            imgExtension={['.jpg', '.png']}
+                                            maxFileSize={5242880}
+                                            buttonText="새로운 사진 업로드하기"
+                                            style={{ width: '100%' }}
+                                            buttonStyles={{ fontWeight: 'bold' }}
+                                        />
+                                        <div style={{ textAlign: 'center' }}>
+                                            <Button sx={{ backgroundColor: '#6666CC', marginRight: '10px' }} variant="contained" onClick={editOn}>
+                                                취소
+                                            </Button>
+                                            {postImages.length === 3 ? (
+                                                <Button sx={{ backgroundColor: '#6666CC' }} variant="contained" onClick={submitImg}>
+                                                    확인
                                                 </Button>
-                                                {postImages.length === 3 ? (
-                                                    <Button sx={{ backgroundColor: '#6666CC' }} variant="contained" onClick={submitImg}>
-                                                        확인
-                                                    </Button>
-                                                ) : (
-                                                    <Button disabled sx={{ backgroundColor: '#6666CC' }} variant="contained">
-                                                        확인
-                                                    </Button>
-                                                )}
-                                            </div>
-                                        </Box>
-                                    </>
+                                            ) : (
+                                                <Button disabled sx={{ backgroundColor: '#6666CC' }} variant="contained">
+                                                    확인
+                                                </Button>
+                                            )}
+                                        </div>
+                                    </Box>
                                 </Modal>
                             </Grid>
                         </Grid>
