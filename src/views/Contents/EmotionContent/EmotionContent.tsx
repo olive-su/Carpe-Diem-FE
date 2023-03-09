@@ -136,7 +136,7 @@ export default function LibraryContent() {
                         />
                         {/* <DownloadIcon /> */}
                     </IconButton>
-                    <Share />
+                    <Share sumEmotion={sumEmotion} />
                 </span>
             </div>
             <div id="chart" style={{ padding: '1rem', backgroundColor: '#333' }}>
