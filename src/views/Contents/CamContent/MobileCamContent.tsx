@@ -152,7 +152,7 @@ export default function MobileCamContent() {
                 <div
                     style={{
                         width: '500px',
-                        height: '930px',
+                        height: '900px',
                         paddingTop: '100px',
                         backgroundImage: `url('${process.env.PUBLIC_URL}/imgs/browser-frame.png')`,
                         backgroundRepeat: 'no-repeat',

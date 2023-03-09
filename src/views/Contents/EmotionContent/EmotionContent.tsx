@@ -117,7 +117,7 @@ export default function LibraryContent() {
                     color: 'var(--white)',
                 }}
             >
-                감정그래프
+                감정리포트
             </Typography>
             {/* <Alert variant="outlined" severity="info" style={{ width: '60%', marginBottom: '40px', marginLeft: '15%' }}> */}
             <div style={{ display: 'flex' }}>

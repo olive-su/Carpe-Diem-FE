@@ -51,9 +51,8 @@ const Book = (props: any) => {
                 src={`https://${config.aws.bucket_name}.s3.${config.aws.region}.amazonaws.com/${props.album.coverImgUrl}`}
             />
             <div className="title">
-                <div>
-                    {dayjs(props.album.createdAt).tz('utc').format('YYYY.MM.DD.')} {props.album.title}
-                </div>
+                <div>{dayjs(props.album.createdAt).tz('utc').format('YYYY.MM.DD.')}</div>
+                <div>{props.album.title}</div>
             </div>
         </Div>
     );
