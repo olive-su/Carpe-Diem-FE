@@ -29,10 +29,10 @@
 | Position | Frontend & UI/UX                                                                                                  | 팀장 & Backend Develop                                                                                            | Frontend & UI/UX                                                                                                  | Backend Develop                                                                                                   | Backend Develop                                                                                                  |
 |   Git    | [@sol2588](https://github.com/sol2588)                                                                            | [@olive-su](https://github.com/olive-su)                                                                          | [@ljy6712](https://github.com/ljy6712)                                                                            | [@nickhealthy](https://github.com/nickhealthy)                                                                    | [@XxoSio](https://github.com/XxoSio)                                                                             |
 
-프로젝트 기간: 2023년 1월 25일 ~ 2023년 3월 11일(5주)
-서비스 보러가기: ![favicon-32x32](https://user-images.githubusercontent.com/66216102/224023859-edc77f7f-9169-4d68-a0f0-773a180e4706.png)[Carpe-Diem 접속하기](https://jungle-carpediem.site/)
-소개 및 시연 영상:
-팀 노션: [노션링크](https://www.notion.so/kimpp/CARPE-DIEM-WIKI-1647f0a74db346b3b3edddebe390cd48)
+- 프로젝트 기간: 2023년 1월 25일 ~ 2023년 3월 11일(5주)
+- 서비스 보러가기: ![favicon-32x32](https://user-images.githubusercontent.com/66216102/224023859-edc77f7f-9169-4d68-a0f0-773a180e4706.png)[Carpe-Diem 접속하기](https://jungle-carpediem.site/)
+- 소개 및 시연 영상: [Youtube](https://youtu.be/T-rQf3vlSrs)
+- 팀 노션: [Notion](https://www.notion.so/kimpp/CARPE-DIEM-WIKI-1647f0a74db346b3b3edddebe390cd48)
 
 ## 🎮 기술 스택
 
@@ -148,7 +148,7 @@
 
 #### 소셜 로그인
 
-- auth0을 이용한 Google 소셜 로그인 지원으로 별도의 회원가입 없이 편리하게 서비스 이용이 가능합니다.
+- OAuth2.0을 이용한 Google 소셜 로그인 지원으로 별도의 회원가입 없이 편리하게 서비스 이용이 가능합니다.
 
 ![login](https://user-images.githubusercontent.com/66216102/224342324-8e5eeca2-bb36-4c3a-aa80-71202f5a1f61.gif)
 
