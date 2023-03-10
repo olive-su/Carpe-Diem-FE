@@ -31,7 +31,7 @@
 
 - 프로젝트 기간: 2023년 1월 25일 ~ 2023년 3월 11일(5주)
 - 서비스 보러가기: ![favicon-32x32](https://user-images.githubusercontent.com/66216102/224023859-edc77f7f-9169-4d68-a0f0-773a180e4706.png)[Carpe-Diem 접속하기](https://jungle-carpediem.site/)
-- 소개 및 시연 영상: [Youtube](https://youtu.be/T-rQf3vlSrs)
+- 소개 및 시연 영상: [Youtube](https://youtu.be/m-FIanzrorc)
 - 팀 노션: [Notion](https://www.notion.so/kimpp/CARPE-DIEM-WIKI-1647f0a74db346b3b3edddebe390cd48)
 
 ## 🎮 기술 스택
