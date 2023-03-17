@@ -3,6 +3,8 @@
 ## [👋 프로젝트 소개 README](https://github.com/cd-carpe-diem/.github/blob/main/profile/README.md)
 ## [🤗 팀 소개 WIKI](https://kimpp.notion.site/CARPE-DIEM-WIKI-1647f0a74db346b3b3edddebe390cd48)
 
+<br>
+
 ## 1️⃣ 프로젝트 구조
 
 ```bash
@@ -16,6 +18,8 @@ src
 ├── styles # 공통 css (e.g. App.css)
 └── views # 페이지 단위의 컴포넌트 폴더로 구성
 ```
+
+- [Ref](https://github.com/cd-carpe-diem/Carpe-Diem-FE/pull/13#issue-1579091506)
 
 <br>
 
@@ -56,4 +60,4 @@ REACT_APP_BASIC_AWS_REGION=${secret}
 REACT_APP_BASIC_KAKAO=${secret}
 ```
 
-- 보안 상의 이유로 AWS key 부분은 `${secret}`로 표시
+- 보안 상의 이유로 key 부분은 `${secret}`로 표시
