@@ -192,15 +192,11 @@ export default function Header(props: any | undefined) {
                             <EmotionIcon href="/report">
                                 <AssessmentOutlined sx={{ marginTop: 0.6, fontSize: 35 }} />
                             </EmotionIcon>
-                            {/* <EmotionIcon>
-                                <NotificationsNoneOutlined sx={{ marginTop: 0.7, fontSize: 30 }} />
-                            </EmotionIcon> */}
                         </>
                     )}
                     {isAuthenticated && (
                         <MenuButton onClick={handleMenuToggle}>
                             {isMenuOpen === '0' ? <BiExit size="70" name="close-outline" /> : <BiMenu size="70" name="menu-outline" />}{' '}
-                            {/* 기존 사이즈 : 30 */}
                         </MenuButton>
                     )}
                 </RightSide>
