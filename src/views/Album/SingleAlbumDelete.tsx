@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { ALBUM_DELETE_REQUEST } from '../../redux/types';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Modal from '@mui/material/Modal';
+
 import { Box } from '@mui/system';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Modal } from '@mui/material';
 import { CiTrash } from 'react-icons/ci';
 
 const style = {

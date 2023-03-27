@@ -1,19 +1,13 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import config from '../../config';
-import dayjs from 'dayjs';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import OutletIcon from '@mui/icons-material/Outlet';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
-import SickIcon from '@mui/icons-material/Sick';
-import Modal from '@mui/material/Modal';
-import { Box } from '@mui/system';
-import { Typography, Button } from '@mui/material';
-import { CiEdit, CiTrash } from 'react-icons/ci';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CARD_UPDATE_REQUEST, CARD_DELETE_REQUEST } from '../../redux/types';
-import styled from 'styled-components';
+import dayjs from 'dayjs';
+import config from '../../config';
+
+import { Box } from '@mui/system';
+import { Typography, Button, Modal } from '@mui/material';
+import { InsertEmoticon, SentimentDissatisfied, Outlet, LocalFireDepartment, SentimentVeryDissatisfiedRounded, Sick } from '@mui/icons-material';
+import { CiEdit, CiTrash } from 'react-icons/ci';
 
 const style = {
     position: 'absolute',
@@ -30,17 +24,17 @@ export default function AlbumCarousel(props: any) {
     console.log('Carousel', props.cardInfo);
     const emotionType: any = (): any => {
         if (props.cardInfo.expressionLabel == 'happy') {
-            return <InsertEmoticonIcon />;
+            return <InsertEmoticon />;
         } else if (props.cardInfo.expressionLabel == 'angry') {
-            return <LocalFireDepartmentIcon />;
+            return <LocalFireDepartment />;
         } else if (props.cardInfo.expressionLabel == 'fearful') {
-            return <SentimentVeryDissatisfiedRoundedIcon />;
+            return <SentimentVeryDissatisfiedRounded />;
         } else if (props.cardInfo.expressionLabel == 'surprised') {
-            return <OutletIcon />;
+            return <Outlet />;
         } else if (props.cardInfo.expressionLabel == 'sad') {
-            return <SentimentDissatisfiedIcon />;
+            return <SentimentDissatisfied />;
         } else if (props.cardInfo.expressionLabel == 'disgusted') {
-            return <SickIcon />;
+            return <Sick />;
         }
     };
 

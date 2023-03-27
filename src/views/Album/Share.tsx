@@ -1,21 +1,8 @@
 import React, { useEffect } from 'react';
-import IosShareIcon from '@mui/icons-material/IosShare';
-import Menu from '@mui/material/Menu';
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import LinkIcon from '@mui/icons-material/Link';
 import styled from 'styled-components';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import ForumIcon from '@mui/icons-material/Forum';
+import { IconButton, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Menu, Snackbar } from '@mui/material';
+import { Close, Facebook, Forum, Link, Share as ShareIcon, Twitter } from '@mui/icons-material';
 import config from '../../config';
-import ShareIcon from '@mui/icons-material/Share';
 
 export interface SnackbarMessage {
     message: string;
@@ -28,7 +15,6 @@ export interface State {
     messageInfo?: SnackbarMessage;
 }
 
-//
 const TextArea = styled.textarea`
     position: absolute;
     width: 0px;
@@ -97,7 +83,9 @@ const Share = (props: any) => {
         const text = '';
         window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url);
     };
-    const shareKatalk = () => {
+
+    // Kakaotalk
+    const shareKakaotalk = () => {
         if (window.Kakao) {
             const kakao = window.Kakao;
             kakao.Link.sendDefault({
@@ -123,6 +111,7 @@ const Share = (props: any) => {
             });
         }
     };
+
     return (
         <div>
             <IconButton type="button" onClick={handleClick}>
@@ -151,25 +140,25 @@ const Share = (props: any) => {
                     </form>
                     <ListItemButton onClick={copyUrl}>
                         <ListItemIcon>
-                            <LinkIcon />
+                            <Link />
                         </ListItemIcon>
                         <ListItemText primary="링크 복사" />
                     </ListItemButton>
-                    <ListItemButton onClick={shareKatalk}>
+                    <ListItemButton onClick={shareKakaotalk}>
                         <ListItemIcon>
-                            <ForumIcon sx={{ color: '#fcd34d' }} />
+                            <Forum sx={{ color: '#fcd34d' }} />
                         </ListItemIcon>
                         <ListItemText primary="카카오톡 공유" />
                     </ListItemButton>
                     <ListItemButton onClick={shareFacebook}>
                         <ListItemIcon>
-                            <FacebookIcon sx={{ color: '#0369a1' }} />
+                            <Facebook sx={{ color: '#0369a1' }} />
                         </ListItemIcon>
                         <ListItemText primary="페이스북 공유" />
                     </ListItemButton>
                     <ListItemButton>
                         <ListItemIcon onClick={shareTwitter}>
-                            <TwitterIcon sx={{ color: '#0ea5e9' }} />
+                            <Twitter sx={{ color: '#0ea5e9' }} />
                         </ListItemIcon>
                         <ListItemText primary="트위터 공유" />
                     </ListItemButton>
@@ -182,7 +171,7 @@ const Share = (props: any) => {
                 action={
                     <React.Fragment>
                         <IconButton aria-label="close" color="inherit" sx={{ p: 0.5 }} onClick={toastClose}>
-                            <CloseIcon />
+                            <Close />
                         </IconButton>
                     </React.Fragment>
                 }

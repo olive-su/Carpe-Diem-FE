@@ -1,16 +1,18 @@
 /* eslint-disable react/jsx-key */
-import React, { useState, useEffect, useRef } from 'react';
-import config from '../../config';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ALBUM_LOADING_REQUEST } from '../../redux/types';
+import { MdClose } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper';
+import styled from 'styled-components';
+import config from '../../config';
+
+import { ALBUM_LOADING_REQUEST } from '../../redux/types';
+
 import SingleAlbumCarousel from './SingleAlbumCarousel';
 import SingleAlbumDelete from './SingleAlbumDelete';
 import SingleAlbumEdit from './SingleAlbumEdit';
-import { MdClose } from 'react-icons/md';
-import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';

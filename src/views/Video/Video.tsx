@@ -2,55 +2,29 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-import { Container } from '@mui/system';
-import { Typography } from '@mui/material';
-import { Grid } from '@mui/material';
-import Box from '@mui/material/Box';
-import { red } from '@mui/material/colors';
-import Card from '@mui/material/Card';
-import CardCover from '@mui/joy/CardCover';
-import CardMedia from '@mui/material/CardMedia';
-import Checkbox from '@mui/material/Checkbox';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import { Modal } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import Backdrop from '@mui/material/Backdrop';
-import dayjs from 'dayjs';
-import axios from 'axios';
-import styled from 'styled-components';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import CloseIcon from '@mui/icons-material/Close';
-import config from '../../config';
-import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST, CARD_LIST_FILTER_EXPRESSION } from '../../redux/types';
-import Share from '../Album/Share';
-import VideoDelete from './VideoDelete';
 import { useDispatch, useSelector } from 'react-redux';
+import { ALBUM_CREATE_REQUEST, CARD_LIST_LOADING_REQUEST } from '../../redux/types';
 import IndeterminateCheckbox from './Checkbox';
 import MainLayout from '../../components/MainLayout/MainLayout';
-import { Button } from '@mui/material';
+import dayjs from 'dayjs';
+import styled from 'styled-components';
+import config from '../../config';
 
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import OutletIcon from '@mui/icons-material/Outlet';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
-import SickIcon from '@mui/icons-material/Sick';
-import { KeyboardOptionKey } from '@mui/icons-material';
+import { Container } from '@mui/system';
+import CardCover from '@mui/joy/CardCover';
+import { Accordion, AccordionSummary, AccordionDetails, Button, Box, Card, CardMedia, Checkbox, Grid, Typography, Modal } from '@mui/material';
+import { BookmarkBorder, Bookmark, ExpandMore } from '@mui/icons-material';
+import { InsertEmoticon, SentimentDissatisfied, Outlet, LocalFireDepartment, SentimentVeryDissatisfiedRounded, Sick } from '@mui/icons-material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 const icons = [
-    <InsertEmoticonIcon sx={{ fontSize: '60px', color: '#fdba74', stroke: '#9a3412', strokeWidth: '0.5px' }} />,
-    <SentimentDissatisfiedIcon sx={{ fontSize: '60px', color: '#67e8f9', stroke: '#155e75', strokeWidth: '0.5px' }} />,
-    <LocalFireDepartmentIcon sx={{ fontSize: '60px', color: '#fda4af', stroke: '#991b1b', strokeWidth: '0.5px' }} />,
-    <SickIcon sx={{ fontSize: '60px', color: '#86efac', stroke: '#166534', strokeWidth: '0.5px' }} />,
-    <SentimentVeryDissatisfiedRoundedIcon sx={{ fontSize: '60px', color: '#d8b4fe', stroke: '#6b21a8', strokeWidth: '0.5px' }} />,
-    <OutletIcon sx={{ fontSize: '60px', color: '#fde047', stroke: '#854d0e', strokeWidth: '0.5px' }} />,
+    <InsertEmoticon sx={{ fontSize: '60px', color: '#fdba74', stroke: '#9a3412', strokeWidth: '0.5px' }} />,
+    <SentimentDissatisfied sx={{ fontSize: '60px', color: '#67e8f9', stroke: '#155e75', strokeWidth: '0.5px' }} />,
+    <LocalFireDepartment sx={{ fontSize: '60px', color: '#fda4af', stroke: '#991b1b', strokeWidth: '0.5px' }} />,
+    <Sick sx={{ fontSize: '60px', color: '#86efac', stroke: '#166534', strokeWidth: '0.5px' }} />,
+    <SentimentVeryDissatisfiedRounded sx={{ fontSize: '60px', color: '#d8b4fe', stroke: '#6b21a8', strokeWidth: '0.5px' }} />,
+    <Outlet sx={{ fontSize: '60px', color: '#fde047', stroke: '#854d0e', strokeWidth: '0.5px' }} />,
 ];
 const expressions = ['happy', 'sad', 'angry', 'disgusted', 'fearful', 'surprised'];
 
@@ -168,7 +142,7 @@ const Video = () => {
                     >
                         <Accordion style={{ backgroundColor: '#525252', flex: '1' }}>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon sx={{ color: 'var(--white)' }} />}
+                                expandIcon={<ExpandMore sx={{ color: 'var(--white)' }} />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
@@ -374,8 +348,8 @@ const Video = () => {
                                             // icon={<FavoriteBorder sx={{fontSize:'40px'}}/>}
                                             // checkedIcon={<Favorite sx={{fontSize:'40px'}} />}
                                             // 책갈피
-                                            icon={<BookmarkBorderIcon sx={{ fontSize: '40px' }} />}
-                                            checkedIcon={<BookmarkIcon sx={{ fontSize: '40px' }} />}
+                                            icon={<BookmarkBorder sx={{ fontSize: '40px' }} />}
+                                            checkedIcon={<Bookmark sx={{ fontSize: '40px' }} />}
                                         />
                                     </CheckboxStyle>
                                     <CardMedia

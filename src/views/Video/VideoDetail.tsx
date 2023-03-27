@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { Box, cardMediaClasses } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import { Container } from '@mui/system';
-import { Modal } from '@mui/material';
-import { CiEdit } from 'react-icons/ci';
-
-import CloseIcon from '@mui/icons-material/Close';
-import Share from '../Album/Share';
-import VideoDelete from './VideoDelete';
 import { CARD_LOADING_REQUEST, CARD_UPDATE_REQUEST } from '../../redux/types';
+import styled from 'styled-components';
 import config from '../../config';
+
+import { CiEdit } from 'react-icons/ci';
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import OutletIcon from '@mui/icons-material/Outlet';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import SentimentVeryDissatisfiedRoundedIcon from '@mui/icons-material/SentimentVeryDissatisfiedRounded';
-import SickIcon from '@mui/icons-material/Sick';
+import { Box, Modal, IconButton } from '@mui/material';
+import { Container } from '@mui/system';
+import CloseIcon from '@mui/icons-material/Close';
+import { InsertEmoticon, SentimentDissatisfied, Outlet, LocalFireDepartment, SentimentVeryDissatisfiedRounded, Sick } from '@mui/icons-material';
+
+import Share from '../Album/Share';
+import VideoDelete from './VideoDelete';
 
 const VideoStyle = styled.video`
     /* @media (max-width: 768px) { */
@@ -77,17 +71,17 @@ const VideoDetail = () => {
 
     const emotionType: any = (): any => {
         if (card.expressionLabel == 'happy') {
-            return <InsertEmoticonIcon fontSize="large" />;
+            return <InsertEmoticon fontSize="large" />;
         } else if (card.expressionLabel == 'angry') {
-            return <LocalFireDepartmentIcon fontSize="large" />;
+            return <LocalFireDepartment fontSize="large" />;
         } else if (card.expressionLabel == 'fearful') {
-            return <SentimentVeryDissatisfiedRoundedIcon fontSize="large" />;
+            return <SentimentVeryDissatisfiedRounded fontSize="large" />;
         } else if (card.expressionLabel == 'surprised') {
-            return <OutletIcon fontSize="large" />;
+            return <Outlet fontSize="large" />;
         } else if (card.expressionLabel == 'sad') {
-            return <SentimentDissatisfiedIcon fontSize="large" />;
+            return <SentimentDissatisfied fontSize="large" />;
         } else if (card.expressionLabel == 'disgusted') {
-            return <SickIcon fontSize="large" />;
+            return <Sick fontSize="large" />;
         }
     };
     return (

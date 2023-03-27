@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ALBUM_UPDATE_REQUEST } from '../../redux/types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { CiEdit } from 'react-icons/ci';
 
 export default function SingleAlbumEdit(props: any) {

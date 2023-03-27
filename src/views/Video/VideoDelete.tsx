@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import Modal from '@mui/material/Modal';
 import { Box } from '@mui/system';
-import { Typography, Button } from '@mui/material';
-import axios from 'axios';
-import config from '../../config';
+import { Typography, Button, Modal } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CARD_DELETE_REQUEST } from '../../redux/types';
